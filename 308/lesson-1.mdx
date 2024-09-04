@@ -2,8 +2,6 @@
 title: "Introduction to JavaScript"
 ---
 
-import MultipleChoice from "@components/multiplechoice";
-
 # Introduction to JavaScript
 
 ## Learning Objectives
@@ -640,33 +638,3 @@ Do note, however, that this means if you want to use dollar signs as part of the
 Tagged templates are far beyond the scope of this lesson, but we recommend you revist them toward the end of this course. In essence, tagged templates allow you to control exactly how a template literal processes the strings and expressions within it.
 
 ## Knowledge Check
-
-<MultipleChoice
-  question="What does the === operator check in JavaScript?"
-  answers={[
-    {
-      text: "If the values on both sides are of the same type.",
-      correct: false,
-      response:
-        "While the === operator does check if the values are of the same type, it also checks if the values are equal, not just the type.",
-    },
-    {
-      text: "If the values on both sides are equal, after type conversion.",
-      correct: false,
-      response:
-        "This describes the == operator, which performs type conversion before checking equality, making it incorrect for describing the === operator.",
-    },
-    {
-      text: "If the values on both sides are equal and of the same type.",
-      correct: true,
-      response:
-        "Correct! The === operator in JavaScript checks both the value and the type of the two variables being compared, without performing type conversion.",
-    },
-    {
-      text: "If the variables on both sides point to the same object.",
-      correct: false,
-      response:
-        "Checking if variables point to the same object is more relevant to comparing objects for reference equality, which is not what the === specifically checks for. It can result in true for object comparisons if both variables indeed reference the same object, but this option doesn't correctly describe the primary function of the === operator.",
-    },
-  ]}
-/>

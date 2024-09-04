@@ -1,0 +1,183 @@
+---
+title: "Best Practices for Code Reviews and Automating Workflows"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+
+# Best Practices for Code Reviews and Automating Workflows
+
+## Overview
+
+In this lesson, we will discuss the best practices for conducting **code reviews**, an essential part of collaborative development. Code reviews help ensure the quality of code and allow team members to learn from each other. We will also explore how to **automate workflows** using tools like **GitHub Actions**. Automating tasks such as testing, linting, and deploying your code can save time and reduce errors in the development process.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Conduct effective code reviews using GitHub’s pull request features.
+- Identify best practices for reviewing and improving code quality.
+- Automate workflows using GitHub Actions for continuous integration and deployment.
+
+---
+
+## Best Practices for Code Reviews
+
+A **code review** is the process of reviewing someone else’s code to catch errors, suggest improvements, and ensure that the code follows team standards.
+
+### Tips for Effective Code Reviews:
+
+1. **Be Kind and Constructive**:
+   Code reviews should be about improving the project, not criticizing the developer. Be respectful, offer helpful feedback, and explain why a suggestion should be implemented.
+
+2. **Focus on the Code, Not the Person**:
+   Review the code changes without making it personal. Ask questions about decisions and suggest alternatives if needed.
+
+3. **Look for Common Issues**:
+
+   - Does the code follow coding standards?
+   - Are there any potential bugs or security issues?
+   - Are the functions and variables named clearly?
+   - Is the code well-documented?
+
+4. **Test the Code**:
+   Run the code locally to ensure that it works as expected. This can help you catch issues that might not be obvious from reading the code.
+
+5. **Approve or Request Changes**:
+   If the code looks good, approve the pull request. If there are issues, leave comments and request changes before merging.
+
+---
+
+## Automating Workflows with GitHub Actions
+
+**GitHub Actions** allow you to automate tasks such as testing, linting, and deployment. You can set up workflows that run automatically whenever certain events occur (e.g., when code is pushed to a repository or a pull request is created).
+
+### Example: Automating Tests with GitHub Actions
+
+Let’s say you want to automate your test suite to run every time someone pushes code to the repository. Here’s how to set up a basic GitHub Actions workflow:
+
+1. **Create a Workflow File**:
+
+   - In your repository, create a directory called `.github/workflows/`.
+   - Inside that directory, create a file called `test.yml`.
+
+2. **Define the Workflow**:
+   Add the following code to the `test.yml` file to run tests every time code is pushed:
+
+   ```yaml
+   name: Run Tests
+
+   on: [push]
+
+   jobs:
+     test:
+       runs-on: ubuntu-latest
+
+       steps:
+         - name: Checkout code
+           uses: actions/checkout@v2
+
+         - name: Set up Node.js
+           uses: actions/setup-node@v2
+           with:
+             node-version: "14"
+
+         - name: Install dependencies
+           run: npm install
+
+         - name: Run tests
+           run: npm test
+   ```
+
+3. **Push the Workflow**:
+   Once you push this workflow file to GitHub, GitHub Actions will automatically run your tests every time someone pushes code to the repository.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the primary goal of a code review?"
+  options={[
+    {
+      text: "To criticize the developer.",
+      feedback:
+        "Incorrect. Code reviews are about improving the project, not criticizing the developer.",
+    },
+    {
+      text: "To ensure the quality of the code.",
+      correct: true,
+      feedback:
+        "Correct! The primary goal of a code review is to ensure that the code is of high quality and follows team standards.",
+    },
+    {
+      text: "To write more code.",
+      feedback: "Incorrect. Writing code is not the focus of a code review.",
+    },
+    {
+      text: "To approve the pull request without reviewing the code.",
+      feedback:
+        "Incorrect. The goal is to review the code before approving a pull request.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which of the following is a best practice during a code review?"
+  options={[
+    {
+      text: "Criticize the person who wrote the code.",
+      feedback:
+        "Incorrect. Code reviews should focus on the code, not the person.",
+    },
+    {
+      text: "Make sure to focus on minor issues rather than the overall quality.",
+      feedback:
+        "Incorrect. Code reviews should focus on significant issues and overall code quality.",
+    },
+    {
+      text: "Offer helpful and constructive feedback.",
+      correct: true,
+      feedback:
+        "Correct! Code reviews should be kind and constructive, with feedback that helps improve the project.",
+    },
+    {
+      text: "Only approve the code if it's perfect.",
+      feedback:
+        "Incorrect. Code should be reviewed for quality, but no code is ever perfect.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is the purpose of GitHub Actions?"
+  options={[
+    {
+      text: "To automate repetitive tasks such as testing and deployment.",
+      correct: true,
+      feedback:
+        "Correct! GitHub Actions automates workflows like testing, linting, and deployment.",
+    },
+    {
+      text: "To create pull requests.",
+      feedback: "Incorrect. Pull requests are created manually by developers.",
+    },
+    {
+      text: "To merge branches automatically.",
+      feedback:
+        "Incorrect. Merging branches requires manual approval or handling.",
+    },
+    {
+      text: "To delete old branches automatically.",
+      feedback:
+        "Incorrect. Deleting branches is not the focus of GitHub Actions.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, we covered the best practices for conducting **code reviews**, which are essential for maintaining code quality and improving the overall project. We also explored **GitHub Actions**, a tool for automating workflows such as testing and deployment, saving time and ensuring that repetitive tasks are handled consistently.

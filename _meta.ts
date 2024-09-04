@@ -1,6 +1,6 @@
 export default {
   302: {
-    title: "Verison Control with Git",
+    title: "Verison Control Primer",
     type: "page",
   },
   308: {

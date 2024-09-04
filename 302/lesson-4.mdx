@@ -1,0 +1,195 @@
+---
+title: "Branching and Merging in Git"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+
+# Branching and Merging in Git
+
+## Overview
+
+In this lesson, we will focus on **branching and merging**, two critical concepts in Git that allow you to work on different features or fixes without affecting the main project. Branching enables you to create separate lines of development, and merging allows you to combine these lines back together. By the end of this lesson, you’ll be able to create branches, merge them, and resolve conflicts when they arise.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Create and switch between branches in Git.
+- Merge branches to combine different lines of development.
+- Resolve conflicts that occur during merges.
+
+---
+
+## Branching in Git
+
+A **branch** is like a parallel version of your project. It allows you to make changes in isolation, and once you're happy with those changes, you can merge them back into the main branch.
+
+### Step-by-Step: Creating a Branch
+
+1. **Check the current branch**:
+   Before creating a new branch, check which branch you are currently on:
+
+   ```bash
+   $ git branch
+   ```
+
+   Example output:
+
+   ```
+   * main
+   ```
+
+2. **Create a new branch**:
+   You can create a new branch by using the `git checkout -b` command followed by the branch name:
+
+   ```bash
+   $ git checkout -b feature/my-feature
+   ```
+
+   This command creates a new branch called `feature/my-feature` and switches you to that branch.
+
+3. **Check branches**:
+   Use the `git branch` command to see all the branches in your repository:
+
+   ```bash
+   $ git branch
+   ```
+
+   Example output:
+
+   ```
+   * feature/my-feature
+     main
+   ```
+
+   The `*` symbol indicates the branch you are currently on.
+
+---
+
+## Merging in Git
+
+Once you're done working on your branch, you'll want to **merge** it back into the main branch.
+
+### Step-by-Step: Merging Branches
+
+1. **Switch to the main branch**:
+   You need to be on the branch you want to merge **into**. Switch to the `main` branch:
+
+   ```bash
+   $ git checkout main
+   ```
+
+2. **Merge the branch**:
+   Now merge your feature branch into the `main` branch:
+
+   ```bash
+   $ git merge feature/my-feature
+   ```
+
+   This command combines the changes from `feature/my-feature` into `main`.
+
+3. **Resolve conflicts**:
+   If there are any **conflicts**, Git will notify you. A conflict happens when changes in the two branches you’re trying to merge affect the same lines of code.
+
+   Open the conflicting file and edit it manually to resolve the conflict. After resolving the conflict, you need to mark the conflict as resolved:
+
+   ```bash
+   $ git add <filename>
+   ```
+
+4. **Finish the merge**:
+   Once all conflicts are resolved, complete the merge:
+   ```bash
+   $ git commit
+   ```
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What does `git branch` do?"
+  options={[
+    {
+      text: "It creates a new branch.",
+      feedback:
+        "Incorrect. `git branch` lists the branches in your repository but does not create a new one.",
+    },
+    {
+      text: "It lists the branches in your repository.",
+      correct: true,
+      feedback:
+        "Correct! The `git branch` command lists all branches in your repository and shows which one you are on.",
+    },
+    {
+      text: "It switches between branches.",
+      feedback: "Incorrect. `git checkout` is used to switch between branches.",
+    },
+    {
+      text: "It deletes a branch.",
+      feedback: "Incorrect. `git branch -d` is used to delete a branch.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which command is used to merge one branch into another?"
+  options={[
+    {
+      text: "git checkout",
+      feedback:
+        "Incorrect. `git checkout` is used to switch branches, not to merge them.",
+    },
+    {
+      text: "git branch",
+      feedback:
+        "Incorrect. `git branch` lists or creates branches but does not merge them.",
+    },
+    {
+      text: "git merge",
+      correct: true,
+      feedback: "Correct! `git merge` is used to merge two branches together.",
+    },
+    {
+      text: "git add",
+      feedback:
+        "Incorrect. `git add` stages files for commit but does not merge branches.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is a merge conflict?"
+  options={[
+    {
+      text: "When two branches are merged with no changes.",
+      feedback:
+        "Incorrect. A merge conflict occurs when there are conflicting changes in the same file.",
+    },
+    {
+      text: "When changes in two branches affect the same lines of code.",
+      correct: true,
+      feedback:
+        "Correct! A merge conflict happens when two branches modify the same lines of code.",
+    },
+    {
+      text: "When a branch is deleted before being merged.",
+      feedback:
+        "Incorrect. Deleting a branch before merging does not cause a conflict.",
+    },
+    {
+      text: "When Git cannot find the repository.",
+      feedback: "Incorrect. This describes an unrelated issue.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, we covered the basics of **branching and merging** in Git. You learned how to create and switch branches, how to merge branches into the main branch, and how to resolve conflicts when they occur.
+
+In the next lesson, we’ll continue to explore conflict resolution and look at pull requests, a key part of collaborating on GitHub.

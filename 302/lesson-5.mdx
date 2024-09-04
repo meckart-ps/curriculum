@@ -1,0 +1,199 @@
+---
+title: "Resolving Conflicts and Reviewing Pull Requests"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+
+# Resolving Conflicts and Reviewing Pull Requests
+
+## Overview
+
+In this lesson, we will explore how to handle **merge conflicts** and how to manage **pull requests** on GitHub. Merge conflicts arise when two branches have conflicting changes. Understanding how to resolve conflicts is key to maintaining a healthy codebase. Additionally, pull requests are essential for collaborating with others, allowing teams to review and approve changes before they are merged into the main branch.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Resolve merge conflicts in Git.
+- Create and manage pull requests on GitHub.
+- Review and approve changes made by others through pull requests.
+
+---
+
+## Resolving Merge Conflicts
+
+A **merge conflict** occurs when changes in two branches affect the same line in a file, and Git cannot decide which changes to keep.
+
+### Step-by-Step: Resolving a Merge Conflict
+
+1. **Trigger a merge conflict**:
+   Merge conflicts happen naturally in team environments when different branches modify the same file. For this example, imagine two branches, `main` and `feature`, both modify the same line in `index.html`.
+
+2. **Attempt to merge**:
+   Switch to the `main` branch and attempt to merge the `feature` branch:
+
+   ```bash
+   $ git checkout main
+   $ git merge feature
+   ```
+
+   Git will detect the conflict and notify you with a message:
+
+   ```
+   CONFLICT (content): Merge conflict in index.html
+   Automatic merge failed; fix conflicts and then commit the result.
+   ```
+
+3. **Identify the conflict**:
+   Open the conflicting file. Git marks the conflicting sections like this:
+
+   ```html
+   <<<<<<< HEAD
+   <h1>Main Branch Heading</h1>
+   =======
+   <h1>Feature Branch Heading</h1>
+   >>>>>>> feature
+   ```
+
+   The lines between `<<<<<<< HEAD` and `=======` represent changes from the `main` branch, and the lines between `=======` and `>>>>>>> feature` represent changes from the `feature` branch.
+
+4. **Resolve the conflict**:
+   Edit the file to keep the desired changes and remove the conflict markers. For example:
+
+   ```html
+   <h1>Final Heading</h1>
+   ```
+
+5. **Mark the conflict as resolved**:
+   After editing the file and removing the conflict markers, stage the file:
+
+   ```bash
+   $ git add index.html
+   ```
+
+6. **Complete the merge**:
+   Now, complete the merge with a commit:
+   ```bash
+   $ git commit
+   ```
+
+---
+
+## Working with Pull Requests
+
+A **pull request (PR)** is a way to propose changes in a repository. Before the changes are merged, the team can review and discuss the code.
+
+### Step-by-Step: Creating and Reviewing a Pull Request
+
+1. **Create a Pull Request**:
+
+   - On GitHub, go to the repository’s page.
+   - Switch to the branch with your changes (e.g., `feature/my-feature`).
+   - Click on the **Pull Request** tab and then the **New Pull Request** button.
+   - Select the branches to compare (e.g., compare `feature/my-feature` with `main`).
+   - Add a description of your changes and submit the pull request.
+
+2. **Review the Pull Request**:
+
+   - A teammate can review the pull request by going to the **Pull Request** tab and clicking on the open pull request.
+   - Reviewers can comment on lines of code, suggest changes, or approve the pull request.
+
+3. **Merge the Pull Request**:
+
+   - Once the pull request has been reviewed and approved, click **Merge** to integrate the changes into the main branch.
+
+4. **Handle Conflicts**:
+   - If there are any conflicts, GitHub will notify you before the merge. Follow the same conflict resolution steps to resolve the conflicts.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What causes a merge conflict?"
+  options={[
+    {
+      text: "When a branch is deleted.",
+      feedback: "Incorrect. Deleting a branch does not cause a merge conflict.",
+    },
+    {
+      text: "When two branches modify the same lines of code.",
+      correct: true,
+      feedback:
+        "Correct! A merge conflict occurs when two branches modify the same lines of code, and Git cannot automatically merge them.",
+    },
+    {
+      text: "When changes are committed without a message.",
+      feedback:
+        "Incorrect. Committing changes without a message does not cause a merge conflict.",
+    },
+    {
+      text: "When a branch is merged into an empty repository.",
+      feedback:
+        "Incorrect. Merging into an empty repository does not cause a conflict.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What does Git mark conflicting lines with during a merge conflict?"
+  options={[
+    {
+      text: ">>> and <<<",
+      correct: true,
+      feedback:
+        "Correct! Git marks conflicts with lines starting with `<<<` and `>>>` to indicate conflicting changes.",
+    },
+    {
+      text: "*** and ---",
+      feedback:
+        "Incorrect. These markers are not used by Git during merge conflicts.",
+    },
+    {
+      text: "+++",
+      feedback: "Incorrect. `+++` is not used by Git to indicate conflicts.",
+    },
+    {
+      text: "@@",
+      feedback:
+        "Incorrect. This symbol is not used by Git during conflict marking.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is a pull request?"
+  options={[
+    {
+      text: "A request to delete a branch.",
+      feedback:
+        "Incorrect. A pull request is used to propose changes, not delete a branch.",
+    },
+    {
+      text: "A proposal to merge changes from one branch to another.",
+      correct: true,
+      feedback:
+        "Correct! A pull request is a way to propose merging changes from one branch into another.",
+    },
+    {
+      text: "A way to review conflicts before merging.",
+      feedback:
+        "Incorrect. A pull request involves code review, but its primary purpose is to propose merging changes.",
+    },
+    {
+      text: "A request to switch branches.",
+      feedback:
+        "Incorrect. A pull request does not involve switching branches.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, we learned how to handle **merge conflicts** in Git and how to create and manage **pull requests** on GitHub. Merge conflicts are an inevitable part of collaboration, and mastering them ensures smooth development workflows. Additionally, pull requests are a crucial aspect of collaborating with others, allowing for code review and discussion before merging changes into the main branch.
+
+In the next lesson, we’ll explore best practices for code reviews and discuss how to automate pull request workflows with GitHub Actions.

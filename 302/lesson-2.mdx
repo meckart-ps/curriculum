@@ -1,0 +1,281 @@
+---
+title: "Basic Git Commands and Repositories"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+
+# Basic Git Commands and Repositories
+
+## Overview
+
+In this lesson, we will dive deeper into Git by learning the core commands for tracking changes in your projects. You will learn how to stage files for tracking, commit changes, and view the history of your project. We’ll also cover commands for reverting changes, allowing you to undo mistakes and go back to a previous state.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Use Git commands to stage and commit changes to a repository.
+- View the history of changes made to a project using `git log`.
+- Revert changes and restore your project to an earlier state using `git reset` and `git checkout`.
+
+---
+
+## Git Commands for Tracking Changes
+
+Git allows you to track changes in your project by taking "snapshots" of your files at different points in time. These snapshots are stored in **commits**.
+
+### Step-by-Step: Tracking Changes
+
+1. **Create or Modify Files**:
+   Let's create a new file called `index.html`:
+
+   ```bash
+   $ touch index.html
+   ```
+
+   You can now open `index.html` in a text editor and add some basic HTML content.
+
+2. **Check the Status**:
+   Before committing, always check the status of your repository. The `git status` command shows you which files have changed and which files are staged for commit.
+
+   ```bash
+   $ git status
+   ```
+
+   Example output:
+
+   ```bash
+   On branch main
+   Changes not staged for commit:
+     (use "git add <file>..." to update what will be committed)
+       modified:   index.html
+   ```
+
+3. **Stage Files**:
+   Before committing, you need to **stage** your changes. Staging prepares the files for commit. Use the `git add` command to stage one or more files:
+
+   ```bash
+   $ git add index.html
+   ```
+
+   To stage all files at once, use:
+
+   ```bash
+   $ git add .
+   ```
+
+4. **Commit Changes**:
+   Once your changes are staged, you can save them by creating a commit. A commit represents a snapshot of your project at a specific point in time.
+
+   ```bash
+   $ git commit -m "Added basic HTML structure to index.html"
+   ```
+
+   The `-m` flag is used to add a message that describes the changes in the commit. These messages help you and your team understand what was changed in the project.
+
+---
+
+## Viewing Commit History with `git log`
+
+After committing your changes, you can view the history of commits in your project using the `git log` command. This command shows a list of commits, including the author, date, and commit message.
+
+```bash
+$ git log
+```
+
+Example output:
+
+```bash
+commit e435b9c32a1b8c3d7598d7b2d2f92f6e7427af30
+Author: Your Name <you@example.com>
+Date:   Wed Sep 4 14:33:00 2024 +0100
+
+    Added basic HTML structure to index.html
+
+commit 3f52cce4722b8b1a94f5d5f8c231e8b344ed348c
+Author: Your Name <you@example.com>
+Date:   Wed Sep 4 14:21:32 2024 +0100
+
+    Initial commit
+```
+
+The `git log` command gives you a complete history of all the changes made in your project.
+
+---
+
+## Reverting Changes with Git
+
+Sometimes, you'll want to undo changes you've made in your project. Git provides a few different ways to revert changes, depending on what you need.
+
+### `git reset`
+
+- **Reset Staged Changes**: If you've staged changes using `git add`, but you realize you don't want to commit them yet, you can unstage them using:
+
+  ```bash
+  $ git reset index.html
+  ```
+
+  This command keeps your changes in the working directory but removes them from the staging area.
+
+### `git checkout`
+
+- **Discard Local Changes**: If you want to **discard local changes** and go back to the last committed version of a file, you can use:
+
+  ```bash
+  $ git checkout -- index.html
+  ```
+
+  This will reset the file to the last commit and remove any changes you made locally.
+
+---
+
+## Hands-On Lab: Initialize and Commit to a Repository
+
+Now it's time to practice what you've learned! Follow these steps to create a simple project, track changes, and commit them.
+
+### Instructions:
+
+1. **Create a new directory** for your project:
+
+   ```bash
+   $ mkdir my-git-project
+   ```
+
+2. **Navigate into the directory**:
+
+   ```bash
+   $ cd my-git-project
+   ```
+
+3. **Initialize a Git repository**:
+
+   ```bash
+   $ git init
+   ```
+
+4. **Create a new file** and add some content:
+
+   ```bash
+   $ touch index.html
+   ```
+
+5. **Check the status of your repository**:
+
+   ```bash
+   $ git status
+   ```
+
+6. **Stage the file** for commit:
+
+   ```bash
+   $ git add index.html
+   ```
+
+7. **Commit the file** with a message:
+
+   ```bash
+   $ git commit -m "Initial commit with index.html"
+   ```
+
+8. **Make changes to the file**, then stage and commit them again:
+
+   - Add more content to `index.html`.
+   - Run `git add` and `git commit` to track and save your changes.
+
+9. **View the commit history** using `git log`:
+   ```bash
+   $ git log
+   ```
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which Git command stages changes for commit?"
+  options={[
+    {
+      text: "git status",
+      feedback:
+        "Incorrect. `git status` shows the current status of your repository, but doesn't stage changes.",
+    },
+    {
+      text: "git add",
+      correct: true,
+      feedback: "Correct! The `git add` command stages changes for commit.",
+    },
+    {
+      text: "git commit",
+      feedback:
+        "Incorrect. `git commit` saves your changes, but you need to stage them first using `git add`.",
+    },
+    {
+      text: "git log",
+      feedback:
+        "Incorrect. `git log` shows the commit history of your project.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What does the `git log` command do?"
+  options={[
+    {
+      text: "It shows the current status of your repository.",
+      feedback:
+        "Incorrect. The `git status` command shows the current status, not `git log`.",
+    },
+    {
+      text: "It stages changes for commit.",
+      feedback: "Incorrect. Staging changes is done with `git add`.",
+    },
+    {
+      text: "It shows the commit history of your project.",
+      correct: true,
+      feedback:
+        "Correct! The `git log` command shows a list of all commits in your project.",
+    },
+    {
+      text: "It discards local changes.",
+      feedback:
+        "Incorrect. To discard local changes, you would use `git checkout -- <filename>` or another related command.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which command would you use to discard changes to a file and restore it to the last commit?"
+  options={[
+    {
+      text: "git reset",
+      feedback:
+        "Incorrect. `git reset` is used to unstage changes or move back to a previous commit, but it doesn't discard local changes.",
+    },
+    {
+      text: "git checkout -- <filename>",
+      correct: true,
+      feedback:
+        "Correct! The `git checkout -- <filename>` command discards local changes and restores the file to the last commit.",
+    },
+    {
+      text: "git log",
+      feedback:
+        "Incorrect. `git log` shows the commit history of your project.",
+    },
+    {
+      text: "git status",
+      feedback:
+        "Incorrect. `git status` shows the status of the working directory and staging area but doesn't discard changes.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, we explored the basic Git commands for tracking changes and committing them to a repository. You learned how to stage and commit changes, as well as view the commit history. Additionally, we covered how to revert changes using `git reset` and `git checkout`.
+
+In the next lesson, we will dive deeper into remote repositories, where you'll learn how to push your changes to GitHub and collaborate with others.

@@ -6,172 +6,252 @@ import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-
 
 # Best Practices for Code Reviews and Automating Workflows
 
-## Overview
+## Scenario
 
-In this lesson, we will discuss the best practices for conducting **code reviews**, an essential part of collaborative development. Code reviews help ensure the quality of code and allow team members to learn from each other. We will also explore how to **automate workflows** using tools like **GitHub Actions**. Automating tasks such as testing, linting, and deploying your code can save time and reduce errors in the development process.
+Your team has been working hard on several features for a new web application. As a senior developer, you are responsible for reviewing your teammates' code before it gets merged into the `main` branch. Additionally, your team has decided to automate parts of the development process, such as running tests and linting the code, to ensure that only high-quality code is merged.
+
+In this lesson, you will learn the **best practices for code reviews** and how to set up **automated workflows** using tools like **GitHub Actions**. These practices will help streamline the development process, ensure consistency, and improve the overall quality of the codebase.
 
 ---
 
-## Learning Objectives
+## Pre-Requisite: Node.js and npm
 
-By the end of this lesson, you will be able to:
+### Node.js Overview
 
-- Conduct effective code reviews using GitHub’s pull request features.
-- Identify best practices for reviewing and improving code quality.
-- Automate workflows using GitHub Actions for continuous integration and deployment.
+**Node.js** is a JavaScript runtime that allows you to run JavaScript code on your computer outside of a web browser. It is commonly used for server-side development and enables developers to use JavaScript to build backend applications, scripts, and automation tools.
+
+**Why Do You Need Node.js?**
+In this lesson, you will use Node.js to install development tools, run scripts, and automate workflows. Many modern development tools, such as linters (e.g., **ESLint**) and testing frameworks (e.g., **Jest**), require Node.js to work properly.
+
+### npm Overview
+
+**npm** stands for **Node Package Manager**. It is the default package manager for Node.js and is used to install, manage, and share JavaScript packages (libraries or tools).
+
+**Why Do You Need npm?**
+npm allows you to easily install and manage tools like **ESLint** for linting code, **Jest** for testing, and **GitHub Actions** for automating workflows. It also helps you manage dependencies for your projects.
+
+---
+
+## Installing Node.js and npm
+
+### Step-by-Step: Installing Node.js and npm
+
+#### On Windows
+
+1. **Download Node.js**:
+   - Go to the official Node.js website: [https://nodejs.org](https://nodejs.org).
+   - Download the **LTS (Long-Term Support)** version, as it is more stable for development purposes.
+2. **Install Node.js**:
+
+   - Run the installer you downloaded.
+   - Follow the prompts to install Node.js. This will also install **npm** automatically.
+
+3. **Verify Installation**:
+   - Open the **Command Prompt** or **PowerShell**.
+   - Run the following commands to verify that Node.js and npm have been installed correctly:
+     ```bash
+     node -v
+     npm -v
+     ```
+   - You should see the version numbers of Node.js and npm. If so, the installation was successful.
+
+#### On macOS
+
+1. **Download Node.js**:
+
+   - Visit [https://nodejs.org](https://nodejs.org) and download the **LTS** version of Node.js for macOS.
+
+2. **Install Node.js**:
+
+   - Open the downloaded installer and follow the instructions to install Node.js. This will also install **npm**.
+
+3. **Verify Installation**:
+   - Open the **Terminal**.
+   - Run the following commands to verify the installation:
+     ```bash
+     node -v
+     npm -v
+     ```
+   - You should see the version numbers of Node.js and npm, indicating a successful installation.
+
+#### On Linux
+
+1. **Install Node.js** via the package manager for your distribution (e.g., `apt` for Ubuntu):
+
+   ```bash
+   sudo apt update
+   sudo apt install nodejs npm
+   ```
+
+2. **Verify Installation**:
+   - Run the following commands to check that Node.js and npm are installed:
+     ```bash
+     node -v
+     npm -v
+     ```
+
+If you encounter any issues during installation, refer to the [Node.js documentation](https://nodejs.org/en/docs/) for detailed troubleshooting.
 
 ---
 
 ## Best Practices for Code Reviews
 
-A **code review** is the process of reviewing someone else’s code to catch errors, suggest improvements, and ensure that the code follows team standards.
+Now that you have Node.js and npm set up, let us explore how to conduct effective code reviews.
 
-### Tips for Effective Code Reviews:
+### 1. **Review Code in Small Increments**
 
-1. **Be Kind and Constructive**:
-   Code reviews should be about improving the project, not criticizing the developer. Be respectful, offer helpful feedback, and explain why a suggestion should be implemented.
+- Reviewing smaller, incremental changes is easier and more manageable than reviewing large blocks of code. Encourage your teammates to submit pull requests (PRs) that contain well-scoped changes.
+- Smaller PRs allow for faster reviews, quicker feedback, and more focused discussions.
 
-2. **Focus on the Code, Not the Person**:
-   Review the code changes without making it personal. Ask questions about decisions and suggest alternatives if needed.
+### 2. **Focus on Readability and Maintainability**
 
-3. **Look for Common Issues**:
+- Ensure that the code is easy to understand. Can someone new to the project quickly grasp what the code does?
+- Check that variable names, function names, and class names are descriptive and follow your team’s naming conventions.
 
-   - Does the code follow coding standards?
-   - Are there any potential bugs or security issues?
-   - Are the functions and variables named clearly?
-   - Is the code well-documented?
+### 3. **Look for Consistency**
 
-4. **Test the Code**:
-   Run the code locally to ensure that it works as expected. This can help you catch issues that might not be obvious from reading the code.
+- Code consistency helps maintain a clean codebase and improves collaboration. Check for consistent formatting, indentation, and structure.
+- Tools like **Prettier** or **ESLint** can be used to automate code formatting and linting to ensure that the style remains uniform across the project.
 
-5. **Approve or Request Changes**:
-   If the code looks good, approve the pull request. If there are issues, leave comments and request changes before merging.
+### 4. **Check for Efficiency**
+
+- Review the code for performance improvements or optimizations. Does the code contain unnecessary loops or duplicated logic? Can the same task be accomplished with fewer resources?
+- Encourage the use of efficient algorithms and data structures where applicable.
+
+### 5. **Ensure Security Best Practices**
+
+- Look for common security issues, such as unvalidated user input, hard-coded credentials, or insecure handling of sensitive data.
+- Ensure that the code adheres to security best practices such as input validation, authentication, and proper error handling.
+
+### 6. **Give Constructive Feedback**
+
+- When providing feedback, be specific and actionable. Instead of saying “this is wrong,” suggest improvements and explain why they are necessary.
+- Maintain a positive tone and encourage collaborative discussion. For example: “I noticed this function could be simplified by using a higher-order function, which might improve readability.”
 
 ---
 
-## Automating Workflows with GitHub Actions
+## Automating Code Reviews with GitHub Actions
 
-**GitHub Actions** allow you to automate tasks such as testing, linting, and deployment. You can set up workflows that run automatically whenever certain events occur (e.g., when code is pushed to a repository or a pull request is created).
+Manual code reviews can miss important issues, especially if team members are reviewing large or complex codebases. **Automation** can complement human reviews by enforcing coding standards, running tests, and even detecting security vulnerabilities before code is merged.
 
-### Example: Automating Tests with GitHub Actions
+### 1. **What Are GitHub Actions?**
 
-Let’s say you want to automate your test suite to run every time someone pushes code to the repository. Here’s how to set up a basic GitHub Actions workflow:
+**GitHub Actions** is a tool that allows you to automate your software development workflows directly in your GitHub repository. You can use it to:
+
+- Automatically run tests.
+- Enforce code quality by running linters.
+- Deploy applications after a successful merge.
+
+Automation helps catch issues early and reduces the manual effort required to maintain a high-quality codebase.
+
+### 2. **Setting Up a Simple Workflow with GitHub Actions**
+
+Let us walk through how to set up a basic GitHub Actions workflow to run tests and lint the code whenever a pull request is opened.
+
+#### Step-by-Step: Create a GitHub Actions Workflow
 
 1. **Create a Workflow File**:
 
-   - In your repository, create a directory called `.github/workflows/`.
-   - Inside that directory, create a file called `test.yml`.
+   - In your repository, navigate to the `.github/workflows/` directory (create it if it does not exist).
+   - Add a new file named `ci.yml` for your continuous integration (CI) workflow.
 
-2. **Define the Workflow**:
-   Add the following code to the `test.yml` file to run tests every time code is pushed:
+2. **Configure the Workflow**:
 
-   ```yaml
-   name: Run Tests
+   - Here is an example of a simple workflow that runs tests and checks for code linting using Node.js:
 
-   on: [push]
+     ```yaml
+     name: CI Workflow
 
-   jobs:
-     test:
-       runs-on: ubuntu-latest
+     on:
+       pull_request:
+         branches:
+           - main
 
-       steps:
-         - name: Checkout code
-           uses: actions/checkout@v2
+     jobs:
+       build:
+         runs-on: ubuntu-latest
 
-         - name: Set up Node.js
-           uses: actions/setup-node@v2
-           with:
-             node-version: "14"
+         steps:
+           - name: Checkout code
+             uses: actions/checkout@v2
 
-         - name: Install dependencies
-           run: npm install
+           - name: Set up Node.js
+             uses: actions/setup-node@v2
+             with:
+               node-version: "14"
 
-         - name: Run tests
-           run: npm test
-   ```
+           - name: Install dependencies
+             run: npm install
 
-3. **Push the Workflow**:
-   Once you push this workflow file to GitHub, GitHub Actions will automatically run your tests every time someone pushes code to the repository.
+           - name: Run tests
+             run: npm test
+
+           - name: Run lint
+             run: npm run lint
+     ```
+
+   - This workflow is triggered automatically whenever a pull request is opened. It checks out the code, installs dependencies, and runs the tests and linting tasks.
+   - You will become more familiar with these npm commands and other items as you continue learning, so do not worry about memorizing them now.
+
+3. **Commit the Workflow File**:
+   - Once the workflow file is created, commit it to your repository. GitHub Actions will start running the workflow whenever a pull request is submitted to the `main` branch.
+
+---
+
+## Activity: Setting Up Automated Workflows
+
+### Task: Automate Your Project’s CI Workflow
+
+1. **Set Up ESLint**:
+
+   - Install ESLint in your project and configure it with your preferred rules. Ensure that the linter runs automatically whenever code is pushed or a pull request is submitted.
+
+2. **Submit a Pull Request**:
+
+   - Create a pull request in your project. The GitHub Actions workflow you have set up will automatically check your code for issues and run your tests.
+
+3. **Review a Pull Request**:
+   - Pair with a classmate and review each other’s pull requests. Ensure that the automated workflow runs successfully before approving and merging the PR.
 
 ---
 
 ## Knowledge Check
 
 <MultipleChoiceQuestion
-  question="What is the primary goal of a code review?"
+  question="What is the primary benefit of using GitHub Actions in your development workflow?"
   options={[
-    {
-      text: "To criticize the developer.",
-      feedback:
-        "Incorrect. Code reviews are about improving the project, not criticizing the developer.",
-    },
-    {
-      text: "To ensure the quality of the code.",
-      correct: true,
-      feedback:
-        "Correct! The primary goal of a code review is to ensure that the code is of high quality and follows team standards.",
-    },
-    {
-      text: "To write more code.",
-      feedback: "Incorrect. Writing code is not the focus of a code review.",
-    },
-    {
-      text: "To approve the pull request without reviewing the code.",
-      feedback:
-        "Incorrect. The goal is to review the code before approving a pull request.",
-    },
-  ]}
+    { text: "It allows you to manually review all code changes.", feedback: "Incorrect. GitHub Actions is primarily used for automating tasks, not for manual code review." },
+    { text:
+
+"It automates repetitive tasks like running tests and linting.", correct: true, feedback: "Correct! GitHub Actions helps automate tasks like testing and linting code." },
+{ text: "It manages code versions automatically.", feedback: "Incorrect. Git itself handles version control; GitHub Actions focuses on automation." },
+{ text: "It creates new branches for each developer.", feedback: "Incorrect. Branch creation is a manual process, not an automated one through GitHub Actions." }
+]}
 />
 
 <MultipleChoiceQuestion
-  question="Which of the following is a best practice during a code review?"
+  question="Which of the following is a best practice for conducting code reviews?"
   options={[
     {
-      text: "Criticize the person who wrote the code.",
+      text: "Only review large pull requests with many changes.",
       feedback:
-        "Incorrect. Code reviews should focus on the code, not the person.",
+        "Incorrect. Reviewing smaller, incremental changes is generally more effective.",
     },
     {
-      text: "Make sure to focus on minor issues rather than the overall quality.",
-      feedback:
-        "Incorrect. Code reviews should focus on significant issues and overall code quality.",
-    },
-    {
-      text: "Offer helpful and constructive feedback.",
+      text: "Focus on readability, maintainability, and consistency.",
       correct: true,
       feedback:
-        "Correct! Code reviews should be kind and constructive, with feedback that helps improve the project.",
+        "Correct! Ensuring the code is readable, maintainable, and consistent is essential for a good code review.",
     },
     {
-      text: "Only approve the code if it's perfect.",
+      text: "Ignore formatting issues to focus on functionality.",
       feedback:
-        "Incorrect. Code should be reviewed for quality, but no code is ever perfect.",
+        "Incorrect. Formatting and style are important for maintaining a clean codebase.",
     },
-  ]}
-/>
-
-<MultipleChoiceQuestion
-  question="What is the purpose of GitHub Actions?"
-  options={[
     {
-      text: "To automate repetitive tasks such as testing and deployment.",
-      correct: true,
+      text: "Avoid providing feedback unless there are major issues.",
       feedback:
-        "Correct! GitHub Actions automates workflows like testing, linting, and deployment.",
-    },
-    {
-      text: "To create pull requests.",
-      feedback: "Incorrect. Pull requests are created manually by developers.",
-    },
-    {
-      text: "To merge branches automatically.",
-      feedback:
-        "Incorrect. Merging branches requires manual approval or handling.",
-    },
-    {
-      text: "To delete old branches automatically.",
-      feedback:
-        "Incorrect. Deleting branches is not the focus of GitHub Actions.",
+        "Incorrect. Feedback should be specific and constructive, regardless of issue size.",
     },
   ]}
 />
@@ -180,4 +260,19 @@ Let’s say you want to automate your test suite to run every time someone pushe
 
 ## Summary
 
-In this lesson, we covered the best practices for conducting **code reviews**, which are essential for maintaining code quality and improving the overall project. We also explored **GitHub Actions**, a tool for automating workflows such as testing and deployment, saving time and ensuring that repetitive tasks are handled consistently.
+In this lesson, you learned how to install Node.js and npm, conduct effective code reviews, and set up automated workflows using GitHub Actions. Automation helps ensure code quality and consistency while reducing manual effort. Additionally, best practices for code reviews were discussed to help maintain a high-quality codebase.
+
+---
+
+## References
+
+- [Node.js official documentation](https://nodejs.org/en/docs/)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [ESLint Documentation](https://eslint.org/docs/)
+
+---
+
+## Additional Resources
+
+- [Learn Git Branching](https://learngitbranching.js.org/)
+- [Setting Up Continuous Integration with GitHub Actions](https://docs.github.com/en/actions/automating-builds-and-tests/about-continuous-integration)

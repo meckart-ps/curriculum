@@ -1,5 +1,1 @@
-export default {
-  index: {
-    display: "hidden",
-  },
-};
+export default {};

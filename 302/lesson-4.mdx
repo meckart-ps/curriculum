@@ -6,9 +6,11 @@ import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-
 
 # Branching and Merging in Git
 
-## Overview
+## Scenario
 
-In this lesson, we will focus on **branching and merging**, two critical concepts in Git that allow you to work on different features or fixes without affecting the main project. Branching enables you to create separate lines of development, and merging allows you to combine these lines back together. By the end of this lesson, you’ll be able to create branches, merge them, and resolve conflicts when they arise.
+Your team is working on several new features for your company's website, and each developer is responsible for a different part of the project. You need to work on the **new homepage design**, while a teammate is adding new functionality to the **shopping cart**. To avoid conflicts and ensure everyone can work independently, you decide to create a **branch** for your feature. Once your work is done, you will need to **merge** your changes back into the main branch.
+
+In this lesson, you will learn how to create and manage branches in Git, merge branches, and handle merge conflicts when they occur.
 
 ---
 
@@ -18,170 +20,206 @@ By the end of this lesson, you will be able to:
 
 - Create and switch between branches in Git.
 - Merge branches to combine different lines of development.
-- Resolve conflicts that occur during merges.
+- Resolve merge conflicts that occur during the merging process.
 
 ---
 
-## Branching in Git
+## Creating Branches in Git
 
-A **branch** is like a parallel version of your project. It allows you to make changes in isolation, and once you're happy with those changes, you can merge them back into the main branch.
+A **branch** is a parallel version of your project that allows you to work on a new feature or fix without affecting the main branch. This is especially useful in teams where multiple developers are working on different parts of the project simultaneously.
 
 ### Step-by-Step: Creating a Branch
 
-1. **Check the current branch**:
-   Before creating a new branch, check which branch you are currently on:
+1. **Check the Current Branch**:
+   Before creating a new branch, it is important to check which branch you are currently on:
 
    ```bash
    $ git branch
    ```
 
-   Example output:
+   Output example:
 
-   ```
+   ```bash
    * main
    ```
 
-2. **Create a new branch**:
-   You can create a new branch by using the `git checkout -b` command followed by the branch name:
+2. **Create a New Branch**:
+   Create a new branch for the feature you are working on (e.g., `feature/homepage-design`):
 
    ```bash
-   $ git checkout -b feature/my-feature
+   $ git checkout -b feature/homepage-design
    ```
 
-   This command creates a new branch called `feature/my-feature` and switches you to that branch.
+   This command creates the branch and switches you to it.
 
-3. **Check branches**:
-   Use the `git branch` command to see all the branches in your repository:
+3. **List All Branches**:
+   To see all the branches in your repository, use:
 
    ```bash
    $ git branch
    ```
 
-   Example output:
+   Output example:
 
-   ```
-   * feature/my-feature
+   ```bash
+   * feature/homepage-design
      main
    ```
 
-   The `*` symbol indicates the branch you are currently on.
-
 ---
 
-## Merging in Git
+## Merging Branches in Git
 
-Once you're done working on your branch, you'll want to **merge** it back into the main branch.
+After completing work on your branch, you will want to **merge** your changes into the `main` branch. Merging combines the changes from one branch into another.
 
 ### Step-by-Step: Merging Branches
 
-1. **Switch to the main branch**:
-   You need to be on the branch you want to merge **into**. Switch to the `main` branch:
+1. **Switch to the `main` Branch**:
+   Before merging, you need to be on the branch that you want to merge into (e.g., `main`):
 
    ```bash
    $ git checkout main
    ```
 
-2. **Merge the branch**:
-   Now merge your feature branch into the `main` branch:
+2. **Merge the Feature Branch**:
+   Merge your feature branch into `main`:
 
    ```bash
-   $ git merge feature/my-feature
+   $ git merge feature/homepage-design
    ```
 
-   This command combines the changes from `feature/my-feature` into `main`.
+   This command incorporates the changes from the `feature/homepage-design` branch into `main`.
 
-3. **Resolve conflicts**:
-   If there are any **conflicts**, Git will notify you. A conflict happens when changes in the two branches you’re trying to merge affect the same lines of code.
-
-   Open the conflicting file and edit it manually to resolve the conflict. After resolving the conflict, you need to mark the conflict as resolved:
-
+3. **View Merge Confirmation**:
+   Git will confirm the merge and show a log of the merged commits:
    ```bash
-   $ git add <filename>
+   Updating a1b2c3d..d4e5f6g
+   Fast-forward
+   index.html | 1 +
+   1 file changed, 1 insertion(+)
    ```
 
-4. **Finish the merge**:
-   Once all conflicts are resolved, complete the merge:
+---
+
+## Handling Merge Conflicts
+
+Sometimes, two branches make changes to the same part of a file. This creates a **merge conflict** because Git cannot automatically decide which changes to keep.
+
+### What is a Merge Conflict?
+
+A merge conflict happens when two developers have modified the same lines in a file on different branches. Git will flag this as a conflict, and you will need to manually resolve it.
+
+### Step-by-Step: Resolving Merge Conflicts
+
+1. **Trigger a Merge Conflict**:
+   Let us assume both the `main` and `feature/homepage-design` branches have changes to the `index.html` file. When you try to merge, Git will notify you of the conflict:
+
+   ```
+   Auto-merging index.html
+   CONFLICT (content): Merge conflict in index.html
+   Automatic merge failed; fix conflicts and then commit the result.
+   ```
+
+2. **Identify the Conflict**:
+   Open the conflicting file. Git will mark the conflicting sections with special markers:
+
+   ```html
+   <<<<<<< HEAD
+   <h1>Welcome to the Shop</h1>
+   =======
+   <h1>New Homepage Title</h1>
+   >>>>>>> feature/homepage-design
+   ```
+
+   The section between `<<<<<<< HEAD` and `=======` shows the content from the `main` branch, and the section between `=======` and `>>>>>>> feature/homepage-design` shows the content from the feature branch.
+
+3. **Resolve the Conflict**:
+   Edit the file to resolve the conflict. You can either keep one version or combine them. For example:
+
+   ```html
+   <h1>Welcome to the New Homepage</h1>
+   ```
+
+4. **Stage and Commit the Resolved Changes**:
+   After resolving the conflict, stage the resolved file and commit the changes:
+
    ```bash
+   $ git add index.html
    $ git commit
    ```
+
+   Git will now record the merge as complete.
+
+---
+
+## Activity: Learn Git Branching Challenges
+
+To further practice your branching and merging skills, complete the interactive challenges on **[Learn Git Branching](https://learngitbranching.js.org/)**. The following exercises are highly recommended:
+
+1. **Introduction Sequence: "Branching in Git"**:
+   - Learn the fundamentals of creating branches, committing to them, and switching between them.
+2. **Push & Pull – Remote Branches**:
+
+   - Explore how to manage branches that exist both locally and on a remote server.
+
+3. **Advanced Sequence: "Rebasing and Merging"**:
+   - Practice handling merge conflicts and advanced branch operations.
+
+These challenges provide a visual and hands-on way to solidify your understanding of branching and merging, while simulating real-world workflows.
 
 ---
 
 ## Knowledge Check
 
 <MultipleChoiceQuestion
-  question="What does `git branch` do?"
+  question="What does the `git merge` command do?"
   options={[
     {
       text: "It creates a new branch.",
       feedback:
-        "Incorrect. `git branch` lists the branches in your repository but does not create a new one.",
+        "Incorrect. `git merge` combines changes from one branch into another, not create new branches.",
     },
     {
-      text: "It lists the branches in your repository.",
+      text: "It merges changes from one branch into another.",
       correct: true,
       feedback:
-        "Correct! The `git branch` command lists all branches in your repository and shows which one you are on.",
-    },
-    {
-      text: "It switches between branches.",
-      feedback: "Incorrect. `git checkout` is used to switch between branches.",
+        "Correct! `git merge` combines changes from the specified branch into the current branch.",
     },
     {
       text: "It deletes a branch.",
-      feedback: "Incorrect. `git branch -d` is used to delete a branch.",
+      feedback: "Incorrect. `git merge` does not delete branches.",
+    },
+    {
+      text: "It stages changes for a commit.",
+      feedback:
+        "Incorrect. `git add` stages changes for a commit, not `git merge`.",
     },
   ]}
 />
 
 <MultipleChoiceQuestion
-  question="Which command is used to merge one branch into another?"
+  question="Which command is used to create a new branch in Git?"
   options={[
     {
-      text: "git checkout",
+      text: "git checkout -b",
+      correct: true,
       feedback:
-        "Incorrect. `git checkout` is used to switch branches, not to merge them.",
-    },
-    {
-      text: "git branch",
-      feedback:
-        "Incorrect. `git branch` lists or creates branches but does not merge them.",
+        "Correct! `git checkout -b` is used to create a new branch and switch to it.",
     },
     {
       text: "git merge",
-      correct: true,
-      feedback: "Correct! `git merge` is used to merge two branches together.",
-    },
-    {
-      text: "git add",
       feedback:
-        "Incorrect. `git add` stages files for commit but does not merge branches.",
+        "Incorrect. `git merge` is used to combine changes from one branch into another.",
     },
-  ]}
-/>
-
-<MultipleChoiceQuestion
-  question="What is a merge conflict?"
-  options={[
     {
-      text: "When two branches are merged with no changes.",
+      text: "git reset",
       feedback:
-        "Incorrect. A merge conflict occurs when there are conflicting changes in the same file.",
+        "Incorrect. `git reset` is used to unstage changes or revert commits, not to create branches.",
     },
     {
-      text: "When changes in two branches affect the same lines of code.",
-      correct: true,
+      text: "git log",
       feedback:
-        "Correct! A merge conflict happens when two branches modify the same lines of code.",
-    },
-    {
-      text: "When a branch is deleted before being merged.",
-      feedback:
-        "Incorrect. Deleting a branch before merging does not cause a conflict.",
-    },
-    {
-      text: "When Git cannot find the repository.",
-      feedback: "Incorrect. This describes an unrelated issue.",
+        "Incorrect. `git log` shows the history of commits but does not create new branches.",
     },
   ]}
 />
@@ -190,6 +228,21 @@ Once you're done working on your branch, you'll want to **merge** it back into t
 
 ## Summary
 
-In this lesson, we covered the basics of **branching and merging** in Git. You learned how to create and switch branches, how to merge branches into the main branch, and how to resolve conflicts when they occur.
+In this lesson, you learned how to use Git to create and manage branches, merge branches into the main project, and resolve merge conflicts. Understanding branching and merging is critical for working on projects where multiple developers are contributing to the same codebase. To further solidify your skills, complete the challenges on **[Learn Git Branching](https://learngitbranching.js.org/)**.
 
-In the next lesson, we’ll continue to explore conflict resolution and look at pull requests, a key part of collaborating on GitHub.
+In the next lesson, we will explore pull requests and how they facilitate collaboration by allowing teams to review and approve changes before merging them into the main branch.
+
+---
+
+## References
+
+- [Git official documentation](https://git-scm.com/doc)
+- [GitHub official documentation](https://docs.github.com/)
+
+---
+
+## Additional Resources
+
+- [Learn Git branching](https://learngitbranching.js.org/)
+
+---

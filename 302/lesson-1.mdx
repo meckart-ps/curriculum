@@ -6,9 +6,9 @@ import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-
 
 # Introduction to Version Control and Command Line Basics
 
-## Overview
+## Scenario
 
-In this lesson, we will introduce the concepts of **version control** and the **command line interface (CLI)**, two fundamental tools in software development. You will learn how version control helps you keep track of changes in your projects and how the command line allows you to interact with your computer in a more efficient way. By the end of this lesson, you'll understand the basics of version control and be able to perform simple tasks using the command line.
+Imagine you have joined a new development team and are preparing to manage project files and collaborate with your teammates. Your first task is to set up your working environment by familiarizing yourself with the **command line** and **version control** systems. Additionally, you will create a GitHub account to manage your code and work with others in real-time.
 
 ---
 
@@ -16,190 +16,238 @@ In this lesson, we will introduce the concepts of **version control** and the **
 
 By the end of this lesson, you will be able to:
 
-- Describe the purpose and importance of version control in software development.
+- Explain the purpose of version control in software development.
 - Perform basic file management tasks using the command line.
-- Understand how Git helps track changes in a project.
-
----
-
-## What is Version Control?
-
-Version control is a system that helps you manage and track changes to files over time. Think of it like a **history** for your project. Every time you make a change to a file (or a set of files), version control can save a "snapshot" of those changes. This makes it easier to:
-
-- **Revert** to a previous version of your project if something goes wrong.
-- **Collaborate** with others on the same project without overwriting each other's work.
-- **Track** who made changes and when they were made.
-
-Version control is especially useful for **software development**, where many people might be working on the same code at the same time.
-
----
-
-## Introduction to Git
-
-**Git** is a popular version control system used by millions of developers around the world. It helps you:
-
-- Track changes in your project.
-- Collaborate with others by allowing multiple people to work on the same project.
-- Revert to previous versions of your project when needed.
-
-### Key Features of Git:
-
-- **Repository (Repo):** A place where all the snapshots of your project are stored.
-- **Commit:** A "snapshot" of the changes you made to your project.
-- **Staging Area:** A space where changes are prepared before being saved (committed).
-
-We will explore these concepts more deeply as we progress through the module.
+- Set up a GitHub account to manage repositories.
+- Demonstrate how to initialize a Git repository to track changes.
 
 ---
 
 ## Introduction to the Command Line Interface (CLI)
 
-The **command line interface (CLI)** is a way to interact with your computer by typing commands instead of using the mouse to click on icons. While it might seem intimidating at first, using the command line allows you to **work faster and more efficiently** as a developer.
+The **command line interface (CLI)** allows you to interact with your computer by typing commands instead of using graphical tools. As a developer, you will often use the CLI to navigate your file system, run scripts, and work with version control systems like Git.
 
-In this lesson, we will learn a few basic commands to navigate through your files and folders.
+### How to Access the Command Line
 
----
+#### On Windows
 
-## Basic Command Line Navigation
+There are a few ways to access the command line in Windows, including the **Command Prompt**, **PowerShell**, or **Git Bash** (if installed).
 
-### Common CLI Commands
+1. **Command Prompt**:
 
-Here are some basic commands to get started with the command line:
+   - **How to Access**:
+     - Press `Windows + R` to open the Run dialog box.
+     - Type `cmd` and press Enter.
+     - This opens the **Command Prompt**, where you can type and execute commands.
+   - **Limitations**: The Command Prompt lacks some of the advanced features developers may need, such as Unix-like commands (used in Git workflows).
 
-1. **`pwd` (Print Working Directory):** This command shows you which folder (directory) you are currently in.
+2. **PowerShell**:
 
-   - **Example:**
+   - **How to Access**:
+     - Search for **PowerShell** in the Start menu and open it.
+   - **Benefits**: PowerShell is a more powerful tool than Command Prompt, with access to more advanced scripting and administrative commands. It supports most basic CLI operations, and many commands are the same as those used in Git Bash.
+
+3. **Git Bash**:
+   - **How to Access**:
+     - If you have installed Git from [git-scm.com](https://git-scm.com/), you should have **Git Bash** installed as well. Search for **Git Bash** in the Start menu and open it.
+   - **Benefits**: Git Bash provides a Unix-like environment on Windows, supporting many Linux commands (such as `ls`, `pwd`, and `rm`) and all Git operations. This is the preferred tool for working with Git on Windows as it mimics the terminal environment used on Mac and Linux systems.
+
+#### On macOS
+
+Mac computers come with a **Terminal** application pre-installed, which provides native access to the command line.
+
+1. **Terminal**:
+
+   - **How to Access**:
+     - Press `Command + Space` to open Spotlight Search.
+     - Type **Terminal** and press Enter to open it.
+   - **Benefits**: The Terminal on macOS uses a Unix-based shell, which is similar to Git Bash on Windows. It allows you to execute the same commands that are widely used in software development, making it a powerful tool for working with the file system, running scripts, and managing version control.
+
+2. **Git Bash (optional)**:
+   - While the native Terminal is the primary tool for CLI operations on macOS, you can still install Git Bash if you prefer. However, it is unnecessary, as macOS's Terminal supports all required Git and Unix-based commands.
+
+### Command Line Basics
+
+Once you have opened the command line, you can start navigating through your computer's file system and running commands. The basic commands you will frequently use include `pwd` (print working directory), `ls` (list files), `cd` (change directory), and more.
+
+1. **`pwd`** (Print Working Directory):
+
+   - Displays the current directory you are working in.
      ```bash
      $ pwd
-     /Users/yourname/projects
      ```
-     This tells you that you are currently inside the `projects` folder.
 
-2. **`ls` (List):** This command lists all the files and folders in your current directory.
+2. **`ls`** (List):
 
-   - **Example:**
+   - Lists all the files and directories in the current directory.
      ```bash
      $ ls
-     README.md  index.html  styles.css
      ```
-     This shows the files in the current folder.
 
-3. **`cd` (Change Directory):** This command allows you to move to a different folder.
+3. **`cd`** (Change Directory):
 
-   - **Example:**
+   - Changes to a different directory.
      ```bash
-     $ cd projects
+     $ cd [directory]
      ```
-     This moves you into the `projects` folder.
 
-4. **`mkdir` (Make Directory):** This command creates a new folder.
+4. **`mkdir`** (Make Directory):
 
-   - **Example:**
+   - Creates a new directory (folder).
      ```bash
-     $ mkdir my-new-project
+     $ mkdir [new-directory-name]
      ```
 
-5. **`rm` (Remove):** This command deletes a file or folder (use with caution!).
-   - **Example:**
+5. **`rm`** (Remove):
+   - Deletes a file or directory (be cautious when using this command).
      ```bash
-     $ rm old-file.txt
+     $ rm [file-name]
      ```
+
+These commands form the foundation of how you will navigate through your project files and directories as a developer.
 
 ---
 
 ## Activity: Terminus Game for CLI Practice
 
-Now that you’ve learned some basic commands, it’s time to practice using the command line with a fun, interactive game called **[Terminus](https://web.mit.edu/mprat/Public/web/Terminus/Web/main.html)**.
-
-### Instructions
-
-1. Open the **Terminus game** in your browser.
-2. Use the commands you’ve just learned to navigate through the game.
-3. Focus on:
-   - Finding and moving between different directories.
-   - Listing files in a directory.
-   - Creating new files and directories.
-4. Spend around **15 minutes** exploring and practicing your CLI skills.
+To practice navigating the command line, try the [**Terminus Game**](https://web.mit.edu/mprat/Public/web/Terminus/Web/main.html). This game will help you get comfortable with essential CLI commands by navigating through different levels in a fun, interactive way.
 
 ---
 
-## Interactive Demo: Setting Up Git
+## Introduction to Version Control
 
-Now that you've practiced with the command line, we’ll set up **Git** for version control in a project.
+Version control is an essential tool for tracking changes to your project files over time. It allows multiple developers to work on the same project simultaneously without overwriting each other’s changes.
 
-### Instructions
+### Why Use Version Control?
 
-1. **Open the command line** and navigate to your project folder using the `cd` command.
+- **Collaboration**: Work with other developers on the same project.
+- **History Tracking**: Keep a record of what changes were made, by whom, and when.
+- **Reverting**: Easily revert to a previous version of your project if needed.
 
-   ```bash
-   $ cd my-new-project
-   ```
+Here’s an example scenario to provide learners with additional context on why version control is important in the workplace:
 
-2. **Initialize a Git repository** by typing:
+---
 
-   ```bash
-   $ git init
-   ```
+## Scenario: Version Control in the Workplace
 
-3. **Create a new file** called README.md:
+Imagine you are a front-end developer working for a company that is building a new e-commerce website. The project is large, and the team includes multiple developers, each responsible for different sections of the website, such as the homepage, product catalog, shopping cart, and user authentication.
 
-   ```bash
-   $ touch README.md
-   ```
+### The Problem
 
-4. **Check the status** of your Git repository:
+You are assigned to develop the homepage, and you start by creating a basic layout in HTML and CSS. While you are working, another team member is adding functionality to the shopping cart. Both of you are making changes to the shared project files on the same server. Without version control, several issues could arise:
 
-   ```bash
-   $ git status
-   ```
+- **File Overwriting**: If you and your teammate both make changes to the same file (for example, the `styles.css` file), one person's changes might overwrite the other's without either of you knowing.
+- **No Change History**: If a bug is introduced into the project, it will be difficult to pinpoint what caused the issue or who made the change, since there is no history of what has been modified.
+- **Collaboration Roadblocks**: If two developers are working on the same feature at the same time, they might interfere with each other's progress, leading to confusion and delays.
 
-5. **Add the file** to the staging area:
+### The Solution: Version Control
 
-   ```bash
-   $ git add README.md
-   ```
+By using Git as your version control system, you and your teammates can avoid these problems. Here’s how Git would solve each of these issues:
 
-6. **Commit the file** to save the changes:
+1. **File Overwriting Prevention**:
+   - Git allows each team member to work on their own **branch**, isolating their changes from the rest of the project. When you are ready to share your work, you can merge your branch back into the main branch, and Git will ensure that no changes are lost. If two people made conflicting changes to the same file, Git will flag the conflict, and you will be able to resolve it by reviewing both sets of changes.
+2. **History of Changes**:
 
-   ```bash
-   $ git commit -m "Initial commit with README file"
-   ```
+   - Every change made to the project is saved in a **commit**, which acts as a snapshot of the project at a specific point in time. Each commit includes a message explaining what was changed and who made the changes. If a bug is introduced, you can review the history and **revert** to a previous version before the bug was introduced.
 
-You’ve now made your first Git commit! This means you’ve saved a snapshot of your project, and Git is now tracking it.
+3. **Collaboration**:
+   - Multiple developers can work on the project simultaneously without stepping on each other’s toes. Even if you and your teammate are working on the same files, Git will manage those changes, ensuring that each person's contributions are preserved. Using **pull requests**, you can review each other's work before merging it into the main branch, maintaining code quality and avoiding errors.
+
+### Outcome
+
+With Git, your team is able to collaborate smoothly, track the history of changes, and quickly resolve conflicts without losing any work. This ensures that the project stays on track, and any issues that arise can be traced and fixed efficiently.
+
+---
+
+## GitHub Account Setup
+
+To begin working with version control, you need to create an account on GitHub, a platform used to host and manage Git repositories. If you have not already created a GitHub account or installed Git, follow the instructions below to do so.
+
+### Step-by-Step: Creating a GitHub Account
+
+1. **Sign up for a GitHub Account**:
+   - Go to [GitHub](https://github.com) and click **Sign Up**.
+   - Follow the instructions to create an account, ensuring you use a valid email address.
+   - Remember, your GitHub account will be evidence of your work, so the username and email associated with it should be professional.
+2. **Install Git**:
+
+   - After setting up your GitHub account, you need to ensure that Git is installed on your local machine. Visit [git-scm.com](https://git-scm.com/) and download the appropriate version for your operating system.
+   - You can confirm that Git is installed by running the following command in your terminal:
+     ```bash
+     $ git --version
+     ```
+
+3. **Configure Git with Your Account Information**:
+   - After installation, configure Git with your GitHub account details:
+     ```bash
+     $ git config --global user.name "Your Name"
+     $ git config --global user.email "your-email@example.com"
+     ```
+
+Now that your GitHub account is set up, you are ready to start tracking changes in your projects.
+
+---
+
+## Initializing a Git Repository
+
+Now that you are familiar with the command line and have set up Git, you can start using version control in your project.
+
+### Step-by-Step: Initializing a Git Repository
+
+1. **Navigate to Your Project Folder**:
+
+   - Use the `cd` command to navigate to the directory where your project files are located.
+     ```bash
+     $ cd path/to/your/project
+     ```
+
+2. **Initialize a Git Repository**:
+
+   - Run the following command to initialize Git in your project:
+     ```bash
+     $ git init
+     ```
+
+   This command creates a `.git` folder that allows Git to start tracking changes in your project.
+
+3. **Check Git Status**:
+   - You can use `git status` to see the state of your repository and any untracked files:
+     ```bash
+     $ git status
+     ```
 
 ---
 
 ## Knowledge Check
 
 <MultipleChoiceQuestion
-  question="What is the main purpose of version control?"
+  question="What is the primary purpose of version control?"
   options={[
     {
-      text: "To track the changes made to your files over time.",
+      text: "To track changes made to files over time.",
       correct: true,
       feedback:
-        "Correct! Version control helps track the history of changes made to your project.",
+        "Correct! Version control helps track the history of changes made to files in a project.",
     },
     {
-      text: "To organize your files alphabetically.",
+      text: "To organize files by name.",
       feedback:
         "Incorrect. Organizing files is not the purpose of version control.",
     },
     {
-      text: "To delete old files automatically.",
+      text: "To delete old versions automatically.",
       feedback:
-        "Incorrect. Version control does not delete old files automatically.",
+        "Incorrect. Version control does not delete old versions automatically.",
     },
     {
       text: "To increase the file size.",
-      feedback:
-        "Incorrect. Version control does not affect file size, but tracks changes in a project.",
+      feedback: "Incorrect. Version control does not affect the file size.",
     },
   ]}
 />
 
 <MultipleChoiceQuestion
-  question="Which command is used to change directories in the command line?"
+  question="Which command is used to navigate to a different directory?"
   options={[
     {
       text: "ls",
@@ -213,40 +261,11 @@ You’ve now made your first Git commit! This means you’ve saved a snapshot of
     },
     {
       text: "mkdir",
-      feedback:
-        "Incorrect. The `mkdir` command is used to create new directories, not change them.",
+      feedback: "Incorrect. The `mkdir` command is used to create a directory.",
     },
     {
       text: "pwd",
-      feedback:
-        "Incorrect. The `pwd` command prints the current working directory.",
-    },
-  ]}
-/>
-
-<MultipleChoiceQuestion
-  question="After creating a file in Git, what is the next step to track changes before committing?"
-  options={[
-    {
-      text: "git init",
-      feedback:
-        "Incorrect. `git init` is used to initialize a repository, not to stage changes.",
-    },
-    {
-      text: "git add",
-      correct: true,
-      feedback:
-        "Correct! The `git add` command stages your changes, preparing them to be committed.",
-    },
-    {
-      text: "git commit",
-      feedback:
-        "Incorrect. `git commit` is used after staging changes with `git add`.",
-    },
-    {
-      text: "git status",
-      feedback:
-        "Incorrect. `git status` shows the state of the working directory but doesn't stage changes.",
+      feedback: "Incorrect. The `pwd` command shows the current directory.",
     },
   ]}
 />
@@ -255,10 +274,21 @@ You’ve now made your first Git commit! This means you’ve saved a snapshot of
 
 ## Summary
 
-In this lesson, we introduced two fundamental tools for developers: **version control** and the **command line interface**. We discussed:
+In this lesson, you were introduced to the **command line interface** (CLI) and learned how to set up a **GitHub account** to manage repositories. You also explored the basics of **version control** and how to initialize a Git repository for tracking changes. These skills are foundational for working on software projects, both individually and in teams.
 
-- What version control is and why it’s important in software development.
-- How Git helps track changes in your projects.
-- Basic command line commands to help you navigate and manage your projects.
+In the next lesson, you will learn how to stage, commit, and track changes in your project using Git commands.
 
-In the next lesson, we will dive deeper into using Git to manage your project versions and collaborate with others using GitHub.
+---
+
+## References
+
+- [Git official documentation](https://git-scm.com/doc)
+- [GitHub official documentation](https://docs.github.com/)
+- [MIT Terminus Game](https://web.mit.edu/mprat/Public/web/Terminus/Web/main.html)
+- [MIT Terminus Game documentation](https://web.mit.edu/mprat/Public/web/Terminus/Java/CMS.590Game2FinalReport.pdf)
+
+---
+
+## Additional Resources
+
+- [GitHub's introduction to Git](https://guides.github.com/introduction/git-handbook/)

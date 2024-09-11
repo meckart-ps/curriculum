@@ -3,14 +3,15 @@ title: "Branching and Merging in Git"
 ---
 
 import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import Embed from "@components/layout-components/embed";
 
 # Branching and Merging in Git
 
-## Scenario
+## Workplace Context
 
-Your team is working on several new features for your company's website, and each developer is responsible for a different part of the project. You need to work on the **new homepage design**, while a teammate is adding new functionality to the **shopping cart**. To avoid conflicts and ensure everyone can work independently, you decide to create a **branch** for your feature. Once your work is done, you will need to **merge** your changes back into the main branch.
+As your team begins working on multiple features simultaneously, managing independent lines of development becomes essential. To facilitate this, your project lead has asked everyone to work on separate **branches** of the project. Once a feature is complete, you will need to **merge** your branch back into the main project without disrupting your teammates’ work.
 
-In this lesson, you will learn how to create and manage branches in Git, merge branches, and handle merge conflicts when they occur.
+You are responsible for creating and switching between branches, making changes in isolation, and merging them smoothly into the project’s `main` branch when ready. By mastering Git's branching and merging features, you will help keep the project organized and prevent conflicts as the team grows.
 
 ---
 
@@ -101,6 +102,36 @@ After completing work on your branch, you will want to **merge** your changes in
 
 ---
 
+## Visualizing Branching and Merging
+
+There are a number of different strategies and workflows that companies use to manage their git projects, one of which is [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow). Gitflow is now much less popular than [trunk-based workflows](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development), but is still in use in many legacy projects in industry. We highly recommend reading through these two articles when you have time, as they provide valuable information that will help you succeed in interviews and in the workplace!
+
+The simulation below, created in React by GitHub user [vraa](https://github.com/vraa), allows you to simulate the branching and merging process of a typical Gitflow workflow, which looks something like this:
+
+- There's a `main` branch.
+- You create a `develop` branch off of `main`, where most changes occur.
+- `Feature` and `release` branches are created off of `develop`.
+  - Once you are done with a `feature`, you merge it into `develop`.
+  - Once you are done with a `release`, you merge it to both `develop` and `main`.
+- If there's a issue in production, you create a `hotfix` branch off of the `main` branch.
+  - Once the hotfix is done, you merge it back into `main` and `develop`.
+
+Using the buttons below, simulate this process to gain an understanding of how it would work.
+
+- (H) Create `hotfix` branch.
+- (R) Create `release` branch.
+- (F) Create `feature` branch.
+- (C) Commit.
+- (M) Merge.
+
+<Embed
+  src="https://veerasundar.com/gitflowanimated/"
+  title="Gitflow Animated"
+  height="950px"
+/>
+
+---
+
 ## Handling Merge Conflicts
 
 Sometimes, two branches make changes to the same part of a file. This creates a **merge conflict** because Git cannot automatically decide which changes to keep.
@@ -114,7 +145,7 @@ A merge conflict happens when two developers have modified the same lines in a f
 1. **Trigger a Merge Conflict**:
    Let us assume both the `main` and `feature/homepage-design` branches have changes to the `index.html` file. When you try to merge, Git will notify you of the conflict:
 
-   ```
+   ```bash
    Auto-merging index.html
    CONFLICT (content): Merge conflict in index.html
    Automatic merge failed; fix conflicts and then commit the result.
@@ -166,6 +197,30 @@ To further practice your branching and merging skills, complete the interactive 
    - Practice handling merge conflicts and advanced branch operations.
 
 These challenges provide a visual and hands-on way to solidify your understanding of branching and merging, while simulating real-world workflows.
+
+---
+
+## Examples from Industry
+
+### React Repository
+
+Now, let us look once again to [the React repository on GitHub](https://github.com/facebook/react), where we will explore **branches**.
+
+From the main repository screen, you can navigate the different branches in two ways:
+
+- Using the dropdown menu that should currently say `main`, as we are on the `main` branch.
+- Clicking on the "### Branches" button next to that dropdown menu, which will navigate us to [a screen that contains branch information](https://github.com/facebook/react/branches).
+
+We will take a few minutes to explore some of these branches together, identifying some of the the key information a branch contains, such as:
+
+- How many commits ahead of `main` is it?
+- How many commits behind `main` is it?
+- What do those commits contain?
+- What is the purpose of the branch?
+
+Additionally, how do we determine when a new branch is needed, and what feature to develop? In industry, these decisions come from two places: your project manager, and/or open issues. Click on the ["Issues" tab of the repository](https://github.com/facebook/react/issues) to see all of the current issues, their statuses, and discussion surrounding them, including which branches have been opened to address the issue.
+
+Explore these sections of the repository, and share any interesting findings with your peers.
 
 ---
 
@@ -244,5 +299,7 @@ In the next lesson, we will explore pull requests and how they facilitate collab
 ## Additional Resources
 
 - [Learn Git branching](https://learngitbranching.js.org/)
+- [Atlassian Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+- [Atlassian trunk-based workflows](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development)
 
 ---

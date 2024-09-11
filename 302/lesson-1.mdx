@@ -6,9 +6,14 @@ import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-
 
 # Introduction to Version Control and Command Line Basics
 
-## Scenario
+## Workplace Context
 
-Imagine you have joined a new development team and are preparing to manage project files and collaborate with your teammates. Your first task is to set up your working environment by familiarizing yourself with the **command line** and **version control** systems. Additionally, you will create a GitHub account to manage your code and work with others in real-time.
+Imagine you have joined a new development team and are preparing to manage project files and collaborate with your teammates. Your first task is to set up your working environment by familiarizing yourself with the **command line** and **version control** systems.
+
+- The **command line** is an essential efficiency tool that developers use to navigate their projects, rather than using graphical interfaces which can often be slower.
+- **Version control** allows multiple developers to work on a single project simultaneously, with many convenient features to enable seamless collaboration.
+
+You will begin by going through multiple trainings that introduce you to these foundational tools and concepts.
 
 ---
 
@@ -26,6 +31,16 @@ By the end of this lesson, you will be able to:
 ## Introduction to the Command Line Interface (CLI)
 
 The **command line interface (CLI)** allows you to interact with your computer by typing commands instead of using graphical tools. As a developer, you will often use the CLI to navigate your file system, run scripts, and work with version control systems like Git.
+
+While command line interfaces will differ visually, each has the same basic components:
+
+![The image shows a labeled diagram of a command line interface (CLI). Key parts of the CLI are annotated as follows: Command line prompt: Highlighted with a red bracket and arrow pointing to the text (base) ciprian ~$, indicating the prompt where users can type commands. Command to run: The command date is highlighted with an arrow, indicating that this is the instruction the user typed. Computer’s response: The output Wed Jul 31 16:47:09 EDT 2019 is labeled as the system's response to the date command. New line (can run new command here): The cursor after the next command prompt (base) ciprian ~$ is pointed out, indicating where the user can enter the next command.](/curriculum-assets/302/command-line-layout.png)
+
+<center>
+  <small>
+    _Source: [Edlitera](https://www.edlitera.com/blog/posts/the-command-line-1)_
+  </small>
+</center>
 
 ### How to Access the Command Line
 
@@ -120,11 +135,13 @@ Version control is an essential tool for tracking changes to your project files 
 
 ### Why Use Version Control?
 
+Think of version control as a time machine: users can travel back in time to previous versions of a project, or create parallel timelines (which we call branches) to work on different project features independently, without affecting the "main timeline."
+
+This development time machine enables:
+
 - **Collaboration**: Work with other developers on the same project.
 - **History Tracking**: Keep a record of what changes were made, by whom, and when.
 - **Reverting**: Easily revert to a previous version of your project if needed.
-
-Here’s an example scenario to provide learners with additional context on why version control is important in the workplace:
 
 ---
 
@@ -218,6 +235,20 @@ Now that you are familiar with the command line and have set up Git, you can sta
 
 ---
 
+## Examples from Industry
+
+### React Repository
+
+The popular web application library React, developed by Meta, is an open-source project on GitHub with over 1,600 contributors. Well-maintained, professional open source projects like React are wonderful for familiarizing yourself with what a large repository looks like in the real world.
+
+We will use [the React repository on GitHub](https://github.com/facebook/react) as an exemplar going forward to demonstrate various features of git and GitHub, but feel free to peruse it on your own time as well.
+
+Start by navigating the home page of the repository, linked above, to identify some of its key components. Note the number of people watching the repository for changes, the number of forks (personal copies of the repository), the number of contributors, and some of the files. If you scroll down, you will also see the contents of the repository's README file, an important component in repository documentation.
+
+Some other items to take note of are the number of open issues, pull requests, and branches, which are all items we will discuss in later sections.
+
+---
+
 ## Knowledge Check
 
 <MultipleChoiceQuestion
@@ -292,3 +323,4 @@ In the next lesson, you will learn how to stage, commit, and track changes in yo
 ## Additional Resources
 
 - [GitHub's introduction to Git](https://guides.github.com/introduction/git-handbook/)
+- [Atlassian Git Basics](https://www.atlassian.com/git)

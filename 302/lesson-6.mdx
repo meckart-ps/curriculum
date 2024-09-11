@@ -6,11 +6,28 @@ import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-
 
 # Best Practices for Code Reviews and Automating Workflows
 
-## Scenario
+## Workplace Context
 
-Your team has been working hard on several features for a new web application. As a senior developer, you are responsible for reviewing your teammates' code before it gets merged into the `main` branch. Additionally, your team has decided to automate parts of the development process, such as running tests and linting the code, to ensure that only high-quality code is merged.
+You are working as a senior developer on a fast-paced team responsible for a large-scale web application. As part of your role, you are responsible for reviewing code submitted by other developers, ensuring that the code is efficient, maintainable, and follows industry standards. To ensure that nothing slips through the cracks, you and your team have decided to implement automated workflows that run tests, check for code quality issues, and enforce coding standards before merging any code into the main branch.
 
-In this lesson, you will learn the **best practices for code reviews** and how to set up **automated workflows** using tools like **GitHub Actions**. These practices will help streamline the development process, ensure consistency, and improve the overall quality of the codebase.
+The following trainings will improve your ability to:
+
+- Conduct effective and constructive code reviews.
+- Implement automated workflows using GitHub Actions to ensure high-quality code without the need for manual intervention at every step.
+
+By integrating best practices for code reviews and automation into your team’s workflow, you can streamline collaboration, improve code quality, and reduce the likelihood of errors being introduced into the production environment.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Explain the importance of code reviews in maintaining code quality and collaboration.
+- Conduct effective code reviews, focusing on readability, maintainability, and efficiency.
+- Provide constructive feedback during a code review.
+- Set up GitHub Actions to automate tasks such as testing, linting, and deployment.
+- Implement automated workflows to improve development efficiency and reduce manual errors.
 
 ---
 
@@ -215,6 +232,36 @@ Let us walk through how to set up a basic GitHub Actions workflow to run tests a
 
 ---
 
+## Aside: GitHub Desktop
+
+It is **incredibly important** to be familiar with git and GitHub in order to be a successful developer. Interviews for developer positions often include questions on version control and workflow, so it is highly recommended you become familiar with the command line interface, git commands, and keeping your hands on the keyboard.
+
+However, there is also a graphical interface available for managing version control in your projects called [GitHub Desktop](https://github.com/apps/desktop), which is often more convenient. You may explore this interface as you continue learning, but ensure you are aware of the foundational concepts of version control that are happening in the background!
+
+![The image shows a GitHub Desktop user interface with three changed files listed on the left, including `section-list.tsx`, `tooltip.tsx`, and `tooltipped-content.tsx`. The center panel shows the code changes for `section-list.tsx`, highlighting new lines of code that define readonly properties for event handlers, such as `onRowFocus`, `onRowKeyboardFocus`, and `onRowBlur`. The changes include functions that will be triggered when a row gains focus, when focus is obtained via keyboard, and when focus is lost. At the bottom of the screen, a commit message box is visible with the text "Bring `onRowKeyboardFocus` to SectionList." Two co-authors are mentioned (`sergiou87` and `tidy-dev`), and the commit button reads "Commit to file-status-tooltip."](/curriculum-assets/302/github-desktop.png)
+
+<center>
+  <small>_Source: [GitHub Desktop](https://github.com/apps/desktop)_</small>
+</center>
+
+---
+
+## Examples from Industry
+
+### React Repository
+
+Head over one last (probably not) time to [the React repository on GitHub](https://github.com/facebook/react), this time to explore the GitHub Actions that are currently associated with the repository.
+
+Click on the "Actions" tab at the top of the repository, which should bring you to [the actions page for the repository](https://github.com/facebook/react/actions). Here, you can see which actions are active, which branches they are active on, when the last time they were run is, how long they took to run, and a number of other important pieces of information.
+
+Take a look through some of the active actions, and try to identify their purpose and method. While the scripts involved in each action may be unfamiliar territory, the actions themselves should contain descriptive enough steps to understand them (most of the time).
+
+GitHub actions could be an entire training session on their own, and thus you are not expected to be experts in them at this stage; however, it is a wonderful tool to explore as you continue training!
+
+As a bonus, look through some more pull requests with the added context of code review best practices, and observe how reviews occur in the real world!
+
+---
+
 ## Knowledge Check
 
 <MultipleChoiceQuestion
@@ -276,3 +323,4 @@ In this lesson, you learned how to install Node.js and npm, conduct effective co
 
 - [Learn Git Branching](https://learngitbranching.js.org/)
 - [Setting Up Continuous Integration with GitHub Actions](https://docs.github.com/en/actions/automating-builds-and-tests/about-continuous-integration)
+- [GitHub Desktop](https://github.com/apps/desktop)

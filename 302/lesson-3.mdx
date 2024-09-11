@@ -6,9 +6,11 @@ import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-
 
 # GitHub and Remote Repositories
 
-## Scenario
+## Workplace Context
 
-You are working on a feature for your company’s new website, but you need to collaborate with another developer working on a different section. To ensure smooth collaboration, you decide to push your changes to a **remote repository** on GitHub so that your teammate can access your work, review it, and contribute without overwriting anything. In this lesson, you will learn how to work with **GitHub** to push and pull changes from remote repositories, a critical part of collaborative software development.
+Your team has adopted GitHub to manage remote repositories and collaborate on projects with multiple contributors. As the team expands, developers will push their code to GitHub, allowing others to pull the latest changes and submit their updates seamlessly. Your task is to set up your project on GitHub and manage remote repositories, enabling collaboration across the team.
+
+You will need to upskill on how to push your local commits to a GitHub repository, pull updates from your teammates, and ensure that the project stays synchronized across all contributors.
 
 ---
 
@@ -26,6 +28,19 @@ By the end of this lesson, you will be able to:
 ## Creating a GitHub Repository
 
 A **remote repository** is a version of your project hosted on an external server, allowing team members to collaborate. GitHub is a popular platform for hosting these repositories.
+
+Think about remote repositories like cloud drives, like Google Drive, OneDrive, iCloud, or DropBox, but for your code. You still keep a local copy of the files on your computer, but you can upload (push) or download (pull) files to and from the remote repository in order to make sure that multiple users have access to the latest versions of the files.
+
+This is what these commands look like when working with remote repositories. Feel free to reference this diagram as you continue your training.
+
+![The image is a diagram illustrating the flow of basic Git commands across four stages: workspace, staging, local repository, and remote repository Workspace: Commands like `git add`, `mv`, and `rm` move files to the staging area. Staging: The command `git commit` moves changes to the local repository, while `git reset <file>` removes changes from staging back to the workspace. Local repository: Changes are committed here. Commands like `git reset <commit>` revert to a previous commit. `git diff` compares changes, and `git push` sends the changes to the remote repository. Remote repository: `git push` uploads changes, while `git fetch` and `git clone/pull` bring changes back to the local repository. Arrows between the stages represent the flow of these commands.](/curriculum-assets/302/git-basic-commands.png)
+
+<center>
+  <small>
+    _Source:
+    [Devguide](https://www.devguide.at/en/git/pull-push-the-remote-repository/)_
+  </small>
+</center>
 
 ### Step-by-Step: Creating a Repository on GitHub
 
@@ -137,6 +152,20 @@ To reinforce learning, you could develop a **GitHub Pull Request Simulator**. Th
 - Approve or request changes on a peer's pull request.
 
 This simulation would help learners get familiar with the GitHub workflow in a hands-on way without needing a real project.
+
+---
+
+## Examples from Industry
+
+### React Repository
+
+With the additional context of how local developers work with remote repositories, take another look at [the React repository on GitHub](https://github.com/facebook/react).
+
+- What challenges might working with such a large repository and so many collaborators present?
+- How often do you think you should sync changes from the remote repository to your local working copy, and vice versa?
+- What might happen if multiple contributors are working on the same features simultaneously?
+
+As we continue into the next set of trainings, we will address these issues and more.
 
 ---
 

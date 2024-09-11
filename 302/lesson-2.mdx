@@ -6,9 +6,11 @@ import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-
 
 # Basic Git Commands and Repositories
 
-## Scenario
+## Workplace Context
 
-You have been tasked with building a new feature for your company's website. To ensure that your work is tracked and can be easily collaborated on by your team, you need to use Git for version control. In this lesson, you will learn how to use basic Git commands to manage and track changes in your project. You’ll create a repository, stage changes, and commit them. Understanding these fundamental commands is critical to managing your code efficiently and working seamlessly with your team.
+You have been tasked with building a new feature for your company's website. To ensure that your work is tracked and can be easily collaborated on by your team, you need to use Git for version control.
+
+In this training, you will learn how to use basic Git commands to manage and track changes in your project. You will create a repository, stage changes, and commit them. Once you have completed the training and understand these fundamental commands, you will be better equipped to manage your code efficiently and work seamlessly with your team.
 
 ---
 
@@ -57,6 +59,10 @@ Once you have created your project and set up your GitHub account, you can start
 
 - **Staging**: When you modify files, Git does not automatically start tracking those changes. You need to stage the files that you want to include in the next commit.
 - **Committing**: After staging the files, you create a commit, which is a snapshot of your project at that point in time. Commits allow you to go back and see the history of your project and revert to previous versions if needed.
+
+Think about staging and committing like shopping. Before you begin shopping, you create a list of items you would like to purchase. Once you arrive at the store, you put those items into your cart, the "staging" area. You have not committed to buying the items yet. You can always put them back on the shelf and commit to them later if you wanted to; they are still on your list, after all.
+
+Once you arrive at the checkout, you commit to purchasing the items by buying them. Once you've committed, they're a part of your life (or in the case of development, the project). However, thanks to the magic of modern shopping (version control), you can always return the items at a later date (reverting your commits).
 
 ### Step-by-Step: Staging and Committing Changes
 
@@ -143,6 +149,25 @@ Sometimes, you may want to undo changes or go back to a previous version of your
    ```
 
    This command will switch your project to an earlier version, but be careful—this can make changes that are not committed yet disappear. Make sure your work is saved before reverting!
+
+---
+
+## Examples from Industry
+
+### React Repository
+
+How do you view these kinds of changes inside a repository on GitHub? Let us take another look at [the React repository on GitHub](https://github.com/facebook/react) to uncover some of the commits that have occured there.
+
+On the main page of the repository, you will see the latest commits, its identifier, how long ago the commit was, and the total number of commits:
+
+![The image shows the GitHub repository for the React project. It highlights several key details: The branch being viewed is main.
+The repository has 291 branches and 143 tags. The latest commit is by the user acdlite, with the message "Start prerendering Suspense retries immediately" (#30934). The commit hash is d6cb4e7, and the commit was made 39 minutes ago. The repository has a total of 19,417 commits. Below the commit message, a list of folders in the repository (`.codesandbox`, `.github`, `compiler`, etc.) is visible, along with their last updated details.](/curriculum-assets/302/react-1.png)
+
+Since React is in constant development, the current state of the repository is likely to look quite different.
+
+If you click on [the latest commit](https://github.com/facebook/react/commit/d6cb4e771341ff82489c00f4907990cb8a75696b), it will take you to the commit page which shows the commit description, the number of changes files, additions, and deletions, and a visual representation of those changes within the file system. Take a look through the commit we've linked here, as well as the latest commit, and familiarize yourself with the layout of GitHub's interface.
+
+At this stage, it is not important to understand the code itself!
 
 ---
 

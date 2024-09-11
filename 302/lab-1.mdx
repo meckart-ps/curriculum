@@ -29,6 +29,7 @@ Your team has set up a shared GitHub repository for the project, but you need to
 1. **Create a New Local Repository**:
 
    - Navigate to your working directory and create a new Git repository:
+
      ```bash
      $ mkdir website-project
      $ cd website-project
@@ -38,6 +39,7 @@ Your team has set up a shared GitHub repository for the project, but you need to
 2. **Create a Simple HTML File**:
 
    - Your project manager has provided you with the basic structure of the homepage. Create an `index.html` file with this basic HTML structure:
+
      ```html
      <html>
        <head>
@@ -50,7 +52,9 @@ Your team has set up a shared GitHub repository for the project, but you need to
      ```
 
 3. **Commit the Initial Version**:
+
    - Stage and commit the file as your first contribution to the project:
+
      ```bash
      $ git add index.html
      $ git commit -m "Initial commit with basic HTML structure"
@@ -67,6 +71,7 @@ To keep your work organized and avoid conflicts with your teammates, your projec
 1. **Create a Branch for Feature 1 (Navigation Bar)**:
 
    - Your first assignment is to add a navigation bar to the website. Create a new branch for this feature:
+
      ```bash
      $ git checkout -b feature/navigation-bar
      ```
@@ -74,6 +79,7 @@ To keep your work organized and avoid conflicts with your teammates, your projec
 2. **Modify `index.html` to Add a Navigation Bar**:
 
    - Add the navigation bar code to the `index.html` file:
+
      ```html
      <nav>
        <ul>
@@ -85,7 +91,9 @@ To keep your work organized and avoid conflicts with your teammates, your projec
      ```
 
 3. **Commit the Changes**:
+
    - Once you have added the navigation bar, stage and commit your changes:
+
      ```bash
      $ git add index.html
      $ git commit -m "Added navigation bar"
@@ -102,6 +110,7 @@ Your next assignment is to add a footer section to the website.
 1. **Create a Branch for Feature 2 (Footer)**:
 
    - Create a new branch for this feature:
+
      ```bash
      $ git checkout -b feature/footer
      ```
@@ -109,6 +118,7 @@ Your next assignment is to add a footer section to the website.
 2. **Modify `index.html` to Add a Footer**:
 
    - Add the footer code to the `index.html` file:
+
      ```html
      <footer>
        <p>&copy; 2025 My Website</p>
@@ -116,7 +126,9 @@ Your next assignment is to add a footer section to the website.
      ```
 
 3. **Commit the Changes**:
+
    - Stage and commit the changes:
+
      ```bash
      $ git add index.html
      $ git commit -m "Added footer section"
@@ -131,6 +143,7 @@ Once you have completed your features, your project manager will ask you to merg
 1. **Merge `feature/navigation-bar` into `main`**:
 
    - Your first task is to merge the navigation bar branch into the `main` branch:
+
      ```bash
      $ git checkout main
      $ git merge feature/navigation-bar
@@ -141,6 +154,7 @@ Once you have completed your features, your project manager will ask you to merg
 2. **Merge `feature/footer` into `main`**:
 
    - Next, attempt to merge the footer branch into the `main` branch:
+
      ```bash
      $ git merge feature/footer
      ```
@@ -168,6 +182,7 @@ Once you have completed your features, your project manager will ask you to merg
      ```
 
    - Manually edit the file to include both sections:
+
      ```html
      <nav>
        <ul>
@@ -182,7 +197,9 @@ Once you have completed your features, your project manager will ask you to merg
      ```
 
 4. **Commit the Resolved File**:
+
    - Stage and commit the resolved file:
+
      ```bash
      $ git add index.html
      $ git commit -m "Resolved merge conflict and combined navigation bar and footer"
@@ -219,8 +236,8 @@ Now that you have successfully merged two features, your project manager has ass
 When you have completed the tasks and merged all your features into the `main` branch:
 
 1. **Push the Changes to GitHub**:
-
    - Push your project to GitHub:
+
      ```bash
      $ git push origin main
      ```

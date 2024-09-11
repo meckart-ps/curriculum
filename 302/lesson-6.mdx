@@ -115,32 +115,32 @@ If you encounter any issues during installation, refer to the [Node.js documenta
 
 Now that you have Node.js and npm set up, let us explore how to conduct effective code reviews.
 
-### 1. **Review Code in Small Increments**
+### 1. Review Code in Small Increments
 
 - Reviewing smaller, incremental changes is easier and more manageable than reviewing large blocks of code. Encourage your teammates to submit pull requests (PRs) that contain well-scoped changes.
 - Smaller PRs allow for faster reviews, quicker feedback, and more focused discussions.
 
-### 2. **Focus on Readability and Maintainability**
+### 2. Focus on Readability and Maintainability
 
 - Ensure that the code is easy to understand. Can someone new to the project quickly grasp what the code does?
 - Check that variable names, function names, and class names are descriptive and follow your team’s naming conventions.
 
-### 3. **Look for Consistency**
+### 3. Look for Consistency
 
 - Code consistency helps maintain a clean codebase and improves collaboration. Check for consistent formatting, indentation, and structure.
 - Tools like **Prettier** or **ESLint** can be used to automate code formatting and linting to ensure that the style remains uniform across the project.
 
-### 4. **Check for Efficiency**
+### 4. Check for Efficiency
 
 - Review the code for performance improvements or optimizations. Does the code contain unnecessary loops or duplicated logic? Can the same task be accomplished with fewer resources?
 - Encourage the use of efficient algorithms and data structures where applicable.
 
-### 5. **Ensure Security Best Practices**
+### 5. Ensure Security Best Practices
 
 - Look for common security issues, such as unvalidated user input, hard-coded credentials, or insecure handling of sensitive data.
 - Ensure that the code adheres to security best practices such as input validation, authentication, and proper error handling.
 
-### 6. **Give Constructive Feedback**
+### 6. Give Constructive Feedback
 
 - When providing feedback, be specific and actionable. Instead of saying “this is wrong,” suggest improvements and explain why they are necessary.
 - Maintain a positive tone and encourage collaborative discussion. For example: “I noticed this function could be simplified by using a higher-order function, which might improve readability.”
@@ -151,7 +151,7 @@ Now that you have Node.js and npm set up, let us explore how to conduct effectiv
 
 Manual code reviews can miss important issues, especially if team members are reviewing large or complex codebases. **Automation** can complement human reviews by enforcing coding standards, running tests, and even detecting security vulnerabilities before code is merged.
 
-### 1. **What Are GitHub Actions?**
+### 1. What Are GitHub Actions?
 
 **GitHub Actions** is a tool that allows you to automate your software development workflows directly in your GitHub repository. You can use it to:
 
@@ -161,7 +161,7 @@ Manual code reviews can miss important issues, especially if team members are re
 
 Automation helps catch issues early and reduces the manual effort required to maintain a high-quality codebase.
 
-### 2. **Setting Up a Simple Workflow with GitHub Actions**
+### 2. Setting Up a Simple Workflow with GitHub Actions
 
 Let us walk through how to set up a basic GitHub Actions workflow to run tests and lint the code whenever a pull request is opened.
 

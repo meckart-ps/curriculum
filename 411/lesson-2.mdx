@@ -1,0 +1,267 @@
+---
+title: "DOM Manipulation & Event Handling"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import Embed from "@components/layout-components/embed";
+
+# DOM Manipulation & Event Handling
+
+## Workplace Context
+
+You are working on a dynamic web application where user interaction is key. Your team expects you to make web pages responsive to user actions, such as clicking buttons, submitting forms, and dynamically displaying content. To accomplish this, you will need to master DOM manipulation and event handling in JavaScript. In this lesson, we will explore how to use JavaScript to interact with the DOM and handle various user events.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Select and manipulate HTML elements using DOM methods.
+- Use event listeners to respond to user interactions like button clicks.
+- Dynamically update web content using JavaScript.
+
+---
+
+## Introduction to the DOM
+
+The **Document Object Model (DOM)** is a programming interface for web documents. It represents the page so that programs can change the structure, style, and content. The DOM allows JavaScript to interact with the HTML and CSS of a webpage.
+
+### Accessing DOM Elements
+
+You can access HTML elements using the following JavaScript methods:
+
+- `getElementById()`: Selects an element by its `id`.
+- `getElementsByClassName()`: Selects all elements with a given class name.
+- `querySelector()`: Selects the first element that matches a given CSS selector.
+- `querySelectorAll()`: Selects all elements that match a given CSS selector.
+
+```javascript
+// Example of selecting a DOM element
+let titleElement = document.getElementById("pageTitle");
+console.log(titleElement.innerText); // Logs the inner text of the element
+```
+
+### Modifying DOM Elements
+
+Once you have selected an element, you can modify it in various ways:
+
+- **Change the content** using `innerText` or `innerHTML`:
+
+  ```javascript
+  titleElement.innerText = "Welcome to My Website!";
+  ```
+
+- **Change an element’s attributes** (e.g., `src`, `href`, etc.):
+
+  ```javascript
+  let image = document.querySelector("img");
+  image.src = "newImage.jpg";
+  ```
+
+- **Create and append new elements**:
+  ```javascript
+  let newParagraph = document.createElement("p");
+  newParagraph.innerText = "This is a new paragraph.";
+  document.body.appendChild(newParagraph);
+  ```
+
+---
+
+## Event Listeners
+
+### What Are Event Listeners?
+
+**Event listeners** allow your JavaScript code to respond to user actions like clicks, key presses, or form submissions. The most common way to handle events is by using `addEventListener()`.
+
+```javascript
+let button = document.getElementById("myButton");
+button.addEventListener("click", function () {
+  alert("Button clicked!");
+});
+```
+
+In the example above, when the button is clicked, an alert will display saying, "Button clicked!".
+
+### Common Events
+
+- **click**: Fired when an element is clicked.
+- **submit**: Fired when a form is submitted.
+- **keypress**: Fired when a key is pressed down.
+- **mouseover**: Fired when the mouse is moved over an element.
+
+---
+
+## Hands-On: Build a To-Do List App
+
+In this activity, you will create a basic to-do list app that allows users to add, remove, and display tasks. This will give you practical experience with DOM manipulation and event handling.
+
+**Time:** 60 minutes  
+**Instructions:**  
+Follow the steps outlined below to build a simple to-do list app that allows users to add and remove tasks. Make sure to:
+
+1. Capture input from the user.
+2. Display the tasks dynamically in an unordered list.
+3. Allow users to remove tasks by clicking on them.
+
+### Step 1: HTML Structure
+
+Start by creating a simple HTML structure for your to-do list. You will need an input field, a button to add tasks, and an unordered list to display the tasks.
+
+```html
+<input id="taskInput" type="text" placeholder="Enter a task" />
+<button id="addTaskButton">Add Task</button>
+<ul id="taskList"></ul>
+```
+
+### Step 2: JavaScript for Adding Tasks
+
+Next, write JavaScript that captures the user input and adds a new task to the list when the button is clicked.
+
+```javascript
+let taskInput = document.getElementById("taskInput");
+let addTaskButton = document.getElementById("addTaskButton");
+let taskList = document.getElementById("taskList");
+
+addTaskButton.addEventListener("click", function () {
+  let taskText = taskInput.value;
+
+  if (taskText === "") {
+    alert("Please enter a task!");
+    return;
+  }
+
+  let listItem = document.createElement("li");
+  listItem.innerText = taskText;
+
+  taskList.appendChild(listItem);
+  taskInput.value = ""; // Clear the input field
+});
+```
+
+### Step 3: Removing Tasks
+
+Allow users to remove tasks by clicking on them. You can do this by adding another event listener to the list items.
+
+```javascript
+taskList.addEventListener("click", function (event) {
+  if (event.target.tagName === "LI") {
+    taskList.removeChild(event.target);
+  }
+});
+```
+
+### Step 4: Additional Features and accessibility
+
+Next, think of additional features or accessibility options that could improve the functionality of your application. For example, you could:
+
+- Add checkboxes to mark items complete
+- Add a separate button to delete list items, rather than clicking anywhere on the row
+- Allow list items to be editable once added
+
+To-do lists are one of the most common starter projects in web development, so make yours unique!
+
+[TodoMVC](https://todomvc.com/) provides a service that capatalizes on this commonality by showing you what a standardized to-do list might look like in various different languages and frameworks. This can help you choose a language or framework that suits a particular project, or get you jumpstarted on learning something new!
+
+The example below is a feature-complete to-do list built with [React](https://react.dev/), the most popular web framework:
+
+<Embed
+  src="https://todomvc.com/examples/react/dist/"
+  title="TodoMVC React to-do list"
+  height="600px"
+/>
+
+It may be beneficial to save the [GitHub repository](https://github.com/tastejs/todomvc/tree/master/examples) for these to-do list examples, so you can return to them later in your training.
+
+### Step 5: Style
+
+Once your application is working as intended, and you have added any additional features desired, take some time to style the elements created by the application so that they are more presentable and accessible. You can use the above TodoMVC application as inspiration, or move in your own creative direction.
+
+### Step 6: Review
+
+We have included code above for each of these steps, but is this the best approach possible?
+
+Take the last fifteen minutes of this activity to review our code -- and your code if you chose to take a different approach -- and discuss with your peers what you might do to improve the performance, accessibility, and/or readability of this small application. Make sure the code adheres to best practices!
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which method is used to select an HTML element by its ID?"
+  options={[
+    {
+      text: "getElementsByClassName()",
+      feedback: "Incorrect. This method selects elements by class name.",
+    },
+    {
+      text: "querySelector()",
+      feedback:
+        "Incorrect. While querySelector() can select by ID, it's not the most direct method for ID selection.",
+    },
+    {
+      text: "getElementById()",
+      correct: true,
+      feedback: "Correct! This method selects an element by its ID.",
+    },
+    {
+      text: "getElementByTagName()",
+      feedback: "Incorrect. This method selects elements by their tag name.",
+    },
+  ]}
+/>
+
+```javascript
+button.addEventListener("click", function () {
+  console.log("Button clicked!");
+});
+```
+
+<MultipleChoiceQuestion
+  question="What will the above code do?"
+  options={[
+    {
+      text: "Change the button's text to 'Button clicked!'",
+      feedback:
+        "Incorrect. The code only logs the message to the console; it doesn't change the button's text.",
+    },
+    {
+      text: "Display an alert saying 'Button clicked!'",
+      feedback:
+        "Incorrect. The code uses console.log, not alert, so it will log the message in the console.",
+    },
+    {
+      text: "Log 'Button clicked!' in the console",
+      correct: true,
+      feedback:
+        "Correct! This code will log the message in the console when the button is clicked.",
+    },
+    {
+      text: "Submit a form",
+      feedback:
+        "Incorrect. There is no form or form submission happening here.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned how to interact with the DOM using JavaScript and how to respond to user interactions with event listeners. These skills are essential for creating dynamic, interactive web applications. By the end of this lesson, you should be comfortable selecting DOM elements, modifying them, and handling basic events like clicks.
+
+---
+
+## References
+
+- [JavaScript DOM on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
+- [JavaScript Event Listeners on MDN](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+- [TodoMVC](https://todomvc.com/)
+- [TodoMVC GitHub repository](https://github.com/tastejs/todomvc/tree/master/examples)
+
+---
+
+## Additional Resources
+
+- [JavaScript.info (Working with the DOM)](https://javascript.info/dom)
+- [Eloquent JavaScript (Chapter 14: The Document Object Model)](https://eloquentjavascript.net/14_dom.html)

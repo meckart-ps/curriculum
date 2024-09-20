@@ -1,0 +1,313 @@
+---
+title: "Conditionals, Logical Operators, and Object Basics"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+
+# Conditionals, Logical Operators, and Object Basics
+
+## Workplace Context
+
+As a developer, you will frequently encounter situations where your code needs to make decisions based on various conditions. For example, you may need to display different messages to users based on their input, or manage different behaviors depending on the state of an object.
+
+Your supervisor has assigned you a task to build a simple object-oriented JavaScript game, but first, you must review some of the core concepts necessary to build it.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Use conditional statements (`if`, `else if`, `else`) to control the flow of your program.
+- Apply logical operators (`&&`, `||`) to evaluate multiple conditions.
+- Create and manipulate JavaScript objects to store data and methods.
+
+---
+
+## Conditional Statements
+
+Conditional statements allow you to execute code based on certain conditions. The most common conditional statement is the `if` statement, which checks if a given condition is `true`.
+
+### Basic `if` Statement
+
+```javascript
+let age = 18;
+
+if (age >= 18) {
+  console.log("You are eligible to vote.");
+}
+```
+
+In the example above, if `age` is greater than or equal to 18, the message "You are eligible to vote" is logged.
+
+### `if...else` Statement
+
+The `else` statement is used to execute a block of code when the `if` condition is false.
+
+```javascript
+if (age >= 18) {
+  console.log("You are eligible to vote.");
+} else {
+  console.log("You are not old enough to vote.");
+}
+```
+
+### `else if` Statement
+
+You can chain multiple conditions using `else if`.
+
+```javascript
+let temperature = 25;
+
+if (temperature > 30) {
+  console.log("It's too hot!");
+} else if (temperature < 10) {
+  console.log("It's too cold!");
+} else {
+  console.log("The weather is just right.");
+}
+```
+
+---
+
+## Logical Operators
+
+Logical operators allow you to combine multiple conditions.
+
+### AND Operator (`&&`)
+
+The `&&` operator checks if **both** conditions are `true`.
+
+```javascript
+let isLoggedIn = true;
+let isAdmin = true;
+
+if (isLoggedIn && isAdmin) {
+  console.log("Welcome, admin.");
+}
+```
+
+In this case, the message is only logged if both `isLoggedIn` and `isAdmin` are true.
+
+### OR Operator (`||`)
+
+The `||` operator checks if **at least one** condition is `true`.
+
+```javascript
+let hasMembership = false;
+let hasCoupon = true;
+
+if (hasMembership || hasCoupon) {
+  console.log("You are eligible for a discount.");
+}
+```
+
+In this case, the message is logged if the user has either a membership or a coupon.
+
+---
+
+## Introduction to Objects
+
+An **object** is a data structure in JavaScript that allows you to store properties (key-value pairs) and methods (functions). Objects are essential for managing structured data in JavaScript applications.
+
+### Creating an Object
+
+Here is an example of a simple object:
+
+```javascript
+let person = {
+  firstName: "John",
+  lastName: "Doe",
+  age: 30,
+  greet: function () {
+    console.log("Hello, my name is " + this.firstName + " " + this.lastName);
+  },
+};
+```
+
+In this example:
+
+- `firstName`, `lastName`, and `age` are **properties** of the `person` object.
+- `greet` is a **method** (a function defined inside an object).
+
+### Accessing Object Properties
+
+You can access object properties using dot notation or bracket notation:
+
+```javascript
+console.log(person.firstName); // Output: John
+console.log(person["age"]); // Output: 30
+```
+
+### Calling Object Methods
+
+You can call object methods like this:
+
+```javascript
+person.greet(); // Output: Hello, my name is John Doe
+```
+
+---
+
+## Hands-On: Build a Simple Decision-Based Game
+
+In this activity, you will create a simple game that uses conditionals, logical operators, and objects. The game will simulate a user trying to guess a secret number.
+
+**Time:** 60 minutes  
+**Instructions:**  
+Using the template provided below, build a simple game where:
+
+1. A random number between 1 and 10 is generated as the secret number.
+2. The player has 3 chances to guess the number.
+3. Each guess is compared to the secret number, and the game provides feedback (too high, too low, or correct).
+4. If the player exceeds the allowed number of guesses, the game ends.
+
+---
+
+### Step 1: Define an Object to Store Game Data
+
+Create an object called `game` to store properties such as the secret number and the maximum number of guesses.
+
+```javascript
+let game = {
+  secretNumber: Math.floor(Math.random() * 10) + 1,
+  maxGuesses: 3,
+  currentGuesses: 0,
+};
+```
+
+### Step 2: Write a Function to Handle User Guesses
+
+Write a function called `makeGuess` that takes a guess as a parameter, compares it to the secret number, and returns appropriate messages based on whether the guess is correct, too high, or too low.
+
+```javascript
+function makeGuess(guess) {
+  game.currentGuesses++;
+
+  if (guess === game.secretNumber) {
+    return "Congratulations! You guessed the secret number.";
+  } else if (guess > game.secretNumber) {
+    return "Too high! Try again.";
+  } else {
+    return "Too low! Try again.";
+  }
+}
+```
+
+### Step 3: Add Logic to Track Guesses
+
+Modify the `makeGuess` function to check if the user has exceeded the maximum number of guesses and display a message when they do.
+
+```javascript
+function makeGuess(guess) {
+  if (game.currentGuesses >= game.maxGuesses) {
+    return "No more guesses left! Game over.";
+  }
+
+  game.currentGuesses++;
+
+  if (guess === game.secretNumber) {
+    return "Congratulations! You guessed the secret number.";
+  } else if (guess > game.secretNumber) {
+    return "Too high! Try again.";
+  } else {
+    return "Too low! Try again.";
+  }
+}
+```
+
+### Step 4: Refactor
+
+How might one turn the `makeGuess` function into a method of the `game` object? Do additional research if necessary, as is often the case in the workplace, and then complete this task.
+
+### Step 5: Create an Interface
+
+Once your game has been completed, build a simple HTML interface to interact with the game, and hook the game's information and methods into the interface. With any remaining time, style the game using CSS.
+
+---
+
+## Knowledge Check
+
+```javascript
+let person = { age: 30 };
+```
+
+<MultipleChoiceQuestion
+  question="Which of the following is the correct way to access the 'age' property in the object above?"
+  options={[
+    {
+      text: "person.age",
+      correct: true,
+      feedback: "Correct! You can access object properties using dot notation.",
+    },
+    {
+      text: "person->age",
+      feedback: "Incorrect. This syntax is not used in JavaScript.",
+    },
+    {
+      text: "person[age]",
+      feedback:
+        "Incorrect. If using bracket notation, you must put the property name in quotes.",
+    },
+    {
+      text: "person->'age'",
+      feedback: "Incorrect. This is invalid syntax in JavaScript.",
+    },
+  ]}
+/>
+
+```javascript
+let isMember = true;
+let hasDiscount = false;
+
+if (isMember || hasDiscount) {
+  console.log("You are eligible for a discount.");
+} else {
+  console.log("No discount available.");
+}
+```
+
+<MultipleChoiceQuestion
+  question="What will the code above output?"
+  options={[
+    {
+      text: "'You are eligible for a discount.'",
+      correct: true,
+      feedback: "Correct! Since 'isMember' is true, the OR condition passes.",
+    },
+    {
+      text: "'No discount available.'",
+      feedback:
+        "Incorrect. At least one condition is true, so the first message is logged.",
+    },
+    {
+      text: "Syntax error",
+      feedback: "Incorrect. There is no syntax error in this code.",
+    },
+    {
+      text: "Runtime error",
+      feedback:
+        "Incorrect. There is no opportunity for a runtime error in this code.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you reviewed how to use conditional statements and logical operators to make decisions in your code. You also explored the basics of JavaScript objects and applied these concepts by building a simple number-guessing game. Mastering conditionals and objects will help you write more dynamic and flexible code in JavaScript applications.
+
+---
+
+## References
+
+- [JavaScript Conditionals on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else)
+- [JavaScript Objects on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
+
+---
+
+## Additional Resources
+
+- [Eloquent JavaScript (Chapter 4: Data Structures)](https://eloquentjavascript.net/04_data.html)
+- [JavaScript.info (Objects)](https://javascript.info/object)

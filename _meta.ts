@@ -15,6 +15,10 @@ export default {
     title: "Introduction to JavaScript",
     type: "page",
   },
+  411: {
+    title: "JavaScript Review",
+    type: "page",
+  },
   README: {
     display: "hidden",
   },

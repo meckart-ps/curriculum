@@ -68,6 +68,117 @@ if (temperature > 30) {
 }
 ```
 
+## `switch`, `break`, and `continue` Statements
+
+In addition to `if...else` statements, JavaScript provides the **`switch`** statement, which allows you to compare a value against multiple possible cases and execute different blocks of code depending on the result. Additionally, the **`break`** and **`continue`** statements are used to control the flow of loops and `switch` cases.
+
+---
+
+### `switch` Statement
+
+The **`switch`** statement is a control structure that allows you to compare one value against multiple possible options (called **cases**). It is an alternative to using multiple `if...else` statements, and can make your code more readable when you are working with many different conditions.
+
+#### Syntax
+
+```javascript
+switch (expression) {
+  case value1:
+    // code block to execute if expression === value1
+    break;
+  case value2:
+    // code block to execute if expression === value2
+    break;
+  // more cases
+  default:
+    // code block to execute if no cases match
+}
+```
+
+The **`break`** statement tells JavaScript to exit the `switch` statement once a matching case has been found. If you do not include `break`, the code will "fall through" and continue executing the next case, even if it does not match. This can be useful in very niche cases when used properly, but it can be confusing when used incorrectly.
+
+#### Example: Using a `switch` Statement to Respond to User Input
+
+Let us say we are building a simple menu system for a program. The user can choose from several options, and the `switch` statement will decide which action to take based on the user’s input.
+
+```javascript
+let choice = prompt("Choose an option: 1. Start 2. Settings 3. Exit");
+
+switch (choice) {
+  case '1':
+    console.log("Starting the game...");
+    break;
+  case '2':
+    console.log("Opening settings...");
+    break;
+  case '3':
+    console.log("Exiting the game...");
+    break;
+  default:
+    console.log("Invalid option, please try again.");
+}
+```
+
+The `switch` statement is like a **multiple-choice question** where you choose one answer, and based on the answer you select, the program runs a specific block of code. It is often much more readable than multiple `if...else` statements.
+
+Here is what the code above would look like if it used `if...else` statements instead:
+
+```javascript
+let choice = prompt("Choose an option: 1. Start 2. Settings 3. Exit");
+
+if (choice === '1') {
+  console.log("Starting the game...");
+} else if (choice === '2') {
+  console.log("Opening settings...");
+} else if (choice === '3') {
+  console.log("Exiting the game...");
+} else {
+  console.log("Invalid option, please try again.");
+}
+```
+
+---
+
+### `break` Statement
+
+The **`break`** statement is used to immediately exit a `switch` statement or a **loop**. It prevents further execution of the loop or cases, which can be useful when you've found the answer or condition you're looking for.
+
+#### Example: Breaking Out of a Loop
+
+In the following example, we use `break` to exit a loop once we find a specific value in an array:
+
+```javascript
+let numbers = [1, 2, 3, 4, 5];
+
+for (let i = 0; i < numbers.length; i++) {
+  if (numbers[i] === 3) {
+    console.log("Found 3! Exiting the loop.");
+    break;  // Exit the loop when 3 is found
+  }
+  console.log(numbers[i]);
+}
+```
+
+In this example, the loop will stop once it finds the number 3, and no further numbers will be printed.
+
+---
+
+### `continue` Statement
+
+The **`continue`** statement skips the current iteration of a loop and continues with the next iteration. Unlike `break`, it does not exit the loop entirely; it just skips over the current pass.
+
+#### Example: Skipping Certain Values with `continue`
+
+In the following example, we use `continue` to skip over even numbers and only print odd numbers:
+
+```javascript
+for (let i = 1; i <= 5; i++) {
+  if (i % 2 === 0) continue;  // Skip even numbers
+  console.log(i);  // Only odd numbers will be printed
+}
+```
+
+In this example, the loop will skip over 2 and 4, and only print 1, 3, and 5.
+
 ---
 
 ## Logical Operators
@@ -289,6 +400,25 @@ if (isMember || hasDiscount) {
       feedback:
         "Incorrect. There is no opportunity for a runtime error in this code.",
     },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is the purpose of the `break` statement in a switch block?"
+  options={[
+    {
+      text: "To stop the code from executing and exit the switch block",
+      correct: true,
+      feedback: "Correct! `break` prevents fall-through and exits the switch block once a matching case is found."
+    },
+    {
+      text: "To skip the current case and move to the next one",
+      feedback: "Incorrect. This is more related to the `continue` statement in loops."
+    },
+    {
+      text: "To restart the switch statement from the beginning",
+      feedback: "Incorrect. `break` exits the switch statement; it does not restart it."
+    }
   ]}
 />
 

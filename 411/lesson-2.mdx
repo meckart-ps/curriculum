@@ -4,6 +4,7 @@ title: "DOM Manipulation & Event Handling"
 
 import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
 import Embed from "@components/layout-components/embed";
+import EditorWithPreview from "@components/code-components/editor-with-preview";
 
 # DOM Manipulation & Event Handling
 
@@ -26,6 +27,8 @@ By the end of this lesson, you will be able to:
 ## Introduction to the DOM
 
 The **Document Object Model (DOM)** is a programming interface for web documents. It represents the page so that programs can change the structure, style, and content. The DOM allows JavaScript to interact with the HTML and CSS of a webpage.
+
+Think of the DOM like a kitchen, and JavaScript is the cook. The kitchen provides all of the tools necessary to interact with the ingredients to make a meal, while the cook carries out those interactions. The cook can also choose to add new tools or ingredients, or remove the existing ones.
 
 ### Accessing DOM Elements
 
@@ -89,6 +92,89 @@ In the example above, when the button is clicked, an alert will display saying, 
 - **submit**: Fired when a form is submitted.
 - **keypress**: Fired when a key is pressed down.
 - **mouseover**: Fired when the mouse is moved over an element.
+
+### Example: Creating Interactions
+
+Using the editor below, create a simple counter application that adds or subtracts from the number displayed.
+
+You may edit `index.html` to add `id` attributes to elements, or make other modifications as necessary.
+
+<EditorWithPreview 
+    template="vanilla"
+    files={{
+        "/index.js": `// 1. Select Elements
+// 2. Add Event Listeners
+// 3. Modify Content in Response to Events`,
+        "/index.html": `<div style="display: flex; gap: 15px">
+  <button style="width: 25px">-</button>
+  <div style="width: 25px; text-align: center; line-height: 25px">0</div>
+  <button style="width: 25px">+</button>
+</div>` }} />
+
+### Example: Input Events
+
+While clicks are among the most common events that web applications listen for, other events, such as `input` or `change` events for `<input>` elements, are equally important.
+
+The following example contains code that translates a string into a hex code for a color. Try entering your name into the input, and see how the color changes with each keystroke.
+
+How would the behavior of this application change if the event listener was attached to a `change` event instead of `input`? Test this using the editor below.
+
+<EditorWithPreview
+  template="vanilla"
+  files={{
+    "/index.js": /* JS */`import "./style.css"
+    
+const input = document.getElementById("textInput")
+input.addEventListener("input", () => {
+    const color = stringToColor(input.value);
+    document.body.style.backgroundColor = color;
+});
+
+const stringToColor = (str) => {
+    let hash = 0;
+    str.split('').forEach(char => {
+        hash = char.charCodeAt(0) + ((hash << 5) - hash);
+    });
+
+    let color = '#';
+    for (let i = 0; i < 3; i++) {
+        const value = (hash >> (i \* 8)) & 0xff;
+        color += value.toString(16).padStart(2, '0');
+    }
+    return color;
+}`,
+    "/index.html": /* HTML */`<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <input id="textInput" placeholder="Enter Your Name"></input>
+        <script src="index.js"></script>
+    </body>
+</html>`,
+    "/style.css": /* CSS */`html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: black;
+}
+
+#textInput {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 6px;
+    padding: 6px 12px;
+    text-align: center;
+}`,
+}}
+/>
 
 ---
 
@@ -263,5 +349,6 @@ In this lesson, you learned how to interact with the DOM using JavaScript and ho
 
 ## Additional Resources
 
-- [JavaScript.info (Working with the DOM)](https://javascript.info/dom)
+- [JavaScript.info (the Document)](https://javascript.info/document)
+- [JavaScript.info (DOM tree)](https://javascript.info/dom-nodes)
 - [Eloquent JavaScript (Chapter 14: The Document Object Model)](https://eloquentjavascript.net/14_dom.html)

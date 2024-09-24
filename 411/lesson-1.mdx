@@ -3,6 +3,7 @@ title: "JavaScript Fundamentals, Template Literals, and Math Methods"
 ---
 
 import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import EditorWithConsole from "@components/code-components/editor-with-console";
 
 # JavaScript Fundamentals, Template Literals, and Math Methods
 
@@ -48,17 +49,21 @@ In JavaScript, common data types include:
 
 ### Template Literals
 
-Template literals are a way to embed expressions into strings, making it easier to create dynamic text without complex concatenation. Template literals are enclosed in backticks (\`\`), and variables or expressions are embedded using `${}`.
+Template literals are a way to embed expressions into strings, making it easier to create dynamic text without complex concatenation. Template literals are enclosed in backticks (\` \`), and variables or expressions are embedded using `${ }`.
 
 #### Example: Constructing a Dynamic String
 
-```javascript
-let name = "John";
-let age = 30;
-let greeting = `Hello, my name is ${name} and I am ${age} years old.`;
+Using the live editor below, edit the values of `name` and `age` and observe the output below.
 
-console.log(greeting); // Output: Hello, my name is John and I am 30 years old.
-```
+<EditorWithConsole 
+    template="vanilla"
+    files={{
+        "/index.js": `let name = "John";
+let age = 30;
+let greeting = \`Hello, my name is \${name} and I am \${age} years old.\`;
+
+console.log(greeting);`
+}} />
 
 This method is more readable and concise compared to traditional string concatenation using the `+` operator:
 
@@ -133,19 +138,25 @@ Functions can accept multiple parameters, making them more flexible and reusable
 
 ### Example: Function with Multiple Parameters
 
-```javascript
-function calculateTotalCost(price, taxRate, discount) {
-  let totalCost = (price - discount) * (1 + taxRate);
-  return totalCost;
+<EditorWithConsole 
+    template="vanilla"
+    files={{
+        "/index.js": `function calculateTotalCost(price, taxRate, discount) {
+    let totalCost = (price - discount) * (1 + taxRate);
+    return totalCost;
 }
 
-console.log(calculateTotalCost(100, 0.07, 10)); // Output: 96.3
-```
+console.log(calculateTotalCost(100, 0.07, 10));`
+}} />
 
 In this example:
 
 - `price`, `taxRate`, and `discount` are parameters passed to the function.
 - The function calculates the total cost by subtracting the discount, adding the tax, and returning the final amount.
+
+The initial example uses a `price` of 100, `taxRate` of 0.07, and `discount` of 10. Using the provided formula, this should output **96.3**, but instead the console shows **96.30000000000001**. Why is this?
+
+JavaScript, like some other programming languages, is actually bad at math due to limitations on how computers handle storing numbers. If you're interested in reading more about this peculiarity, read through this article on [Why JavaScript is Bad at Math (and how to work with its limitations)](https://javascript.plainenglish.io/why-javascript-is-bad-at-math-9b8247640caa).
 
 ---
 
@@ -157,19 +168,25 @@ JavaScript provides several useful methods within the built-in `Math` object. Th
 
 The `Math.random()` method generates a random floating-point number between 0 (inclusive) and 1 (exclusive).
 
-```javascript
-let randomNumber = Math.random();
-console.log(randomNumber);
-```
+<EditorWithConsole
+  template="vanilla"
+  files={{
+    "/index.js": `let randomNumber = Math.random();
+console.log(randomNumber);`,
+  }}
+/>
 
 To generate a random integer within a specific range, you can combine `Math.random()` with `Math.floor()`.
 
-```javascript
-let randomInteger = Math.floor(Math.random() * 10) + 1;
-console.log(randomInteger); // Random number between 1 and 10
-```
+<EditorWithConsole
+  template="vanilla"
+  files={{
+    "/index.js": `let randomInteger = Math.floor(Math.random() * 10) + 1;
+console.log(randomInteger); // Random number between 1 and 10`,
+  }}
+/>
 
-This technique should look familiar, aas we used it in the previous activity to create a random number for the guessing game.
+**Critical Thinking:** Why must we add 1 to the `randomInteger` calculation? What would happen if we did not?
 
 ### Rounding Numbers
 
@@ -321,6 +338,7 @@ In this lesson, we reviewed the basics of JavaScript, focusing on variables, dat
 
 - [JavaScript Variables on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#declarations)
 - [JavaScript Functions on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions)
+- [Why JavaScript is Bad at Math (and how to work with its limitations)](https://javascript.plainenglish.io/why-javascript-is-bad-at-math-9b8247640caa)
 
 ---
 

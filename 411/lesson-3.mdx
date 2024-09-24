@@ -81,7 +81,7 @@ JavaScript provides several methods for modifying arrays:
 
 Loops are used to run the same block of code multiple times. The most common loop is the **for** loop, which is ideal for iterating through arrays.
 
-### Basic For Loop Syntax
+### Basic `for` Loop Syntax
 
 ```javascript
 for (let i = 0; i < fruits.length; i++) {
@@ -95,7 +95,7 @@ This loop will:
 2. Continue as long as `i` is less than the length of the `fruits` array.
 3. Increment `i` after each iteration.
 
-### For-of Loop
+### `for-of` Loop
 
 The `for-of` loop is another way to loop over array elements:
 
@@ -104,6 +104,128 @@ for (let fruit of fruits) {
   console.log(fruit);
 }
 ```
+
+### `while` and `do...while` Loops
+
+In addition to the `for` loop, JavaScript provides two other looping mechanisms: the **`while`** loop and the **`do...while`** loop. Both are useful when you want to repeat a block of code while a certain condition is true.
+
+### `while` Loop
+
+The **`while`** loop repeats a block of code as long as a specified condition is `true`. The condition is checked **before** the loop runs each time.
+
+#### Syntax
+
+```javascript
+while (condition) {
+  // code to be executed
+}
+```
+
+#### Example: Counting Down with a `while` Loop
+
+Let us say we want to count down from 5 to 1 using a `while` loop. We will start with a variable `count` set to 5, and as long as `count` is greater than 0, we will print the value and then decrement `count`.
+
+```javascript
+let count = 5;
+
+while (count > 0) {
+  console.log(count);
+  count--;
+}
+```
+
+In this example, the condition `count > 0` is checked before each loop iteration. Once `count` reaches 0, the loop stops.
+
+### `do...while` Loop
+
+The **`do...while`** loop is similar to the `while` loop, but with one key difference: the code inside the loop is executed **at least once**, even if the condition is initially `false`. The condition is checked **after** the loop has executed.
+
+#### Syntax
+
+```javascript
+do {
+  // code to be executed
+} while (condition);
+```
+
+#### Example: Getting User Input with a `do...while` Loop
+
+Let us use a `do...while` loop to simulate asking a user for input. We will assume that we need the user to enter a number, and we will keep asking until they enter a number greater than 0.
+
+```javascript
+let userNumber;
+
+do {
+  userNumber = prompt("Please enter a number greater than 0:");
+} while (userNumber <= 0);
+
+console.log(`You entered: ${userNumber}`);
+```
+
+In this example, the code inside the `do...while` loop will always run **at least once**, even if the user enters `0` or a negative number initially. The condition `userNumber <= 0` is checked after each iteration.
+
+### Key Differences Between `while` and `do...while`
+
+| `while` Loop                                 | `do...while` Loop                         |
+|----------------------------------------------|-------------------------------------------|
+| Checks the condition **before** the loop runs. | Checks the condition **after** the loop runs. |
+| The loop may **never run** if the condition is false initially. | The loop **always runs at least once**, even if the condition is false initially. |
+
+## Infinite Loops
+
+### What is an Infinite Loop?
+
+An **infinite loop** occurs when a loop continues to run endlessly because the condition that controls the loop is never met or changed. This usually happens when:
+- The condition is always `true`.
+- The code inside the loop does not correctly modify the condition.
+
+**Infinite loops can cause your program to freeze or crash**, as the loop never finishes and consumes all available resources.
+
+### Example: Infinite Loop with a `while` Loop
+
+In the following example, the condition `count > 0` will never be false because `count` is never decremented inside the loop. As a result, the loop runs indefinitely:
+
+```javascript
+let count = 5;
+
+while (count > 0) {
+  console.log(count); // This will print "5" forever
+  // Missing code to decrement `count`
+}
+```
+
+### How to Avoid Infinite Loops
+
+To prevent infinite loops, make sure that:
+1. **The loop condition is correctly defined.**
+    - Ensure the condition will eventually become `false` so that the loop stops.
+2. **The condition changes inside the loop.**
+    - Ensure that the code inside the loop modifies the variables that control the loop condition.
+
+### Example: Fixing the Infinite Loop
+
+In this example, the loop will stop once `count` reaches 0 because we are decrementing `count` inside the loop:
+
+```javascript
+let count = 5;
+
+while (count > 0) {
+  console.log(count);
+  count--;  // Decrement `count` to eventually exit the loop
+}
+```
+
+### Infinite Loops in a `for` Loop
+
+An infinite loop can also happen in a `for` loop if the condition is always `true` or the increment/decrement is missing:
+
+```javascript
+for (let i = 0; i >= 0; i++) {
+  console.log(i); // This will print increasing numbers forever
+}
+```
+
+In this case, the loop condition `i >= 0` is always true, so the loop will run indefinitely.
 
 ---
 
@@ -240,6 +362,44 @@ console.log(fruits[1]);
       feedback:
         "Incorrect. The index 1 exists in this array, so 'undefined' would not be the result.",
     },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which loop checks the condition before running the code block?"
+  options={[
+    {
+      text: "while loop",
+      correct: true,
+      feedback: "Correct! The `while` loop checks the condition before each iteration."
+    },
+    {
+      text: "do...while loop",
+      feedback: "Incorrect. The `do...while` loop checks the condition after the loop runs."
+    },
+    {
+      text: "for loop",
+      feedback: "Incorrect. The `for` loop is a different type of loop that also checks the condition before running."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which loop guarantees that the code block will run at least once?"
+  options={[
+    {
+      text: "while loop",
+      feedback: "Incorrect. The `while` loop may not run if the condition is false initially."
+    },
+    {
+      text: "do...while loop",
+      correct: true,
+      feedback: "Correct! The `do...while` loop runs at least once, even if the condition is false."
+    },
+    {
+      text: "for loop",
+      feedback: "Incorrect. The `for` loop does not guarantee that the code block will run at least once."
+    }
   ]}
 />
 

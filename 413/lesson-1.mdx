@@ -1,0 +1,537 @@
+---
+title: "Introduction to TypeScript and Type Safety"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+import YouTubeVideo from "@components/layout-components/youtube-video";
+
+# Introduction to TypeScript and Type Safety
+
+## Workplace Context
+
+Imagine you have joined a development team working on a large-scale web application. The team is concerned with preventing bugs caused by incorrect data types being passed around in the application’s functions. Your supervisor introduces you to **TypeScript**, a tool that provides **type safety** to JavaScript code. By enforcing types, you will help your team avoid common errors, making the code more reliable and maintainable.
+
+You must begin by upskilling with TypeScript, focusing on the fundamentals of how it promotes type safety in JavaScript.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Explain the purpose of TypeScript and how it promotes type safety.
+- Declare and use basic TypeScript types such as `string`, `number`, `boolean`, `array`, `tuple`, and `enum`.
+- Apply TypeScript type annotations to JavaScript variables and functions.
+
+---
+
+## What is TypeScript?
+
+TypeScript is a **superset** of JavaScript, meaning that any valid JavaScript code is also valid TypeScript code. However, TypeScript adds **static typing** to JavaScript, which allows developers to catch errors at compile time rather than at runtime. This makes your code more predictable and easier to debug.
+
+Imagine TypeScript as an upgraded version of JavaScript, like driving a car with added safety features. JavaScript is like a car that works perfectly fine, but it does not alert you when you're driving dangerously. TypeScript, on the other hand, has built-in sensors that warn you if something seems off (e.g., type errors), helping you avoid crashes (runtime errors).
+
+---
+
+## The Story of TypeScript
+
+Before we continue, let's take a brief look at the history of TypeScript and its impact on the JavaScript community and ecosystem.
+
+<YouTubeVideo src="https://www.youtube.com/embed/EUlM3wx546o?si=vcPIxZpG3iXJS1ua" />
+
+It is also important to recognize that the story of TypeScript is not over! The world of web development is rapidly evolving, and new frameworks, languages, and tools are being added all the time. TypeScript is just one of many options available to developers, and it is important as a developer to be able to pivot into new directions when the world of web development moves on. Be flexible!
+
+---
+
+## Differences Between TypeScript and JavaScript
+
+JavaScript is a dynamically typed programming language widely used for web development. It allows for quick development and flexibility, but its dynamic nature can lead to runtime errors and maintainability issues, especially in large projects. **TypeScript** was introduced to address these shortcomings. It is a statically typed superset of JavaScript that provides optional type annotations, enabling developers to catch errors earlier in the development process.
+
+Below are the key differences between TypeScript and JavaScript:
+
+---
+
+### Type System
+
+**JavaScript** is a dynamically typed language. This means that variables can be assigned any type of value (string, number, object, etc.) without specifying the type beforehand. The type of a variable can even change during the program's execution, which can lead to unexpected behavior if not handled carefully.
+
+```javascript
+let item = "Apple"; // string
+item = 42; // valid but can lead to potential bugs
+```
+
+**TypeScript**, on the other hand, introduces a **static type system**. With TypeScript, you can declare variable types explicitly, which allows you to catch type-related errors at **compile time** rather than **runtime**.
+
+<CodeEditor template="vanilla-ts" language="typescript" files={{
+  'index.ts': `let item: string = "Apple"; // TypeScript enforces this variable to be a string
+item = 42;`
+}} />
+
+By adding type safety, TypeScript reduces the chance of unexpected errors in large codebases.
+
+#### Aside: Compilation
+
+TypeScript code must be **compiled** before it can be executed, like many programming languages. 
+
+Code compilation is the process of converting human-readable code into machine-readable code that can be executed by the computer. In the case of TypeScript, the code is converted back into JavaScript so that JavaScript runtimes can read it.
+
+Catching errors at compile time allows the developer to deal with the errors, rather than at runtime, which passes the errors on to the end-user -- leading to poor user experience.
+
+---
+
+#### Basic TypeScript Types
+
+TypeScript provides several types that you can use to declare variables with specific types, reducing errors related to incorrect data types.
+
+##### 1. `string` Type
+
+A **string** represents textual data.
+
+```typescript
+let name: string = "Alice";
+```
+
+##### 2. `number` Type
+
+A **number** can be either an integer or a floating-point value.
+
+```typescript
+let age: number = 30;
+let height: number = 1.75; // Floating point
+```
+
+##### 3. `boolean` Type
+
+A **boolean** represents a true or false value.
+
+```typescript
+let isLoggedIn: boolean = true;
+```
+
+##### 4. `array` Type
+
+An **array** is a collection of values of a specific type.
+
+```typescript
+let fruits: string[] = ["apple", "banana", "cherry"];
+```
+
+You can also use generics for arrays.
+
+```typescript
+let scores: Array<number> = [10, 20, 30];
+```
+
+##### 5. `tuple` Type
+
+A **tuple** is an array with a fixed number of elements of specific types.
+
+```typescript
+let userInfo: [string, number] = ["Alice", 30];
+```
+
+##### 6. `enum` Type
+
+An **enum** allows you to define a set of named constants, making your code more readable.
+
+```typescript
+enum Role {
+  Admin,
+  User,
+  Guest,
+}
+
+let userRole: Role = Role.Admin;
+
+console.log(userRole); // Output: 0 (the index of Admin in the enum)
+```
+
+---
+
+### Type Annotations
+
+In **JavaScript**, types are inferred dynamically, and there is no way to explicitly define the type of a variable or function parameter.
+
+<CodeEditor template="vanilla" language="javascript" showConsole files={{
+  'index.js': `function addNumbers(a, b) {
+  return a + b;
+}
+
+console.log(addNumbers(2, "3")); // Outputs "23" (string concatenation), unexpected!`
+}} />
+
+In **TypeScript**, you can explicitly define types for function parameters and return values using **type annotations**, which helps prevent unexpected behavior.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function addNumbers(a: number, b: number): number {
+  return a + b;
+}
+
+console.log(addNumbers(2, "3"));`
+}} />
+
+Here is another example of type annotations in functions:
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function greet(name: string): string {
+  return "Hello, " + name;
+}
+
+let message: string = greet("Alice");
+console.log(message);`
+}} />
+
+In this example:
+- The parameter `name` is of type `string`.
+- The function is expected to return a value of type `string`.
+
+With ES6 syntax, that same function looks like this:
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const greet2 = (name: string) => "Hello, " + name;
+
+let message2: string = greet2("Alice");
+console.log(message2);`
+}} />
+
+Type annotations help ensure that functions behave as expected, which improves code readability and maintainability.
+
+---
+
+### Type Inference
+
+TypeScript has a powerful **type inference** system. If you declare a variable and assign a value at the same time, TypeScript can often infer its type automatically.
+
+```typescript
+let isLoggedIn = true; // TypeScript infers that isLoggedIn is a boolean
+```
+
+While this can make your code more concise, explicit type annotations are preferred in some cases for readability and clarity.
+
+```typescript
+// TypeScript infers types based on initial values
+let count = 10; // TypeScript infers this as a number
+let greeting = "Hello"; // TypeScript infers this as a string
+
+// But you can also explicitly declare types
+let age: number = 25;
+let isLoggedIn: boolean = false;
+```
+
+---
+
+### Interfaces and Types
+
+**JavaScript** does not have built-in support for defining interfaces or custom types, leaving developers to rely on conventions to ensure consistent object shapes or method signatures.
+
+**TypeScript** introduces **interfaces** and **type aliases**, which allow you to define object shapes, class structures, and function signatures.
+
+```typescript
+interface User {
+  name: string;
+  age: number;
+}
+
+const user: User = { name: "Alice", age: 25 };
+```
+
+Interfaces and types make the code more robust by explicitly specifying the structure of objects and the expected behavior of functions. We will discuss other basic types like `string` and `number` in a later section.
+
+---
+
+### Error Handling and Debugging
+
+In **JavaScript**, type errors or inconsistencies are often only caught during runtime, which can result in bugs being discovered late in the development cycle.
+
+In **TypeScript**, errors related to types are caught at **compile time**, before the code is executed. This provides an extra layer of error checking during development, resulting in fewer bugs and improved debugging capabilities.
+
+```typescript
+let message: string = 42; // Error: Type 'number' is not assignable to type 'string'
+```
+
+By catching errors during compilation, TypeScript reduces the likelihood of encountering bugs during runtime.
+
+---
+
+## Support for Modern JavaScript Features
+
+**TypeScript** is a superset of JavaScript, which means it supports all modern JavaScript features, such as **ES6 modules**, **classes**, **arrow functions**, **promises**, and more. Additionally, TypeScript includes advanced features like **generics**, **decorators**, and **enums**, which are not part of standard JavaScript, and will be discussed later.
+
+While **JavaScript** evolves through yearly ECMAScript updates, **TypeScript** allows developers to use modern JavaScript features while maintaining backward compatibility with older environments by transpiling code to standard ES5 or ES6.
+
+---
+
+## Tooling and IDE Support
+
+TypeScript's static type system enhances development tools like code editors and IDEs. Features like **autocompletion**, **code navigation**, and **inline documentation** are more powerful and accurate in TypeScript due to its ability to infer types and enforce contracts.
+
+For example, with TypeScript, most modern editors (like Visual Studio Code) will display **intellisense** suggestions based on the types in the code, making the development process more efficient.
+
+---
+
+## Community and Ecosystem
+
+Both **JavaScript** and **TypeScript** benefit from large, active communities. However, TypeScript is especially popular in large-scale projects and enterprise-level applications because it enforces stricter coding practices and helps manage code complexity.
+
+According to the [Stack Overflow 2024 developer survey](https://survey.stackoverflow.co/2024/technology#most-popular-technologies-language-prof), **64.6%** of professional developers use JavaScript, and **43.4%** use TypeScript, making it one of the most popular languages in the world.
+
+![The image shows a section of a report titled "Most popular technologies" with a focus on "Programming, scripting, and markup languages." The left side of the image explains that JavaScript (JS) has consistently been the most popular programming language in Stack Overflow’s developer survey, except for 2013 and 2014, when SQL topped the list. The right side features a bar graph ranking languages by their popularity among professional developers. JavaScript (JS) ranks highest at 64.6%, followed by SQL (54.1%), HTML/CSS (52.9%), Python (PY) at 46.9%, TypeScript (TS) at 43.4%, and several other languages such as Bash/Shell, Java, and C++.](/curriculum-assets/413/so-survey-2024.png)
+
+<center>
+  <small>
+    _Source: [Stack Overflow 2024 Developer Survey](https://survey.stackoverflow.co/2024/technology#most-popular-technologies-language-prof)_
+  </small>
+</center>
+
+Popular JavaScript libraries and frameworks, like **React**, **Angular**, **Vue**, and **Node**, all have strong support for TypeScript, making it easy to integrate TypeScript into existing JavaScript codebases.
+
+---
+
+## Examples from Industry
+
+TypeScript is prevalent across all kinds of open source projects like Angular, Vue, Jest, Redux, Ionic, Probot, Deno, Vercel, Yarn, GitHub Desktop, and more. It is beneficial to explore these open-source projects that use TypeScript.
+
+There are also many larger companies that you may be familiar with that are using TypeScript in their daily work. Here are a few examples:
+
+### Slack
+
+Slack, the popular messaging platform, uses TypeScript for their desktop application's codebase. Read through this short article on [TypeScript at Slack](https://slack.engineering/typescript-at-slack/) to learn more and get an industry perspective.
+
+### Google
+
+Two Google engineers, Rodoslav Kirov and Bowen Ni, gave a presentation on TypeScript at Google during the 2018 TSConf (TypeScript Conference). While this presentation is lengthy, it is worth watching in your spare time to learn more about TypeScript and how it is implemented by the largest of companies.
+
+<YouTubeVideo src="https://www.youtube.com/embed/sjov1k5jexA?si=LxBQZJOJuagA03cR" />
+
+### AirBnb
+
+More recently, Brie Bunge from AirBnb gave a similar talk at the 2019 JSConf (JavaScript Conference). She discusses how AirBnb adopted TypeScript at scale, and what challenges and opportunities they faced. Like the presentation above, this talk is lengthy but worth watching in your spare time.
+
+<YouTubeVideo src="https://www.youtube.com/embed/P-J9Eg7hJwE?si=9c_v3b2eJKIMifWC" />
+
+---
+
+## Summary
+
+While **JavaScript** provides flexibility and ease of use, **TypeScript** adds a layer of type safety, making it ideal for larger or more complex projects. By catching errors earlier and providing better tools for code structure and maintenance, TypeScript helps developers write more reliable and maintainable code.
+
+| Feature                    | JavaScript                        | TypeScript                                      |
+|----------------------------|-----------------------------------|------------------------------------------------|
+| **Typing**                  | Dynamic (no type enforcement)     | Static (type enforcement via annotations)      |
+| **Type Annotations**        | Not supported                     | Supported                                      |
+| **Compile-Time Error Checks**| Not available                    | Errors are caught at compile time              |
+| **Interfaces and Types**    | Not supported                     | Supports interfaces, types, and generics       |
+| **Modern JS Features**      | Supports modern JavaScript         | Supports modern JS plus advanced features      |
+| **Tooling Support**         | Basic IDE support                 | Enhanced tooling and intellisense              |
+
+---
+
+## Activity
+
+### Create a TypeScript Project and Refactor JavaScript Code
+
+**Time:** 60 minutes  
+**Instructions:**  
+
+You are tasked with creating a new TypeScript project from scratch, installing the necessary dependencies, and refactoring existing JavaScript code to TypeScript. This activity will simulate a real-world scenario where you join a new team and need to convert parts of a legacy JavaScript codebase to TypeScript to enhance type safety and maintainability.
+
+**Steps:**
+
+1. **Create a New Project:**
+    - Open your terminal and create a new directory for the project.
+    - Initialize the project with npm:
+      ```bash
+      npm init -y
+      ```
+    - Install TypeScript and other necessary dependencies:
+      ```bash
+      npm install typescript @types/node --save-dev
+      ```
+    - Install any other packages you need for this project, such as `lodash`:
+      ```bash
+      npm install lodash
+      ```
+        - **Aside: What is Lodash?** [Lodash](https://lodash.com) is a JavaScript utility library for common programming tasks such as iterating arrays, objects, and strings, manipulating and testing values, and creating composite functions. It is widely used in many modern and legacy projects.
+        - As part of your on-the-job training, you will often encounter libraries that you are unfamiliar with and need to conduct independant research. You can use [NPM Search](https://www.npmjs.com/search?q=lodash) to search for libraries that you are unfamiliar with, and explore their [documentation](https://lodash.com/docs) to learn more about them in the context of the code you are working with.
+
+2. **Set Up TypeScript:**
+    - Create a `tsconfig.json` file by running:
+      ```bash
+      npx tsc --init
+      ```
+    - In your `tsconfig.json`, ensure you have `"strict": true` enabled for strict type checking.
+
+3. **Refactor Provided JavaScript Code:**
+    - In the `src` folder, create a `dataProcessor.js` file with the following JavaScript code:
+
+      ```javascript
+      const _ = require('lodash');
+
+      function processData(data) {
+        let result = [];
+
+        for (let i = 0; i < data.length; i++) {
+          let item = data[i];
+
+          if (!item.id) {
+            throw new Error('Data item is missing an id');
+          }
+
+          let processedItem = {
+            id: item.id,
+            name: item.name || 'Unknown',
+            price: item.price || 0,
+            discountedPrice: item.discountedPrice || item.price || 0,
+          };
+
+          result.push(processedItem);
+        }
+
+        return _.orderBy(result, ['discountedPrice'], ['asc']);
+      }
+
+      module.exports = { processData };
+      ```
+
+    - Your task is to **refactor this code into TypeScript**. Create a new `dataProcessor.ts` file, add types to the parameters, and ensure the function has proper type safety. You'll need to create types or interfaces to represent the structure of the data being processed.
+
+4. **Refactor the Code to TypeScript:**
+    - Convert the JavaScript code into TypeScript by following these steps:
+      - Use `import` statements instead of `require`.
+      - Define an interface to type the `data` input.
+      - Annotate the function and its return type.
+
+5. **Run and Test Your Code:**
+    - Compile your TypeScript code:
+      ```bash
+      npx tsc
+      ```
+    - Create a `test.js` file that imports and calls the `processData` function with sample data to test that the refactoring works correctly:
+      
+      ```javascript
+      const { processData } = require('./dist/dataProcessor');
+
+      const sampleData = [
+        { id: '1', name: 'Product A', price: 100, discountedPrice: 80 },
+        { id: '2', price: 200 },
+        { id: '3', name: 'Product C' },
+      ];
+
+      console.log(processData(sampleData));
+      ```
+
+    - Run the test file using Node.js to verify the result:
+      ```bash
+      node test.js
+      ```
+
+#### Critical Thinking
+
+After completing the refactor, consider the following questions:
+
+1. What advantages does TypeScript bring to this refactored code compared to the original JavaScript?
+2. How does TypeScript prevent potential runtime errors that the original code could suffer from?
+3. Would you make any further changes to improve the maintainability of this TypeScript code?
+4. Reflect on how you would extend this project if it needed to handle a larger dataset or more complex processing logic.
+
+#### Revisiting Previous Projects
+
+With whatever time remains in this activity, choose one of your previous JavaScript projects and begin refactoring it to TypeScript.
+
+Start by installing TypeScript as a dev dependancy for the project and initializing TypeScript, as shown above. Then, convert one of your `.js` files into `.ts` and refactor it to TypeScript. You can do this simply by changing the file extension, and your code editor should begin highlighting any type errors that TypeScript identifies.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which of the following correctly declares a variable with the string type in TypeScript?"
+  options={[
+    {
+      text: "let username = 'John';",
+      feedback: "Incorrect. While this is valid JavaScript, it does not include an explicit TypeScript type annotation.",
+    },
+    {
+      text: "let username: string = 'John';",
+      correct: true,
+      feedback: "Correct! This is the proper way to declare a string variable with TypeScript type annotation.",
+    },
+    {
+      text: "let username: number = 'John';",
+      feedback: "Incorrect. This would cause a type mismatch, as 'John' is a string, not a number.",
+    },
+  ]}
+/>
+
+```typescript
+let role: "admin" | "user" | "guest" = "admin";
+```
+
+<MultipleChoiceQuestion
+  question="What type does the variable 'role' have in the code above?"
+  options={[
+    {
+      text: "string",
+      feedback: "Incorrect. Although 'admin' is a string, the type declaration is more specific.",
+    },
+    {
+      text: `"admin" | "user" | "guest"`,
+      correct: true,
+      feedback: "Correct! This is a union type, meaning the variable can hold one of three possible string values.",
+    },
+    {
+      text: "any",
+      feedback: "Incorrect. The 'any' type would allow any value, but this code restricts it to three specific strings.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which of the following is the correct way to define an interface for an object with optional properties in TypeScript?"
+  options={[
+    {
+      text: "interface Person { name: string, age?: number }",
+      correct: true,
+      feedback: "Correct! The question mark makes 'age' optional.",
+    },
+    {
+      text: "interface Person { name?: string, age: number }",
+      feedback: "Incorrect. This syntax makes 'name' optional, but the question was about 'age' being optional.",
+    },
+    {
+      text: "interface Person { name: string?, age: number? }",
+      feedback: "Incorrect. Optional properties are marked with the '?' symbol after the property name, not the type.",
+    },
+    {
+      text: "interface Person { name: string, age: number? }",
+      feedback: "Incorrect. While 'age' is optional, this is not the best answer as the property 'name' is required.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned about the core concepts of TypeScript and how it enforces type safety in JavaScript code. You now understand how to declare variables with explicit types, how to use basic TypeScript types (`string`, `number`, `boolean`, `array`, `tuple`, `enum`), and how to annotate function parameters and return types.
+
+---
+
+## References
+
+- [TypeScript Official Documentation](https://www.typescriptlang.org/docs/)
+- [TypeScript Types on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
+- [Stack Overflow 2024 Developer Survey](https://survey.stackoverflow.co/2024/technology#most-popular-technologies-language-prof)
+- [Lodash](https://lodash.com)
+
+---
+
+## Additional Resources
+
+- [Learn TypeScript on Scrimba](https://v2.scrimba.com/learn-typescript-c03c)
+- [Why TypeScript?](https://www.typescriptlang.org/why-create-typescript/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [TypeScript Cheat Sheet](https://typescript-cheatsheet.vercel.app/)
+- [NPM Search](https://www.npmjs.com/search?q=lodash)
+- [Lodash Documentation](https://lodash.com/docs)

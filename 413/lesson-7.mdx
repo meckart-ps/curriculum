@@ -1,0 +1,458 @@
+---
+title: "Async/Await and the JavaScript Event Loop"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+import YouTubeVideo from "@components/layout-components/youtube-video";
+
+# Async/Await and the JavaScript Event Loop
+
+## Workplace Context
+
+As your e-commerce platform scales, you are integrating several APIs and services to provide a seamless user experience. However, managing asynchronous tasks with Promises has become challenging as the code grows, and you need an approach that is cleaner and easier to debug. Your team introduces you to **`async/await`**, a modern JavaScript syntax that simplifies handling asynchronous code, making it more readable and structured.
+
+To master this approach, you will learn to refactor existing Promise-based code and explore how JavaScript’s **event loop** handles asynchronous operations. Understanding these concepts will make your code more efficient and easier to maintain.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Refactor Promise-based code to use `async/await` syntax.
+- Explain how the JavaScript event loop and call stack manage asynchronous operations.
+- Use error handling in `async/await` to ensure stability and manage exceptions effectively.
+
+---
+
+## Introduction to Async/Await
+
+**`async/await`** is a syntax introduced in ES2017 that simplifies asynchronous programming by making it easier to work with Promises. It allows you to write asynchronous code in a synchronous style, which improves readability and debugging.
+
+Think of `async/await` as a way to simplify handling of Promises. It allows you to write asynchronous code that looks and behaves like synchronous code, without the need to chain multiple `then` methods or nest code deeply.
+
+`async` is used to declare an `async function`, which can contain zero or more `await` expressions. Async functions always return a promise, even if the return value is not explicitly defined as one. Any returns will always be wrapped in a `Promise.resolve()`, or `Promise.reject()` if an exception is thrown or uncaught within the function.
+
+For example, these two functions are identical in behavior:
+
+```js
+async function example() {
+    return "Hello";
+}
+
+function example2() {
+    return Promise.resolve("Hello");
+}
+```
+
+`await` expressions suspend execution of the code that follows until their associated promises are settled. This allows asynchronous actions to behave as though they were synchronous, since the code that follows the `await` expression will not execute until the code before it has completed its task. The resolved value of the promise is treated as a returned value from the `await` expression.
+
+Code after each `await` expression can be thought of as existing within a `.then()` callback function. `await` allows us to "chain" asynchronous logic without actually chaining it. 
+
+For example:
+
+<CodeEditor template="vanilla-ts" language="typescript" files={{
+  'index.ts': `function resolveAfterSeconds(t) {
+    const myPromise = new Promise(resolve => {
+        setTimeout(() => {
+            resolve('Done!');
+        }, t * 1000);
+    });
+    return myPromise;
+}
+
+async function testAwait() {
+    console.log('Testing...');
+    const result = await resolveAfterSeconds(2);
+    console.log(result);
+}
+
+testAwait();`
+}} />
+
+Test to see what happens when you remove the `await` keyword.
+
+By using `async` and `await`, we can create synchronous logic with asynchronous actions. This becomes incredibly important when communicating with external servers and APIs that may or may not return responses in a timely manner, causing your code to execute out of the order you intend it to.
+
+---
+
+## Refactoring Promises to Async/Await
+
+The `async` and `await` keywords work together to simplify asynchronous code. Here is how they work:
+
+- **`async` keyword:** Declares a function as asynchronous and implicitly returns a Promise.
+- **`await` keyword:** Pauses execution of the function until the Promise is resolved or rejected. This keyword can only be used within an `async` function.
+
+Let’s refactor some basic Promise code to use `async/await`.
+
+### Original Code with Promises
+
+<CodeEditor template="vanilla-ts" language="typescript" files={{
+  'index.ts': `const fetchUserData = () => {
+  return new Promise<string>((resolve) => {
+    setTimeout(() => resolve("User data"), 1000);
+  });
+};
+
+fetchUserData()
+  .then((data) => {
+    console.log("Fetched user:", data);
+    return "Additional data";
+  })
+  .then((extraData) => {
+    console.log("Fetched extra:", extraData);
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+  });`
+}} />
+
+### Refactored Code with Async/Await
+
+<CodeEditor template="vanilla-ts" language="typescript" files={{
+  'index.ts': `const fetchUserData2 = async (): Promise<string> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve("User data"), 1000);
+  });
+};
+
+const fetchAdditionalData = async (): Promise<string> => {
+  return "Additional data";
+};
+
+const displayData = async () => {
+  try {
+    const userData = await fetchUserData2();
+    console.log("Fetched user:", userData);
+
+    const extraData = await fetchAdditionalData();
+    console.log("Fetched extra:", extraData);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+displayData();`
+}} />
+
+### Explanation
+- **Async Functions**: `fetchUserData` and `fetchAdditionalData` are both asynchronous functions that return Promises.
+- **Await Syntax**: `await` pauses execution until the Promise resolves or rejects.
+- **Error Handling**: `try...catch` is used to handle errors within `async` functions.
+
+---
+
+## Using Async/Await with Error Handling
+
+In `async/await`, you can handle errors by wrapping your `await` statements in a `try...catch` block. This approach makes it easier to manage errors in a single place without the need for `catch` blocks after each `then`.
+
+### Example: Error Handling with Async/Await
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const fetchDataWithError = async () => {
+  return new Promise<string>((_, reject) => {
+    setTimeout(() => reject("Failed to fetch data"), 1000);
+  });
+};
+
+const handleData = async () => {
+  try {
+    const data = await fetchDataWithError();
+    console.log("Data:", data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
+handleData();`
+}} />
+
+### Explanation
+- **`try...catch` Block**: This structure captures errors within `async` functions, making it easier to handle exceptions in a centralized manner.
+- **Graceful Error Handling**: Using `async/await` with `try...catch` provides more readable error management than chaining `.catch` with Promises.
+
+---
+
+## The JavaScript Call Stack
+
+As we begin calling functions, and functions within functions, it is important to understand the concept of the "call stack," which keeps track of our place within a script during execution. Maintanence of the call stack is important for most software to function properly, but thankfully this is taken care of for us within most high-level programming languages, including JavaScript. 
+
+That said, it is still important to understand the call stack and how it affects the way programs execute. For example, consider the following example from the [MDN documentation on the Call Stack](https://developer.mozilla.org/en-US/docs/Glossary/Call_stack):
+
+```js
+function greeting() {
+  // [1] Some code here
+  sayHi();
+  // [2] Some code here
+}
+function sayHi() {
+  return "Hi!";
+}
+
+// Invoke the `greeting` function
+greeting();
+
+// [3] Some code here
+```
+
+The code above would be executed like this:
+
+1. Ignore all functions, until it reaches the `greeting()` function invocation.
+2. Add the `greeting()` function to the call stack list.
+
+> Note: Call stack list: - `greeting`
+
+3. Execute all lines of code inside the `greeting()` function.
+4. Get to the `sayHi()` function invocation.
+5. Add the `sayHi()` function to the call stack list.
+
+> Note: Call stack list: - `sayHi` - `greeting`
+
+6. Execute all lines of code inside the `sayHi()` function, until reaches its end.
+7. Return execution to the line that invoked `sayHi()` and continue executing the rest of the `greeting()` function.
+8. Delete the `sayHi()` function from our call stack list.
+
+> Note: Call stack list: - `greeting`
+
+9. When everything inside the `greeting()` function has been executed, return to its invoking line to continue executing the rest of the JS code.
+10. Delete the `greeting()` function from the call stack list.
+
+> Note: Call stack list: EMPTY
+
+In summary, then, we start with an empty call stack. Whenever we invoke a function, it is automatically added to the call stack. Once the function has executed all of its code, it is automatically removed from the call stack. Ultimately, the Stack is empty again.
+
+While MDN is a wonderful reference for all things JavaScript, it falls short on explanations of the call stack since JavaScript hides most of the inner workings. To learn more about the details of the call stack, check the [Wikipedia page on Call Stack](https://en.wikipedia.org/wiki/Call_stack) or any of the included references.
+
+---
+
+## The Event Loop
+
+JavaScript is a **single-threaded programming language** with only one call stack (and one "heap," which we won't go into detail about, but it deals with memory allocation). In programming, "threads" indicate how many concurrent tasks can be run simultaneously. This means that only one piece of code can run at a time in JavaScript, and the next piece of code will not execute until the previous is finished (it is "blocked" by the previous code). We call this "synchronous" behavior, and it tends to follow a very logical, linear execution pattern.
+
+Take the following example, which shows how a simple script interacts with the call stack:
+
+<center>
+![Animated diagram showing the JavaScript call stack in action, demonstrating how functions are added and removed as they execute. The left side shows code with three functions: multiply(a, b), square(n), and printSquare(n). The printSquare(4) function call is highlighted at the bottom. The right side illustrates the call stack in real-time as functions are called: printSquare, square, and multiply are added to the stack in sequence. As each function completes, it is removed from the stack, with the final output being logged to the console. This visual helps explain how the call stack manages function execution order in JavaScript.](https://miro.medium.com/v2/resize:fit:640/1*l3vmj__BL68J3LE_cakcIQ.gif)
+  <small>
+    _Source: JS Conference_
+  </small>
+</center>
+
+This synchronous, blocking behavior can be easily demonstrated through an example:
+- Open the developer console on your browser.
+- Type the function `alert("I'm blocking you!")` and press enter.
+- Attempt to interact with the main webpage by clicking on links; you can't!
+
+The `alert()` function returns a value, and JavaScript refuses to do anything until the "OK" button is clicked and that value is returned. This also highlights the danger of inifinite loops -- we can't have a loop run infinitely off to the side and still accomplish other tasks, because the loop will block us.
+
+However, if you look up JavaScript you will see that it is often described as a "single-threaded, non-blocking, asynchronous, concurrent language." According to our definitions, many of those things are opposites! So what's going on here?
+
+JavaScript enables non-blocking, asynchronous behavior by handing off specific tasks like API calls, AJAX requests, and Input/Output (I/O) events (more on these topics in a later lesson) to a [Web API](https://developer.mozilla.org/en-US/docs/Web/API), which has its own thread! This allows JavaScript to display both single-threaded concurrent behavior ***and*** non-blocking asynchronous behavior simultaneously.
+
+Take a look at the script below to observe this behavior. The `setTimeout()` function takes two arguments: a callback function to execute, and a time in milliseconds to delay execution by. Can you predict the output before it runs?
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `console.log("One");
+setTimeout(() => console.log("Two"), 0);
+console.log("Three");`
+}} />
+
+This adds another layer of interaction to the call stack, called the "queue." The queue (callback queue, task queue), stores information about what callback functions have been returned by the web APIs handling asynchronous code.
+
+The way the stack, queue, and web APIs interact with one another is referred to as the JavaScript Event Loop. The Event Loop is a process that continously monitors the state of the stack and queue, checking both for functions to run. First, the event loop monitors the call stack. When the call stack is empty, it checks the callback queue and moves the first function from the queue onto the empty call stack, if any exist. It continues in this way indefinitely.
+
+Here is a simple illustration of the Event Loop:
+
+<center>
+![Diagram demonstrating JavaScript's event loop and task queue in action. The left side shows code that logs "Hi", sets a setTimeout function to log "there" after 5 seconds, and logs "JSConfEU" immediately after. The right side shows three main sections: stack, web APIs, and task queue, with the event loop positioned in between. As the code runs, "Hi" and "JSConfEU" are logged immediately, while the setTimeout callback is passed to the web APIs section, then moved to the task queue after 5 seconds. The event loop continuously checks the task queue and moves tasks to the stack when it is empty, ensuring asynchronous code runs in the correct order without blocking the main execution. This visual effectively demonstrates how JavaScript manages asynchronous tasks and non-blocking execution.](https://miro.medium.com/v2/resize:fit:640/1*cCMds1he42uGC6PPUGouEw.gif)
+  <small>
+    _Source: JS Conference_
+  </small>
+</center>
+
+One of the talks that is consistently referenced when discussing the Event Loop is [What the heck is the event loop anyway?](https://youtu.be/8aGhZQkoFbQ) by Philip Roberts. This is a good talk to listen to in order to better understand how JavaScript works. It also goes into more detail on the examples provided above, and has been included below for convenience.
+
+<YouTubeVideo src="https://www.youtube.com/embed/8aGhZQkoFbQ" />
+
+Philip also created a wonderful tool for visualizing the Event Loop called [Loupe](http://latentflip.com/loupe/), which he demonstrates within his talk. 
+
+Experiment with Loupe to see how different blocks of code interact with the Event Loop!
+- Start by running the provided code.
+- Try the example we provided earlier:
+
+```js
+console.log("One");
+setTimeout(() => console.log("Two"), 0);
+console.log("Three");`
+```
+
+Try Array callback functions, `setTimeout`, and any other callbacks you are familiar with. Revisit this tool again after our lessons on AJAX and asynchronous JavaScript.
+
+---
+
+## Promises and the Event Loop
+
+Using what you know about the event loop, how would you expect the following code to behave?
+
+```js
+Promise.resolve().then(() => console.log("One"));
+console.log("Two");
+```
+
+The initial promise is already resolved, so shouldn't it immediately `console.log("One")`? No. Like any other asynchronous task, the promise is put into the task queue and is only pushed to the execution stack when the stack is empty. This means the above code logs "One, Two."
+
+There is, however, one very important difference in the way promises are handled within the event loop. Take a moment to analyze the following code, and write down your predictions for what you expect it to output. Don't test the code just yet.
+
+```js
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+wait(0).then(() => console.log("Cat"));
+
+Promise.resolve()
+  .then(() => console.log("Dog"))
+  .then(() => console.log("Cow"));
+
+console.log("Bird");
+```
+
+Don't test the code just yet.
+
+The task queue within the event loop is actually only one of *two* queues in this scenario. While traditional callback functions, event callbacks, timeouts, and intervals are added to the task queue that we know and love, promises are added to a ***microtask queue***.
+
+Actions in the task queue are pushed to the stack once per iteration of the event loop. Microtasks, on the other hand, can be run multiple times during a single iteration of the loop. Each time a task exits, the event loop checks to see if the task is returning control to other JavaScript code. If it isn't, it will run *all* of the microtasks in the microtask queue.
+
+If a microtask adds more microtasks to the queue, those newly-added microtasks are executed *before* the next task is run. The event loop continues calling microtasks until the microtask queue is emptied, even if more keep getting added.
+
+While it is possible to manually add microtasks through `queueMicrotask()`, it is beyond the scope of this lesson to do so.
+
+Understanding that promises are microtasks, and therefore have higher priority than other callbacks, let's review the coding challenge above once more.
+
+Here's how this breaks down:
+- `console.log("Bird")` is put onto the call stack, since it is synchronous code.
+- `console.log("Cat")` is wrapped in a promise, so it goes on the microtask queue.
+- `console.log("Dog")` and `console.log("Cow")` are part of a promise, so they go on the microtask queue.
+
+So it should log "Bird, Cat, Dog, Cow," right? Not quite.
+- `console.log("Cat")` has a call to `setTimeout()` within its promise.
+- While the promise portion gets put into the microtask queue, it then calls `setTimeout()` which is put into the task queue.
+- Since the microtask queue continues to empty, the action created by `setTimeout()` executes last in this case.
+
+The expected output is: "Bird, Dog, Cow, Cat." Test it for yourself!
+
+Understanding how promises interact with the event loop can be crucial for avoiding and solving some of the more difficult bugs that may occur in code when using promises and other types of asynchronous logic.
+
+---
+
+## Further Learning
+
+Promises are powerful tools. As a developer, your mileage with promises may vary. Some applications make extensive use of Promises, while others use them in very shallow implementations or not at all.
+
+One of the major use cases for Promises (and `async/await`), is with communications to external APIs. The next lesson will cover APIs and data fetching, which will give you further insight on how promises can be used in practice.
+
+For further research on promises, visit the MDN documentation on the [Promise object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) or [Using Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).
+
+---
+
+## Activity: Refactoring Promise Code to Async/Await
+
+**Time:** 30 minutes  
+**Instructions:**  
+
+1. Create a file called `dataProcessor.ts`.
+2. Implement two functions using Promises:
+   - `fetchCustomerData` that resolves with customer data after a short delay.
+   - `fetchOrderHistory` that takes customer data and resolves with order history.
+3. Refactor these functions to use `async/await`.
+4. Use `try...catch` blocks to handle any errors that might occur.
+
+**Critical Thinking:** How does `async/await` improve readability and structure over traditional Promises? What might be the drawbacks of using `async/await` over Promises in certain situations?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What does the 'await' keyword do in an async function?"
+  options={[
+    {
+      text: "Executes code synchronously.",
+      feedback: "Incorrect. 'await' allows async code to execute in a synchronous style, pausing until the Promise resolves.",
+    },
+    {
+      text: "Pauses execution until the Promise resolves or rejects.",
+      correct: true,
+      feedback: "Correct! 'await' pauses execution until the Promise settles, making the code easier to read and manage."
+    },
+    {
+      text: "Adds a delay in code execution.",
+      feedback: "Incorrect. 'await' does not add a delay but rather waits for the Promise to resolve or reject."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Where can you use the 'await' keyword?"
+  options={[
+    {
+      text: "Anywhere in JavaScript code.",
+      feedback: "Incorrect. 'await' can only be used inside an 'async' function."
+    },
+    {
+      text: "Only in synchronous functions.",
+      feedback: "Incorrect. 'await' requires an 'async' function to work."
+    },
+    {
+      text: "Only inside an 'async' function.",
+      correct: true,
+      feedback: "Correct! 'await' can only be used within functions declared with the 'async' keyword."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is the main advantage of using async/await over Promises?"
+  options={[
+    {
+      text: "Async/await allows for parallel processing of code.",
+      feedback: "Incorrect. Async/await improves readability but doesn't inherently handle parallel processing."
+    },
+    {
+      text: "Async/await makes asynchronous code look synchronous, improving readability.",
+      correct: true,
+      feedback: "Correct! Async/await improves readability by making asynchronous code appear sequential."
+    },
+    {
+      text: "Async/await has better error handling than Promises.",
+      feedback: "Incorrect. Both async/await and Promises offer robust error handling, but async/await makes it simpler with try...catch."
+    }
+  ]}
+/>
+
+---
+
+### Summary
+
+In this lesson, you explored **`async/await`** in JavaScript as a more readable alternative to Promises for handling asynchronous tasks. You also delved into how JavaScript’s **event loop** and **call stack** manage asynchronous operations behind the scenes. By applying `try...catch` blocks in `async` functions, you can handle errors effectively and build resilient, maintainable code.
+
+---
+
+### References
+
+- [JavaScript Async/Await on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+- [Understanding the JavaScript Event Loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop)
+- [Async/Await Error Handling Patterns](https://javascript.info/async-await)
+- [MDN documentation on the Call Stack](https://developer.mozilla.org/en-US/docs/Glossary/Call_stack)
+- [What the heck is the event loop anyway?](https://youtu.be/8aGhZQkoFbQ)
+- [Loupe](http://latentflip.com/loupe/)
+
+---
+
+### Additional Resources
+
+- [JavaScript Deep Dive on Scrimba (Pro)](https://v2.scrimba.com/javascript-deep-dive-c0a)
+- [Event Loop and Concurrency in JavaScript](https://flaviocopes.com/javascript-event-loop/)
+- [Mastering Async/Await in JavaScript](https://blog.bitsrc.io/mastering-async-await-in-javascript-1deab0c6c872)
+- [Promise Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+- [Using Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
+- [Web API Documentation](https://developer.mozilla.org/en-US/docs/Web/API)

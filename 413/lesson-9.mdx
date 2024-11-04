@@ -1,0 +1,298 @@
+---
+title: "Closures, Higher-Order Functions, and Callbacks"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Closures, Higher-Order Functions, and Callbacks
+
+## Workplace Context
+
+As your e-commerce platform grows, you need to ensure that your code remains efficient and maintainable. Advanced JavaScript concepts like **closures**, **scope**, and **higher-order functions** allow you to write code that is modular, flexible, and reusable. In this lesson, you will learn how to use these techniques to create complex functionality with less code, making it easier to maintain and extend your application over time.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Explain closures, scope, and higher-order functions in JavaScript.
+- Write functions that utilize closures and higher-order functions.
+- Understand and implement callbacks effectively in JavaScript.
+
+---
+
+## JavaScript Closures and Scope
+
+### Understanding Scope
+
+**Scope** refers to the visibility or accessibility of variables in different parts of your code. JavaScript has **global**, **function**, and **block** scope:
+- **Global Scope**: Variables declared outside any function are accessible from anywhere in the code.
+- **Function Scope**: Variables declared within a function are only accessible within that function.
+- **Block Scope**: Variables declared with `let` or `const` inside a block (e.g., within `{}`) are limited to that block.
+
+#### Example of Scope
+
+```javascript
+let globalVariable = "I am global";
+
+function checkScope() {
+  let localVariable = "I am local";
+  console.log(globalVariable); // Accessible
+  console.log(localVariable);  // Accessible
+}
+
+checkScope();
+console.log(localVariable); // Error: localVariable is not defined
+```
+
+In this example:
+- `globalVariable` is accessible from anywhere, while `localVariable` is only accessible within `checkScope`.
+
+### Closures
+
+A **closure** is a function that remembers its lexical scope, even when the function is executed outside that scope. Closures allow functions to access variables from an outer function after the outer function has completed execution.
+
+Think of closures as a backpack that a function carries with it. When a function is created, it "closes over" any variables from its scope, carrying them along even if the scope where they were declared is no longer active.
+
+#### Example of Closures
+
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function createCounter() {
+  let count = 0;
+  return function() {
+    count++;
+    return count;
+  };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3`
+}} />
+
+In this example:
+- `createCounter` returns an inner function that remembers the `count` variable, even after `createCounter` has finished executing. This is a closure.
+
+#### Real-World Application of Closures
+
+Closures are commonly used in:
+- **Data privacy**: Keeping variables private within a function scope.
+- **Event handlers**: Accessing variables after an event occurs.
+- **Callback functions**: Preserving data across asynchronous calls.
+
+---
+
+## Higher-Order Functions
+
+A **higher-order function** is a function that either:
+1. Takes one or more functions as arguments, or
+2. Returns a function as a result.
+
+Higher-order functions allow you to write more abstract and reusable code, as they can operate on other functions or create new ones.
+
+#### Examples of Higher-Order Functions
+
+1. **Array Methods**: Methods like `map`, `filter`, and `reduce` are built-in higher-order functions in JavaScript.
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map((num) => num * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+```
+
+2. **Function Returning a Function**:
+
+```javascript
+function greet(greeting) {
+  return function(name) {
+    return `${greeting}, ${name}!`;
+  };
+}
+
+const sayHello = greet("Hello");
+console.log(sayHello("Alice")); // "Hello, Alice!"
+```
+
+In this example:
+- `greet` is a higher-order function because it returns another function.
+
+### Benefits of Higher-Order Functions
+
+Higher-order functions enable you to:
+- Write cleaner, more readable code.
+- Implement functional programming techniques, which are effective for managing state and side effects.
+- Increase modularity by separating concerns.
+
+---
+
+## Using Callbacks Effectively
+
+A **callback** is a function that is passed as an argument to another function and is executed after a certain task is completed. Callbacks are often used in asynchronous programming to handle tasks that take time, such as API requests or timers.
+
+#### Example of Callbacks
+
+```javascript
+function fetchData(callback) {
+  setTimeout(() => {
+    const data = { name: "Alice", age: 25 };
+    callback(data);
+  }, 1000);
+}
+
+function displayData(data) {
+  console.log("Fetched Data:", data);
+}
+
+fetchData(displayData);
+```
+
+In this example:
+- `fetchData` takes a `callback` function as an argument and calls it with the fetched data after a 1-second delay.
+
+### When to Use Callbacks
+
+Callbacks are useful for:
+- **Asynchronous operations**: Handling results after a delay, such as reading files or fetching data from an API.
+- **Event handling**: Responding to user actions like clicks or keystrokes.
+- **Customization**: Creating a function that can be customized by passing it another function as an argument (e.g. `array.sort()`).
+  
+However, **promises** or **async/await** are preferred over callbacks for managing asynchronous code in modern JavaScript, as they provide a more readable and less error-prone syntax.
+
+---
+
+## Activity: Implementing Closures and Higher-Order Functions
+
+**Time:** 30 minutes  
+**Instructions:**  
+
+1. **Create a Function with Closures**:
+   - Write a function called `createMultiplier` that takes a `multiplier` as an argument and returns a function that multiplies a given number by the multiplier.
+   
+   ```javascript
+   const double = createMultiplier(2);
+   console.log(double(5)); // 10
+   ```
+
+2. **Using a Higher-Order Function**:
+   - Write a higher-order function called `applyDiscount` that takes a discount rate and returns a function to calculate the discounted price of a product.
+   
+   ```javascript
+   const tenPercentDiscount = applyDiscount(0.10);
+   console.log(tenPercentDiscount(100)); // 90
+   ```
+
+3. **Callback Example**:
+   - Write a function called `fetchUser` that takes a username and a callback function. After a 1-second delay, it should call the callback with a user object containing the username and a generated ID.
+
+   ```javascript
+   fetchUser("Alice", (user) => console.log("Fetched User:", user));
+   ```
+
+### Critical Thinking
+
+1. How do closures help manage variables in asynchronous operations?
+2. Why are higher-order functions valuable for building reusable code?
+3. In what situations would you choose callbacks over promises or async/await?
+
+---
+
+## Discussion: Closures
+
+Closures are a fundamental concept in JavaScript, enabling functions to access variables from their enclosing scopes even after those scopes have exited. This capability is extensively utilized in real-world applications to achieve data encapsulation, maintain state, and create modular code structures.
+
+### Real-World Example: Event Handlers in Web Development
+
+In web development, closures are commonly employed in event handlers to maintain access to variables from an outer scope. Consider a scenario where you have multiple buttons on a webpage, each intended to display a unique message when clicked. Using closures, you can assign event handlers that remember the specific message associated with each button.
+
+```javascript
+function setupButtons() {
+  const messages = ['Hello', 'Welcome', 'Goodbye'];
+  const buttons = document.querySelectorAll('button');
+
+  buttons.forEach((button, index) => {
+    button.addEventListener('click', function() {
+      alert(messages[index]);
+    });
+  });
+}
+
+setupButtons();
+```
+
+In this example, the `setupButtons` function assigns a click event listener to each button. The inner function (the event handler) forms a closure that retains access to the `messages` array and the current `index` value, even after the `setupButtons` function has completed execution. This ensures that each button, when clicked, displays the correct message.
+
+### Implications in Industry
+
+Closures are integral to various aspects of JavaScript programming, including:
+
+- **Data Privacy:** Closures enable the creation of private variables and functions, allowing developers to encapsulate implementation details and expose only necessary interfaces. This is particularly useful in module patterns and immediately-invoked function expressions (IIFEs).
+
+- **State Management:** In frameworks like React, closures are used to manage state within components. For instance, hooks such as `useState` rely on closures to preserve state between re-renders.
+
+- **Functional Programming:** Higher-order functions, which accept functions as arguments or return them, often utilize closures to maintain context. This is common in array methods like `map`, `filter`, and `reduce`.
+
+Understanding and effectively applying closures is essential for developing robust, maintainable, and efficient JavaScript applications. They provide a powerful mechanism for controlling scope and behavior, leading to more modular and secure codebases.
+
+### Discuss
+
+Using the information and experience you have gathered so far, have a short discussion about the use cases of closures.
+- What other reasons do you think closures are useful?
+- When could you have used closures in your previous projects?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is a closure in JavaScript?"
+  options={[
+    { text: "A function that takes another function as an argument.", feedback: "Incorrect. That describes a higher-order function." },
+    { text: "A function that remembers its lexical scope, even when executed outside that scope.", correct: true, feedback: "Correct! Closures retain access to variables from their outer scope even after the function has finished executing." },
+    { text: "A feature that allows a function to return another function.", feedback: "Incorrect. This describes a common behavior of higher-order functions." }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is a higher-order function?"
+  options={[
+    { text: "A function that can remember its outer scope.", feedback: "Incorrect. This describes a closure." },
+    { text: "A function that returns or takes other functions as arguments.", correct: true, feedback: "Correct! Higher-order functions either take functions as arguments or return functions as output." },
+    { text: "A function that handles asynchronous operations.", feedback: "Incorrect. Higher-order functions are not specifically related to asynchronous operations." }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which of the following is an example of a callback function?"
+  options={[
+    { text: "A function that returns another function.", feedback: "Incorrect. This is an example of a higher-order function." },
+    { text: "A function passed as an argument to be executed later.", correct: true, feedback: "Correct! Callbacks are functions passed to other functions to be executed at a later time." },
+    { text: "A function that retains access to its lexical scope.", feedback: "Incorrect. This describes a closure." }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you explored **JavaScript closures**, **scope**, **higher-order functions**, and **callbacks**. Understanding these concepts allows you to write more modular and reusable code, manage variables effectively, and handle asynchronous tasks. Mastering closures and higher-order functions provides a foundation for more advanced JavaScript and TypeScript programming.
+
+---
+
+## References
+
+- [MDN Web Docs: Closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures)
+- [MDN Web Docs: Higher-Order Functions](https://developer.mozilla.org/en-US/docs/Glossary/Higher-order_function)
+- [JavaScript Callback Functions Explained](https://javascript.info/callbacks)
+
+---
+
+## Additional Resources
+
+- [The Tricky Parts of JavaScript on Scrimba](https://v2.scrimba.com/the-tricky-parts-of-javascript-c0i)
+- [JavaScript Closures Cheat Sheet](https://dev.to/marielt/javascript-closure-cheat-sheet-22n9)
+- [Understanding JavaScript Scope](https://www.freecodecamp.org/news/understanding-scope-in-javascript/)
+- [JavaScript Higher-Order Functions and Callbacks](https://eloquentjavascript.net/05_higher_order.html)

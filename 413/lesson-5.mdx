@@ -1,0 +1,354 @@
+---
+title: "Error Handling and Custom Errors"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Error Handling and Custom Errors
+
+## Workplace Context
+
+As your team continues to develop the e-commerce platform, they want to ensure that any unexpected issues, such as invalid data inputs or connection failures, are handled gracefully. Poor error handling can lead to application crashes, loss of data, and a frustrating user experience. In large projects, well-structured error handling is crucial for maintaining reliability and providing helpful feedback when things go wrong.
+
+This lesson will guide you through standard error-handling techniques in JavaScript and TypeScript, with a focus on best practices and custom error handling in larger projects.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Use `try/catch/finally` blocks to handle errors in JavaScript.
+- Implement custom error classes in TypeScript to manage specific types of errors.
+- Apply best practices for error handling in JavaScript and TypeScript projects.
+
+---
+
+## Introduction to Error Handling
+
+Error handling is the process of managing unexpected conditions that can disrupt the normal flow of a program. These conditions are often called **exceptions**, and they can be caused by things like invalid user input, missing files, or server connection failures.
+
+Without proper error handling, an error could cause the application to stop executing entirely, leading to crashes or data loss. JavaScript provides built-in mechanisms to manage errors gracefully.
+
+### `try`, `catch`, and `finally`
+
+JavaScript uses the `try`, `catch`, and `finally` keywords to handle exceptions:
+
+- **`try`**: Wraps the code that might throw an error.
+- **`catch`**: Handles the error if it occurs.
+- **`finally`**: Executes code after `try`/`catch`, regardless of whether an error was thrown.
+
+Here is the basic syntax:
+
+```javascript
+try {
+  // Code that may throw an error
+} catch (error) {
+  // Handle the error
+} finally {
+  // Code that will always execute
+}
+```
+
+### Example: Basic Error Handling
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function divideNumbers(a: number, b: number): number {
+  if (b === 0) {
+    throw new Error("Division by zero is not allowed!");
+  }
+  return a / b;
+}
+
+try {
+  console.log(divideNumbers(10, 0));
+} catch (error) {
+  console.error("An error occurred:", error.message);
+} finally {
+  console.log("Operation complete.");
+}`
+}} />
+
+#### Explanation
+- If `b` is 0, the `divideNumbers` function throws an error.
+- The `catch` block catches the error and displays a message.
+- The `finally` block executes regardless of whether an error occurred, useful for cleanup operations (e.g., closing database connections).
+
+---
+
+## Creating Custom Errors
+
+In JavaScript and TypeScript, you can create custom error classes that extend the built-in `Error` class. This makes it easier to handle specific types of errors separately and provide more detailed feedback.
+
+Think of custom errors as specialized tools in a toolbox. You don't always need them, but they are essential for unique tasks. Custom errors allow you to differentiate between various error conditions and handle them accordingly.
+
+### Example: Custom Error Class
+
+Here is an example of a custom error class in TypeScript:
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}
+
+function validateUsername(username: string) {
+  if (username.length < 5) {
+    throw new ValidationError("Username must be at least 5 characters long.");
+  }
+}
+
+try {
+  validateUsername("Tom");
+} catch (error) {
+  if (error instanceof ValidationError) {
+    console.error("Validation Error:", error.message);
+  } else {
+    console.error("Unknown Error:", error.message);
+  }
+}`
+}} />
+
+#### An Error in the Error Example?
+
+You may notice that this code does not behave as we expect it to, by logging "Unknown Error" instead of "Validation Error".
+
+This is due to a bug in the code bundler that is being used to power these interactive editors! This is an important distinction to make between bugs and errors: sometimes, bugs *do not* throw errors, which makes them more difficult to track down and address. This is where testing comes in!
+
+Copy the code from the example above, and run it using your own environment or within the Chrome DevTools (you will need to remove the type annotations to translate the code into valid JavaScript), and it should work properly. You will see the following output:
+
+```console
+Validation Error: Username must be at least 5 characters long.
+```
+
+#### Explanation
+- **Custom Error Class**: `ValidationError` extends the built-in `Error` class.
+- **Error Checking**: The `catch` block uses `instanceof` to check if the error is a `ValidationError`.
+- This makes it easier to handle different types of errors separately.
+
+---
+
+## Error Handling Best Practices
+
+Proper error handling is crucial for building reliable applications. Here are some best practices to follow:
+
+### 1. Be Specific with Errors
+
+Use specific error messages to make debugging easier. Avoid vague error messages like `"Something went wrong."` Instead, provide meaningful information:
+
+```javascript
+throw new Error("Cannot connect to the server. Please check your network.");
+```
+
+### 2. Use Custom Error Classes
+
+Custom error classes make it easier to manage and handle specific error types in large codebases. This allows you to differentiate between critical and non-critical errors.
+
+### 3. Avoid Swallowing Errors
+
+Do not use empty `catch` blocks, as this makes it difficult to identify and fix problems.
+
+```javascript
+// Bad Practice
+try {
+  riskyOperation();
+} catch (error) {
+  // Empty catch block - error is ignored
+}
+
+// Good Practice
+try {
+  riskyOperation();
+} catch (error) {
+  console.error("An error occurred:", error.message);
+}
+```
+
+### 4. Log Errors for Debugging
+
+Always log errors for debugging purposes, especially in larger projects. Use tools like `console.error`, logging libraries (e.g., `Winston`), or external monitoring services.
+
+### 5. Use `finally` for Cleanup
+
+Use the `finally` block for cleanup tasks, such as closing files or releasing resources, regardless of whether an error occurred.
+
+### 6. Avoid Throwing Strings as Errors
+
+Always use the `Error` class or custom error classes instead of throwing strings. This provides a consistent error structure and better debugging information.
+
+```javascript
+// Bad Practice
+throw "An unexpected error occurred.";
+
+// Good Practice
+throw new Error("An unexpected error occurred with data validation; see server logs for more details.");
+```
+
+### 7. Graceful Error Handling in Production
+
+Avoid displaying raw error messages to end-users in production environments. Instead, provide friendly feedback and log the errors for developers. Use environment checks to display detailed error information only in development:
+
+```javascript
+if (process.env.NODE_ENV === "development") {
+  console.error(error);
+} else {
+  console.log("An unexpected issue occurred. Please try again later.");
+}
+```
+
+---
+
+## Error Handling in TypeScript
+
+TypeScript provides static typing, which reduces the likelihood of some common errors. However, runtime errors can still occur, and proper error handling is essential. TypeScript can enforce better error-handling practices with tools like:
+
+- **Type Guards**: Ensure variables are of a specific type before accessing their properties.
+- **Discriminated Unions**: Use union types with discriminating properties to enforce correct behavior.
+
+### Example: Type Guard for Error Handling
+
+Here is an example using a **type guard** to handle potential errors in TypeScript:
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `type ApiResponse = { success: true; data: string } | { success: false; error: string };
+
+function fetchData(): ApiResponse {
+  // Simulated API response
+  return { success: false, error: "Server not reachable" };
+}
+
+function isError(response: ApiResponse): response is { success: false; error: string } {
+  return !response.success;
+}
+
+const response = fetchData();
+
+if (isError(response)) {
+  console.error("API Error:", response.error);
+} else {
+  console.log("API Data:", response.data);
+}`
+}} />
+
+#### Explanation:
+- The `isError` function is a **type guard** that checks if the response is an error.
+- This example uses a **discriminated union** to handle both successful and error responses gracefully.
+
+---
+
+### Activity: Implement Custom Error Handling
+
+**Time:** 45 minutes  
+**Instructions:**
+
+1. Create a file called `customErrorHandling.ts`.
+2. Write a function called `processOrder` that:
+   - Takes an order object with properties: `productId`, `quantity`, and `price`.
+   - Throws a `ValidationError` if `quantity` is less than 1.
+   - Throws a `PaymentError` if `price` is not a positive number.
+3. Create two custom error classes: `ValidationError` and `PaymentError`.
+4. Implement a function called `handleOrder` that catches and logs these custom errors.
+
+**Critical Thinking**: How do custom errors help in identifying specific issues in larger codebases? What challenges might arise if you only use generic error messages?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the purpose of the 'finally' block in error handling?"
+  options={[
+    {
+      text: "To execute code only if no errors occur.",
+      feedback: "Incorrect. The 'finally' block runs regardless of whether an error occurred.",
+    },
+    {
+      text: "To handle exceptions when the 'catch' block fails.",
+      feedback: "Incorrect. The 'finally' block is not for error handling, but for cleanup.",
+    },
+    {
+      text: "To execute code regardless of whether an error occurred.",
+      correct: true,
+      feedback: "Correct! The 'finally' block always runs, even if an error was thrown.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is the primary benefit of using custom error classes in JavaScript/TypeScript?"
+  options={[
+    {
+      text: "To make errors look more complex.",
+      feedback: "Incorrect. The goal is not to complicate errors, but to differentiate them clearly.",
+    },
+    {
+      text: "To allow specific types of errors to be easily identified and handled.",
+      correct: true,
+      feedback: "Correct! Custom error classes make it easier to identify and handle specific types of errors.",
+    },
+    {
+      text: "To ensure errors are never caught by `catch` blocks.",
+      feedback: "Incorrect. Custom errors are still caught by `catch` blocks.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which practice should you avoid when handling errors in JavaScript?"
+  options={[
+    {
+      text: "Providing detailed error messages for debugging.",
+      feedback: "Incorrect. Detailed error messages are essential for debugging.",
+    },
+    {
+      text: "Throwing strings instead of `Error` objects.",
+      correct: true,
+      feedback: "Correct! Throwing strings makes debugging harder and should be avoided.",
+    },
+    {
+      text: "Using `try`/`catch` blocks to handle runtime exceptions.",
+      feedback: "Incorrect. Properly using `try`/`catch` is good practice.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What does a `type guard` do in TypeScript error handling?"
+  options={[
+    {
+      text: "It catches all types of errors thrown in a program.",
+      feedback: "Incorrect. A type guard does not catch errors but checks types.",
+    },
+    {
+      text: "It ensures a variable is of a specific type before accessing its properties.",
+      correct: true,
+      feedback: "Correct! Type guards help verify that a variable is of a specific type before performing operations.",
+    },
+    {
+      text: "It restricts access to private properties of a class.",
+      feedback: "Incorrect. Type guards are not related to access modifiers.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned about handling errors effectively in JavaScript and TypeScript. You explored how to use `try`, `catch`, and `finally` blocks to manage exceptions, create custom error classes for specific scenarios, and follow best practices for reliable error handling. These techniques are vital for building robust, maintainable applications that can handle unexpected scenarios gracefully.
+
+## References
+
+- [MDN Error Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+- [MDN Web Docs: Error Handling](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling)
+- [JavaScript Errors and Exceptions](https://javascript.info/try-catch)
+
+---
+
+## Additional Resources
+
+- [Understanding JavaScript Errors](https://www.sitepoint.com/javascript-error-handling/)
+- [TypeScript Type Guards](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)

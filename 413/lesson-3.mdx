@@ -1,0 +1,794 @@
+---
+title: "Classes, Object-Oriented Programming, and Modules in TypeScript"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+---
+
+# Classes, Object-Oriented Programming, and Modules in TypeScript
+
+## Workplace Context
+
+You are part of a development team tasked with building an e-commerce platform. The system must handle various types of products with shared attributes and unique characteristics. The team decides to use **TypeScript classes** and **object-oriented programming (OOP)** concepts to create reusable code that covers the different product types. To keep the project well-organized, you'll also use **modules** to manage the growing codebase.
+
+This lesson will help you understand how TypeScript's class-based object-oriented features can make large-scale projects more manageable.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Create and use classes in TypeScript to define objects with shared properties and methods.
+- Implement core OOP concepts: inheritance, encapsulation, abstraction, and polymorphism.
+- Utilize modules to organize and manage code in TypeScript projects.
+
+---
+
+## Introduction to TypeScript Classes
+
+**Classes** are blueprints for creating objects. They encapsulate data (properties) and behavior (methods) into a single structure, making code more organized and reusable.
+
+Think of a class as a template for building something — like a cookie cutter for cookies. You use the same cutter to create cookies of the same shape but can customize the ingredients (properties) for each cookie.
+
+### Creating a Basic Class
+
+Here’s an example of a basic `Product` class in TypeScript.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `class Product {
+  name: string;
+  price: number;
+  inStock: boolean;
+
+  constructor(name: string, price: number, inStock: boolean = true) {
+    this.name = name;
+    this.price = price;
+    this.inStock = inStock;
+  }
+
+  displayDetails(): string {
+    return \`\${this.name} costs \$\${this.price} and is \${this.inStock ? "in stock" : "out of stock"}.\`;
+  }
+}
+
+const product1 = new Product("Laptop", 1200);
+console.log(product1.displayDetails());`
+}} />
+
+### Constructor
+
+- **Constructor:** A special method called when a new instance of a class is created.
+  - In the example, the `Product` class constructor takes three parameters (`name`, `price`, and `inStock`) and initializes the object's properties.
+
+### Methods
+
+- **Methods:** Functions defined inside a class. In this case, `displayDetails` is a method that returns a string describing the product.
+
+---
+
+## Modules
+
+Before continuing with object-oriented programming concepts, it's important to understand modules.
+
+As JavaScript programs grow in size and complexity, it makes sense to split content into separate files for organization. Nobody wants to deal with a single JavaScript file with 10,000 lines of code. Code that is split into files that contain specific sets of functionality are called "modules." **Modules** allow you to split code into separate files, making it easier to manage, maintain, and reuse at scale.
+
+Think of modules like folders in a filing cabinet. Each folder (module) holds related documents (code) that you can easily access or replace without affecting other folders.
+
+Modern implementations provide us with two keywords to enable this functionality: `import` and `export`.
+
+The export keyword can be used in front of any variable or function declaration (and classes) to make that item available to external files, but it can only export a top-level item. You cannot, for example, export a variable from inside of a function.
+
+```typescript
+export const name = "Module File Value";
+
+export function getValue(arg) {
+  // do something with arg
+}
+```
+
+For a module with many possible exports, you can also consolidate the `export` statement into a single line of code to make it immediately apparent what the module is exporting:
+
+```typescript
+export { name, getValue, findAnswer, makeCake, eatItToo };
+```
+
+There are many ways to import these items into another file with the `import` statement, but the simplest is:
+
+```typescript
+import { name, getValue, findAnswer, makeCake, eatItToo } from './modules/myModule.js';
+```
+
+You can include or forgo any of these imports, depending on what you want to use. You can also rename imports using the `as` keyword:
+
+```typescript
+import { getValue as gVal, makeCake } from './modules/myModule.js';
+
+const x = gVal(a);
+```
+
+This becomes particularly useful when you have modules with the same names for items. Assume we have three modules that all have a `getValue` function that behaves differently depending on the module's purpose:
+
+```typescript
+import { getValue as getParsedArgData } from './modules/myModule.js';
+import { getValue as getExternalStat } from './modules/yourModule.js';
+import { getValue as getRichQuick } from './modules/theirModule.js';
+```
+
+This can get a bit cumbersome if many items within many modules are identical. One solution to this issue is creating module objects that we can then use to get their properties and call their methods. To do so, we use the wildcard `*` to indicate we would like to import everything from the module, and assign that as a specific object:
+
+```typescript
+import * as MyModule from './modules/myModule.js';
+import * as YourModule from './modules/yourModule.js';
+import * as TheirModule from './modules/theirModule.js';
+
+const parsedArgData = MyModule.getValue(a);
+const someExternalStat = YourModule.getValue();
+const lotsOfMoney = TheirModule.getValue();
+```
+
+There is also the option of providing a `default export` within modules, which provides a quick way to give access to a single item within the module. There can only be one `default` export per module:
+
+```typescript
+// Within our module:
+export default function() {
+  // do some magic
+}
+
+// Within a file using the module:
+import magic from './modules/magicModule.js'
+
+magic();
+```
+
+Notice that we can name this default export whatever we want within our `import` statement, and it does not need to be named within the module file.
+
+Becoming familiar with modules and imports will be necessary throughout your development journey, especially as you are introduced to more external packages and libraries. To do further research on these concepts, begin with the [MDN documentation on Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+
+### Example: Exporting and Importing Modules
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `import { Product } from "./product";
+import { ShoppingCart } from "./cart";
+
+const cart = new ShoppingCart();
+cart.addProduct(new Product("Laptop", 1200));
+cart.addProduct(new Product("Headphones", 100));
+
+cart.displayCart();`,
+  'product.ts': `export class Product {
+  name: string;
+  price: number;
+
+  constructor(name: string, price: number) {
+    this.name = name;
+    this.price = price;
+  }
+}`,
+  'cart.ts': `import { Product } from "./product";
+
+export class ShoppingCart {
+  private items: Product[] = [];
+
+  addProduct(product: Product): void {
+    this.items.push(product);
+  }
+
+  displayCart(): void {
+    console.log("Cart Contents:");
+    this.items.forEach((item) => console.log(\`\${item.name}: \$\${item.price}\`));
+  }
+}`
+}} />
+
+In this example:
+- The `Product` class is in its own file and imported into `cart.ts` and `main.ts`.
+- This modular structure allows for clean, maintainable code organization.
+
+---
+
+## Inheritance in TypeScript
+
+**Inheritance** allows you to create a new class based on an existing class, inheriting its properties and methods. This promotes code reuse and makes it easy to extend functionality without rewriting existing code.
+
+Think of inheritance like a family tree. Just as children inherit traits from their parents but also have their own unique characteristics, classes in TypeScript can extend existing classes to inherit and override behaviors.
+
+### Creating a Subclass with Inheritance
+
+Let’s extend our `Product` class to create a `DigitalProduct` class with additional properties specific to digital products.
+
+<CodeEditor template="vanilla-ts" showConsole files={{
+  'index.ts': `import Product from "./product";
+
+class DigitalProduct extends Product {
+  fileSize: number;
+
+  constructor(name: string, price: number, fileSize: number) {
+    super(name, price);
+    this.fileSize = fileSize;
+  }
+
+  displayDetails(): string {
+    return \`\${this.name} costs \$\${this.price} and is a digital download of \${this.fileSize}MB.\`;
+  }
+}
+
+const ebook = new DigitalProduct("E-Book", 15, 5);
+console.log(ebook.displayDetails());`,
+    'product.ts': `export default class Product {
+  name: string;
+  price: number;
+  inStock: boolean;
+
+  constructor(name: string, price: number, inStock: boolean = true) {
+    this.name = name;
+    this.price = price;
+    this.inStock = inStock;
+  }
+
+  displayDetails(): string {
+    return \`\${this.name} costs \$\${this.price} and is \${this.inStock ? "in stock" : "out of stock"}.\`;
+  }
+}`
+}} />
+
+In this example:
+- **`extends`** keyword is used to create a subclass (`DigitalProduct`) that inherits from `Product`.
+- **`super`** keyword is used in the constructor to call the parent class's constructor.
+    - You can also use the `super` keyword to call methods from the parent class. An example of this will be shown during the Encapsulation section below.
+
+Notice how we do not need to fully define the `name` or `price` properties, or the `constructor` method, in the `DigitalProduct` class. Extending the `Product` class means that the `DigitalProduct` class inherits all of the properties and methods from the `Product` class.
+
+However, you can *override* some of the properties or methods in the extended class, such as the `displayDetails` method, which has been changed to make it more specific to digital products.
+
+### Reflection: Inheritance
+
+How does inheritance improve code reuse and maintainability in large applications?
+
+---
+
+## Encapsulation in TypeScript
+
+**Encapsulation** is the concept of restricting direct access to some components of an object, protecting its internal state. This is typically done using **access modifiers** like `private`, `protected`, and `public`.
+
+Think of encapsulation like an ATM machine. You can access money (properties) only through a secure interface (methods), but you cannot access the internal mechanisms directly.
+
+### Access Modifiers
+
+TypeScript includes access modifiers to control the visibility of properties and methods:
+- **public**: Accessible from anywhere.
+- **private**: Accessible only within the class it is defined.
+- **protected**: Accessible within the class and subclasses.
+
+#### Example: Using Access Modifiers
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `import PhysicalProduct from "./physical-product";
+  
+const phone = new PhysicalProduct("P123", "Smartphone", 699, 0.5);
+console.log(phone.displayDetails());`,
+  'product.ts': `export default class Product {
+  private sku: string;
+  public name: string;
+  protected price: number;
+
+  constructor(sku: string, name: string, price: number) {
+    this.sku = sku;
+    this.name = name;
+    this.price = price;
+  }
+
+  protected displayDetails(): string {
+    return \`\${this.name} (SKU: \${this.sku}) costs \$\${this.price}.\`;
+  }
+}`,
+  'physical-product.ts': `import Product from "./product";
+
+export default class PhysicalProduct extends Product {
+  weight: number;
+
+  constructor(sku: string, name: string, price: number, weight: number) {
+    super(sku, name, price);
+    this.weight = weight;
+  }
+
+  displayDetails(): string {
+    return super.displayDetails() + \` It weighs \${this.weight} kg.\`;
+  }
+}`
+}} />
+
+In this example:
+- The `sku` property of the `Product` class is private, so it cannot be accessed outside the `Product` class.
+- The `price` property of the `Product` class is protected, so it is accessible within the `PhysicalProduct` subclass.
+- The `name` property is public and can be accessed anywhere.
+
+Using the editor above, experiment with what happens when you attempt to access a private, protected, or public property from outside the class. Here is some code to get you started:
+
+```javascript
+console.log("The price of the phone is: " + phone.price);
+phone.price = 1000;
+console.log("The new price of the phone is: " + phone.price);
+```
+
+### Getters and Setters
+
+What if we wanted to access the `price` property from outside the class, but not be able to modify it?
+
+Vanilla JavaScript, as of ES6, does not support access modifiers like TypeScript does; however, both support `get` and `set` methods.
+
+The `get` and `set` methods are used to define a property that can be accessed and modified, respectively. For example, the `get` method is used to define a property that can only be accessed, and the `set` method is used to define a property that can only be modified.
+
+```typescript
+get price(): number {
+  return this.price;
+}
+
+// elsewhere, this would now work without errors as a read-only property
+console.log("The price of the phone is: " + phone.price);
+
+// this, however, would still throw an error because the property is protected and has no setter
+phone.price = 1000;
+```
+
+In this example, the `get` method is used to define a property that can only be accessed (in this case, `price`).
+
+You can also use the `get` and `set` methods to define computed properties, such as in the example below. If `price` was a computed property, the `get` and `set` methods might look something like this:
+
+```typescript
+get price(): number {
+  return this.price * (this.taxRate + 1);
+}
+set price(pretaxPrice: number) {
+  this.price = pretaxPrice;
+}
+```
+
+**Note:** While `get` and `set` methods are convenient, they can be a bit confusing for any consumers of your code. As a general rule, when properties are protected, private, or calculated, you should use methods like `getPrice()` and `upddatePrice()` to communicate that you are protecting or computing the properties in some way:
+
+```typescript
+getPrice(): number {
+  return this.price * (this.taxRate + 1);
+}
+updatePrice(pretaxPrice: number) {
+  this.price = pretaxPrice;
+}
+```
+
+### Reflection: Encapsulation
+
+How can encapsulation improve security and reliability in large applications?
+
+---
+
+## Static Methods and Properties
+
+**Static** methods and properties are methods and properties that are defined inside the class itself, and do not change based on the state of instances of the class. You generally want to make something `static` when the data is shared across all instances of a class and does not change (like constants or utility functions).
+
+Static methods and properties can be accessed without creating an instance of the class, and are not available on instances of the class. Unlike access modifiers, static properties and mehtods are available in vanilla JavaScript as well as TypeScript.
+
+In the example above, the `taxRate` property could be defined as a static property, because (we will pretend that) tax does not vary based on the type of product. This would allow us to discover the tax rate for a specific product without creating an instance of the class, and also rewrite our getter method above.
+
+You can also use the `static` keyword in combination with access modifiers to define static methods and properties that are `private`, `public`, or `protected`.
+
+Here is what that all might look like when used within our `Product` class:
+
+```typescript
+class Product {
+  public static taxRate = 0.05;
+
+  private sku: string;
+  public name: string;
+  protected price: number;
+
+  constructor(sku: string, name: string, price: number) {
+    this.sku = sku;
+    this.name = name;
+    this.price = price;
+  }
+
+  get price(): number {
+    return this.price * (Product.taxRate + 1);
+  }
+  set price(newBasePrice: number) {
+    this.price = newBasePrice;
+  }
+
+  protected displayDetails(): string {
+    return `${this.name} (SKU: ${this.sku}) costs $${this.price}.`;
+  }
+}
+```
+
+---
+
+## Familiar Classes
+
+Before we continue with the remaining object-oriented concepts, let's take a look at some familiar built-in JavaScript classes that utilize them.
+
+### The `Math` Class
+
+You have almost certainly encountered the [`Math` class](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) in JavaScript. It is a built-in class that provides various mathematical functions and constants.
+
+The `Math` class makes use of mostly `static` properties and methods, which are available without creating an instance of the class. For example, the `Math.PI` property is a static constant that represents the value of pi, and the `Math.random()` method is a static method that generates a random number.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `console.log(Math.PI);
+console.log(Math.random());`
+}} />
+
+Notice how we can use the `Math` class without creating an instance of the class, because these are `static` properties and methods. In fact, the `Math` class contains *only* static properties and methods, which means it cannot be instantiated with a `new` keyword.
+
+### The `Date` Class
+
+You have also probably encountered the [`Date` class](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) before. It is a built-in class that represents a date and time, with its own properties and methods useful for working with dates.
+
+The `Date` class implements these object-oriented concepts as well! Take a look at a basic example of using the `Date` class, and identify the different OOP concepts it might be utilizing:
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const today = new Date();
+
+console.log("The date is: " + today.toString());
+console.log("Today is: " + today.toDateString());
+console.log("It is " + today.getHours() + " o'clock.");
+
+console.log(Date.now());`
+}} />
+
+Notice how despite sending no parameters to the `Date` constructor, the `today` instance still contains quite a bit of information. The `Date` constructor does a lot of work in the background to create a `Date` object, even if we do not pass any parameters.
+
+#### Aside: `Date` Method Overloads
+
+Remember function overloads from the previous lesson? The `Date` class *overloads* its constructor to allow for many different syntaxes. This is just one example of how overloads can be practically useful.
+
+The `Date` constructor accepts all of the following syntaxes:
+
+```typescript
+new Date()
+new Date(value)
+new Date(dateString)
+new Date(dateObject)
+
+new Date(year, monthIndex)
+new Date(year, monthIndex, day)
+new Date(year, monthIndex, day, hours)
+new Date(year, monthIndex, day, hours, minutes)
+new Date(year, monthIndex, day, hours, minutes, seconds)
+new Date(year, monthIndex, day, hours, minutes, seconds, milliseconds)
+```
+
+---
+
+## Abstraction in TypeScript
+
+**Abstraction** is the concept of hiding complex details and exposing only the essential features. In TypeScript, you can use **abstract classes** and **interfaces** to define blueprints for other classes, without providing a full implementation.
+
+Think of abstraction like driving a car. You use the steering wheel, pedals, and buttons to control the car without needing to know how the engine or transmission work. Likewise, different cars will implement their functionality differently underneath the hood, but you can always rely on the pedals to accomplish the same task.
+
+### Example: Abstract Class
+
+An **abstract class** is a class that cannot be instantiated directly. It is designed to be extended by other classes, enforcing certain methods to be implemented.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `abstract class Shape {
+  abstract getArea(): number; // Abstract method with no implementation
+
+  displayArea(): string {
+    return \`The area is \${this.getArea()} square units.\`;
+  }
+}
+
+class Circle extends Shape {
+  radius: number;
+
+  constructor(radius: number) {
+    super();
+    this.radius = radius;
+  }
+
+  getArea(): number {
+    return Math.PI * this.radius * this.radius;
+  }
+}
+
+const circle = new Circle(5);
+console.log(circle.displayArea());`
+}} />
+
+In this example:
+- **`Shape`** is an abstract class with an abstract method `getArea`.
+- **`Circle`** extends `Shape` and provides a concrete implementation of the `getArea` method.
+
+### Example: Implementing Interfaces
+
+An **interface** can also be defined and implemented to achieve a similar result, but without *any* implementation.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface Vehicle {
+  speed: number;
+  start(): void;
+}
+
+class Bike implements Vehicle {
+  speed: number;
+  constructor(speed: number) {
+    this.speed = speed;
+  }
+  
+  start(): void {
+    console.log("Bike starts at speed " + this.speed);
+  }
+}
+
+const myBike = new Bike(25);
+myBike.start();`
+}} />
+
+In this example:
+- **`Vehicle`** is an interface in which all methods must be implemented.
+- **`Bike`** implements `Vehicle` and provides a concrete implementation of the `constructor` and `start` methods.
+
+### Reflection: Abstraction and Interfaces
+
+What is the difference between an abstract class and an interface? When would you use one over the other?
+
+---
+
+## Polymorphism in TypeScript
+
+**Polymorphism** is the ability of different classes to be treated as instances of the same class through a shared interface or parent class. This allows you to write more flexible and reusable code.
+
+Think of polymorphism like a universal remote. The same remote can control different devices (TV, sound system, DVD player), even though each device has unique behavior.
+
+### Example: Polymorphism with Interfaces
+
+Here’s an example of how polymorphism works using an interface.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface Payable {
+  calculateSalary(): number;
+}
+
+class FullTimeEmployee implements Payable {
+  salary: number;
+
+  constructor(salary: number) {
+    this.salary = salary;
+  }
+
+  calculateSalary(): number {
+    return this.salary;
+  }
+}
+
+class PartTimeEmployee implements Payable {
+  hourlyRate: number;
+  hoursWorked: number;
+
+  constructor(hourlyRate: number, hoursWorked: number) {
+    this.hourlyRate = hourlyRate;
+    this.hoursWorked = hoursWorked;
+  }
+
+  calculateSalary(): number {
+    return this.hourlyRate * this.hoursWorked;
+  }
+}
+
+function printSalary(employee: Payable): void {
+  console.log("Salary is: " + employee.calculateSalary());
+}
+
+const fullTime = new FullTimeEmployee(5000);
+const partTime = new PartTimeEmployee(25, 80);
+
+printSalary(fullTime);
+printSalary(partTime);`
+}} />
+
+In this example:
+- Both `FullTimeEmployee` and `PartTimeEmployee` implement the `Payable` interface.
+- The `printSalary` function can accept any object that implements `Payable`, showcasing polymorphism.
+
+### Reflection: Polymorphism
+
+How does polymorphism simplify handling diverse objects through a common interface?
+
+---
+
+## Knowledge Check
+
+Here are refined knowledge check questions that align with the lesson content and aim to test learners' understanding of the core concepts covered:
+
+### Question 1: Static Methods and Properties
+
+<MultipleChoiceQuestion
+  question="What is the main advantage of using a static method in a TypeScript class?"
+  options={[
+    {
+      text: "It allows each instance of the class to have a unique method implementation.",
+      feedback: "Incorrect. Static methods are shared among all instances and cannot be unique for each instance.",
+    },
+    {
+      text: "It can be called without creating an instance of the class.",
+      correct: true,
+      feedback: "Correct! Static methods belong to the class itself and can be accessed without creating an instance.",
+    },
+    {
+      text: "It ensures the method is protected and only accessible within subclasses.",
+      feedback: "Incorrect. Access control is managed by access modifiers like 'protected,' not by using static methods.",
+    },
+  ]}
+/>
+
+### Question 2: Inheritance and Method Overriding
+
+<MultipleChoiceQuestion
+  question="Which of the following is true about method overriding in TypeScript?"
+  options={[
+    {
+      text: "Overriding allows a subclass to implement a method that does not exist in the parent class.",
+      feedback: "Incorrect. Overriding is about changing the behavior of an existing method from the parent class.",
+    },
+    {
+      text: "A subclass can override a parent method, but it cannot call the original method from the parent class.",
+      feedback: "Incorrect. You can use 'super' to call the original method from the parent class.",
+    },
+    {
+      text: "A subclass can override a method from the parent class and call the original method using 'super'.",
+      correct: true,
+      feedback: "Correct! Using 'super', a subclass can call the original method while overriding it.",
+    },
+  ]}
+/>
+
+### Question 3: Access Modifiers
+
+<MultipleChoiceQuestion
+  question="Which access modifier would you use in TypeScript to make a property accessible only within the same class?"
+  options={[
+    {
+      text: "public",
+      feedback: "Incorrect. 'public' allows the property to be accessed from anywhere.",
+    },
+    {
+      text: "protected",
+      feedback: "Incorrect. 'protected' allows access from within the class and its subclasses, not just the same class.",
+    },
+    {
+      text: "private",
+      correct: true,
+      feedback: "Correct! 'private' restricts access to the property within the same class only.",
+    },
+  ]}
+/>
+
+### Question 4: Encapsulation
+
+<MultipleChoiceQuestion
+  question="How does encapsulation help in building a large-scale application?"
+  options={[
+    {
+      text: "It makes it easier to share data between different classes.",
+      feedback: "Incorrect. Encapsulation focuses on restricting access to data, not sharing it.",
+    },
+    {
+      text: "It hides the internal implementation details and exposes only necessary features through methods.",
+      correct: true,
+      feedback: "Correct! Encapsulation hides complex details and allows controlled interaction with an object's data.",
+    },
+    {
+      text: "It forces developers to use abstract classes.",
+      feedback: "Incorrect. Encapsulation is about controlling access, not enforcing the use of abstract classes.",
+    },
+  ]}
+/>
+
+### Question 5: Abstraction
+
+<MultipleChoiceQuestion
+  question="Which statement best describes an abstract class in TypeScript?"
+  options={[
+    {
+      text: "It can be instantiated directly like any other class.",
+      feedback: "Incorrect. An abstract class cannot be instantiated directly; it must be extended by a subclass.",
+    },
+    {
+      text: "It can only have static methods.",
+      feedback: "Incorrect. An abstract class can have both instance and static methods.",
+    },
+    {
+      text: "It serves as a blueprint for other classes, enforcing certain methods to be implemented.",
+      correct: true,
+      feedback: "Correct! An abstract class defines methods that subclasses must implement, serving as a template.",
+    },
+  ]}
+/>
+
+### Question 6: Polymorphism
+
+<MultipleChoiceQuestion
+  question="How does polymorphism improve code flexibility in TypeScript?"
+  options={[
+    {
+      text: "It allows different classes to be treated through a common interface or parent class.",
+      correct: true,
+      feedback: "Correct! Polymorphism enables handling different objects through a shared interface, making code flexible.",
+    },
+    {
+      text: "It prevents subclasses from overriding methods in the parent class.",
+      feedback: "Incorrect. Polymorphism does not prevent overriding; it encourages it when needed.",
+    },
+    {
+      text: "It forces all objects to have the same method implementations.",
+      feedback: "Incorrect. Polymorphism allows different implementations while sharing a common interface.",
+    },
+  ]}
+/>
+
+### Question 7: Static vs. Instance Methods
+
+<MultipleChoiceQuestion
+  question="What is the key difference between static methods and instance methods in TypeScript?"
+  options={[
+    {
+      text: "Static methods belong to instances of a class, while instance methods belong to the class itself.",
+      feedback: "Incorrect. It's the other way around—static methods belong to the class, not to instances.",
+    },
+    {
+      text: "Static methods are shared across all instances, while instance methods can vary for each instance.",
+      correct: true,
+      feedback: "Correct! Static methods are shared across instances, while instance methods are specific to each instance.",
+    },
+    {
+      text: "Instance methods can be called without creating an instance, while static methods require an instance.",
+      feedback: "Incorrect. Static methods do not require an instance, but instance methods do.",
+    },
+  ]}
+/>
+
+### Question 8: Interfaces vs. Abstract Classes
+
+<MultipleChoiceQuestion
+  question="What is a key difference between an interface and an abstract class in TypeScript?"
+  options={[
+    {
+      text: "Interfaces allow for code implementation, while abstract classes do not.",
+      feedback: "Incorrect. Interfaces cannot contain code implementation, but abstract classes can.",
+    },
+    {
+      text: "Abstract classes enforce implementation of methods, while interfaces do not.",
+      feedback: "Incorrect. Both interfaces and abstract classes enforce the implementation of methods.",
+    },
+    {
+      text: "Abstract classes can have implemented methods, while interfaces only define the method signatures.",
+      correct: true,
+      feedback: "Correct! Interfaces are purely for defining the structure, while abstract classes can include implementations.",
+    },
+  ]}
+/> 
+
+---
+
+## Summary
+
+In this lesson, you explored the foundational concepts of object-oriented programming in TypeScript, including inheritance, encapsulation, abstraction, and polymorphism. You also learned how to organize code using modules. These concepts are essential for building scalable, maintainable applications.
+
+---
+
+## References
+
+- [TypeScript Classes Documentation](https://www.typescriptlang.org/docs/handbook/2/classes.html)
+- [MDN documentation on Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+- [JavaScript.info Classes](https://javascript.info/class)
+- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)
+- [`Math` class](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
+- [`Date` class](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
+
+---
+
+## Additional Resources
+
+- [TypeScript Classes CheatSheet](https://www.typescriptlang.org/static/TypeScript%20Classes-83cc6f8e42ba2002d5e2c04221fa78f9.png)

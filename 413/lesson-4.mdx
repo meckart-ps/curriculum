@@ -1,0 +1,336 @@
+---
+title: "TypeScript Generics and Advanced Types"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# TypeScript Generics and Advanced Types
+
+## Workplace Context
+
+Your team is developing a sophisticated e-commerce platform that requires reusable and adaptable data structures. You are tasked with building a product management module that should handle multiple data types without losing type safety. To achieve this, you will leverage **TypeScript Generics** and **Advanced Types**. These concepts will allow you to create more flexible, reusable, and type-safe code, making your application easier to maintain and extend as it grows.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Explain what generics are and how they enhance code flexibility while maintaining type safety.
+- Create and use generic types, interfaces, and functions in TypeScript.
+- Utilize advanced types, including intersections, unions, and type guards, to build complex and adaptable applications.
+
+---
+
+## Introduction to Generics
+
+Generics provide a way to create reusable components that work with a variety of types without sacrificing type safety. They act like placeholders for types that you can specify later, similar to how a variable is a placeholder for a value.
+
+Think of generics like the blueprints for a machine that can be customized with different parts — you can build the same machine with various configurations without creating separate blueprints each time.
+
+### Why Use Generics?
+
+In traditional programming, you might create a function that handles different data types separately, which can result in code duplication and limited flexibility. **Generics** solve this by allowing you to write a single function or data structure that works with different types while keeping your code type-safe.
+
+### Basic Example: Generic Function
+
+Here is a simple example of a generic function that accepts an argument of any type and returns it.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function identity<T>(arg: T): T {
+  return arg;
+}
+
+console.log(identity<string>("Hello"));
+console.log(identity<number>(42));`
+}} />
+
+#### Explanation
+- The `identity` function has a **generic parameter** `<T>` — `T` acts as a placeholder for any type.
+- When calling the function, you specify the type you want to use (`<string>` or `<number>`).
+- This provides flexibility without sacrificing type safety.
+
+### Working with Generic Functions
+
+You can use generics with arrays or other data structures to enforce type safety across collections.
+
+#### Example: Generic Array Function
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function getFirstElement<T>(arr: T[]): T {
+  return arr[0];
+}
+
+console.log(getFirstElement<number>([1, 2, 3, 4]));  // Outputs 1
+console.log(getFirstElement<string>(["a", "b", "c"]));  // Outputs "a"`
+}} />
+
+In this example:
+- The `getFirstElement` function is a generic that accepts an array of any type (`T[]`) and returns the first element.
+- Type safety is enforced throughout, ensuring that the return type matches the type of elements in the input array.
+
+---
+
+## Generic Interfaces and Classes
+
+Generics are not limited to functions. You can create **generic interfaces** and **classes** that work with different data types, promoting code reuse while enforcing structure.
+
+### Generic Interface
+
+Let us create a generic interface for a data container.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface DataContainer<T> {
+  data: T;
+  getData: () => T;
+}
+
+const numberContainer: DataContainer<number> = {
+  data: 123,
+  getData: function() {
+    return this.data;
+  }
+};
+
+const stringContainer: DataContainer<string> = {
+  data: "TypeScript",
+  getData: function() {
+    return this.data;
+  }
+};
+
+console.log(numberContainer.getData());  // Outputs 123
+console.log(stringContainer.getData());  // Outputs "TypeScript"`
+}} />
+
+### Generic Class
+
+Now, let’s see how generics can be applied to a class. Below is an example of a generic `Box` class that can hold any type of item.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `class Box<T> {
+  content: T;
+
+  constructor(content: T) {
+    this.content = content;
+  }
+
+  getContent(): T {
+    return this.content;
+  }
+}
+
+const stringBox = new Box<string>("Hello, TypeScript!");
+const numberBox = new Box<number>(100);
+
+console.log(stringBox.getContent());  // Outputs "Hello, TypeScript!"
+console.log(numberBox.getContent());  // Outputs 100`
+}} />
+
+In this example:
+- The `Box` class has a generic type `T` that is used for the `content` property and the `getContent` method.
+- You can instantiate `Box` with different types while ensuring that type constraints are respected.
+
+### Activity: Create a Generic Stack Data Structure
+
+**Time:** 45 minutes  
+**Instructions:**  
+
+1. Create a file called `stack.ts`.
+2. Implement a generic `Stack` class that supports operations like `push`, `pop`, and `peek`.
+   - `push` should add an item of a generic type `T` to the stack.
+   - `pop` should remove and return the item at the top of the stack.
+   - `peek` should return the item at the top of the stack without removing it.
+3. Create instances of the `Stack` class for different data types (e.g., `number`, `string`) and demonstrate its functionality.
+
+**Critical Thinking:** How does using generics in this activity prevent potential type-related errors? How would a non-generic version of the `Stack` class look, and what limitations would it have?
+
+---
+
+## Advanced Types in TypeScript
+
+TypeScript offers several **advanced types** that allow you to create more complex and expressive data structures. These types include **intersections**, **unions**, and **type guards**.
+
+### Intersection Types
+
+An **intersection type** combines multiple types into one. A variable of an intersection type must satisfy all combined types.
+
+Think of intersection types like merging two lists of requirements. The final result must meet all criteria from both lists.
+
+#### Example: Intersection Type
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface HasName {
+  name: string;
+}
+
+interface HasPrice {
+  price: number;
+}
+
+type ProductWithDetails = HasName & HasPrice;
+
+const product: ProductWithDetails = {
+  name: "Laptop",
+  price: 999.99
+};
+
+console.log(\`\${product.name} costs \$\${product.price}\`);`
+}} />
+
+In this example:
+- `ProductWithDetails` is an intersection type combining `HasName` and `HasPrice`.
+- The `product` object must have both `name` and `price` properties.
+
+### Union Types
+
+A **union type** allows a variable to hold one of several types. It’s like saying, “This could be one of multiple options.”
+
+#### Example: Union Type
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function formatInput(input: string | number): string {
+  if (typeof input === "number") {
+    return \`Number: \${input.toFixed(2)}\`;
+  } else {
+    return \`String: \${input.toUpperCase()}\`;
+  }
+}
+
+console.log(formatInput(42.789));  // Outputs "Number: 42.79"
+console.log(formatInput("hello"));  // Outputs "String: HELLO"`
+}} />
+
+In this example:
+- `input` can be either a `string` or `number`, and the function handles each type differently.
+
+### Type Guards
+
+**Type guards** are used to narrow down a union type to a specific type during runtime. Type guards allow you to safely access properties and methods that are only available on certain types.
+
+Think of type guards like traffic signs that guide the direction of your code depending on the type encountered.
+
+#### Example: Type Guards
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface Car {
+  drive(): void;
+}
+
+interface Boat {
+  sail(): void;
+}
+
+function operateVehicle(vehicle: Car | Boat) {
+  if ("drive" in vehicle) {
+    vehicle.drive();
+  } else {
+    vehicle.sail();
+  }
+}
+
+const myCar: Car = { drive: () => console.log("Driving the car!") };
+const myBoat: Boat = { sail: () => console.log("Sailing the boat!") };
+
+operateVehicle(myCar);  // Outputs "Driving the car!"
+operateVehicle(myBoat);  // Outputs "Sailing the boat!"`
+}} />
+
+In this example:
+- The `in` operator checks whether the `vehicle` has a `drive` method, serving as a type guard.
+
+### Activity: Use Advanced Types in a Web Application
+
+**Time:** 45 minutes  
+**Instructions:**  
+
+1. Create a file called `dataProcessor.ts`.
+2. Implement a function that takes a **union type** of `string[]` or `number[]` and returns a formatted string.
+   - If the input is `string[]`, return a comma-separated list of uppercase strings.
+   - If the input is `number[]`, return a comma-separated list of numbers rounded to two decimal places.
+3. Use **type guards** to distinguish between `string[]` and `number[]`.
+4. Add a **type alias** for the union type to keep the code concise.
+
+**Critical Thinking:** How do union types and type guards make your code safer and more maintainable? What risks do they mitigate when dealing with complex data?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the primary purpose of generics in TypeScript?"
+  options={[
+    {
+      text: "To create reusable components without sacrificing type safety.",
+      correct: true,
+      feedback: "Correct! Generics allow for code reuse while maintaining type safety."
+    },
+    {
+      text: "To enforce strict data typing without flexibility.",
+      feedback: "Incorrect. Generics provide flexibility while maintaining type safety."
+    },
+    {
+      text: "To make code execute faster by reducing type checks.",
+      feedback: "Incorrect. Generics are not primarily about performance but about code safety and flexibility."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is the difference between union types and intersection types?"
+  options={[
+    {
+      text: "Union types require all conditions to be met, while intersection types allow for any.",
+      feedback: "Incorrect. This is the reverse of their actual behavior."
+    },
+    {
+      text: "Intersection types combine multiple types, while union types allow for one of several types.",
+      correct: true,
+      feedback: "Correct! Intersection types combine requirements, while union types allow flexibility."
+    },
+    {
+      text: "Union types are used for inheritance, while intersection types are not.",
+      feedback: "Incorrect. Union and intersection types are unrelated to inheritance."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which of the following is an example of a type guard in TypeScript?"
+  options={[
+    {
+      text: "Using the 'in' operator to check if a property exists in an object.",
+      correct: true,
+      feedback: "Correct! The 'in' operator is commonly used as a type guard."
+    },
+    {
+      text: "Using a switch statement to differentiate between types.",
+      feedback: "Incorrect. Switch statements can be used for type checks, but are not considered type guards."
+    },
+    {
+      text: "Declaring a type using the 'type' keyword.",
+      feedback: "Incorrect. Declaring a type is not a type guard but a type declaration."
+    }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned how to use **generics** to create flexible and reusable components, as well as how to implement **advanced types** like intersections, unions, and type guards. These concepts are vital for building robust, type-safe applications that can handle complex data structures efficiently.
+
+---
+
+## References
+
+- [TypeScript Generics Documentation](https://www.typescriptlang.org/docs/handbook/2/generics.html)
+- [Advanced Types in TypeScript](https://www.typescriptlang.org/docs/handbook/2/advanced-types.html)
+- [TypeScript Type Guards](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
+
+---
+
+## Additional Resources
+
+- [TypeScript Advanced Types Cheatsheet](https://typescript-cheatsheet.vercel.app/)

@@ -1,0 +1,380 @@
+---
+title: "Using the Fetch API for HTTP Requests"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Using the Fetch API for HTTP Requests
+
+## Workplace Context
+
+Imagine you are working on a project that involves integrating a weather service API to fetch current weather data based on user location. Additionally, the application needs to submit user feedback to the server. To accomplish this, you need to understand how to make HTTP requests using JavaScript's **Fetch API**.
+
+The Fetch API provides a flexible way to communicate with servers, handle responses, and manage data asynchronously. In this lesson, you will learn how to use `fetch()` to make GET and POST requests, handle JSON data, and manage potential network errors to ensure a seamless user experience.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Use the Fetch API to make GET and POST requests.
+- Retrieve and process JSON data from an API response.
+- Handle errors that occur during network requests.
+
+---
+
+## Introduction to the Fetch API
+
+The **Fetch API** is a modern JavaScript interface for making network requests. It provides a straightforward way to perform asynchronous HTTP requests, replacing the older `XMLHttpRequest` (XHR) object with a more readable syntax.
+
+### Aside: AJAX
+
+You may occasionally hear the term AJAX or AJAX requests used in industry. AJAX stands for **Asynchronous JavaScript and XML**, where XML is **Extensible Markup Language**, a format similar to HTML (Hypertext Markup Language). In the past, AJAX was used to make HTTP requests through the `XMLHttpRequest` object, also known as XHR. 
+
+Since these techniques are mostly irrelevant thanks to modern advancements, we will not discuss them here; however, if you wish to learn more about the history of web communication and the `XMLHttpRequest` object, check out [the documentation](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
+
+### Basic Syntax of `fetch()`
+
+The `fetch()` function returns a **Promise** that resolves to the `Response` object, representing the response to the request. This allows you to chain `.then()` and `.catch()` for handling the response or errors, or use the `async/await` syntax if preferred.
+
+```javascript
+fetch(url, options)
+  .then(response => {
+    // Handle the response here
+  })
+  .catch(error => {
+    // Handle any errors here
+  });
+```
+
+- **url**: The URL of the resource to request.
+- **options** (optional): An object containing settings for the request, such as HTTP method, headers, and body.
+
+### Handling JSON Data
+
+The `.json()` method of the `Response` object returns a Promise that resolves to the parsed JSON data. This makes it easy to work with JSON APIs. You will see many examples of this below.
+
+- **Important Note**: Always check for a successful response using `response.ok` before calling `.json()` to avoid unhandled errors.
+
+---
+
+## Understanding APIs and Endpoints
+
+**APIs** (Application Programming Interfaces) allow different software applications to communicate with each other. They define a set of rules and protocols for how requests and responses are handled, enabling applications to retrieve and manipulate data from other systems. For example, a weather app may use an API to get current weather data from a weather data provider.
+
+An **endpoint** is a specific URL within an API that provides access to a particular resource or action. Think of an endpoint as a door to a specific function of an API. For example, an API for a blog might have endpoints like `/posts` for retrieving a list of posts, or `/posts/{id}` for accessing a single post by its ID. Each endpoint represents a different resource or action within the API.
+
+### Reading API Documentation
+
+API documentation is essential for understanding how to interact with an API effectively. It provides details on:
+- **Base URL**: The root address of the API (e.g., `https://api.example.com`).
+- **Endpoints**: Available paths and the actions you can perform with each (e.g., `GET /posts` or `POST /comments`).
+- **Request Methods**: Which HTTP methods are allowed on each endpoint (e.g., GET, POST, PUT, DELETE, which will be discussed next).
+- **Parameters**: Data you can or must include in requests, such as query parameters, headers, or request bodies.
+- **Response Format**: How data will be returned, often in JSON, and what each field represents.
+- **Error Codes**: Possible errors and how to handle them, like 404 (not found) or 401 (unauthorized).
+
+By carefully reading API documentation, you can ensure you are using the API correctly, handling errors effectively, and making the most of the available data and functions. Good documentation is key to building efficient, reliable integrations.
+
+---
+
+## Documentation: The `fetch` API
+
+MDN has [documentation](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for the built-in `fetch` API. Before continuing, let us take a few minutes to look through the documentation, as well as the provided guides, so see what kind of insights it can offer.
+
+It is important to use official documentation as your first and most reliable source of information, whenever it is available.
+
+---
+
+## Documentation: The \{JSON\} Placeholder API
+
+Below, we will use the [\{JSON\} Placeholder API](https://jsonplaceholder.typicode.com/) in the examples. This is a free "fake" API for testing and prototyping, often used for learning purposes. It provides a simple set of endpoints for retrieving and manipulating fake data.
+
+It is a "fake" API because it does not actually store changes in a single database. If it were a real API and you were to change a piece of data, that change would be reflected across all consumers of that data (your colleagues!).
+
+To discover more about how to use the \{JSON\} Placeholder API, see the [official documentation](https://jsonplaceholder.typicode.com/guide). Review this documentation alongside the examples below whenever necessary.
+
+---
+
+## Types of HTTP Requests
+
+In web development, **HTTP requests** are used to communicate with servers. Each type of HTTP request serves a specific purpose and is used for different operations, often referred to as **CRUD** (Create, Read, Update, Delete). Understanding these request types is essential for interacting effectively with APIs and building data-driven applications. Below are the main HTTP request types and their typical use cases:
+
+---
+
+### 1. **GET** Request
+The **GET** request is the most common type of HTTP request and is used to **retrieve data** from a server. It is a safe, idempotent operation, meaning it does not change the state of the server and can be called multiple times without side effects.
+
+- **Use Case**: Fetching data from an API, such as retrieving a user profile, loading a list of products, or displaying news articles.
+- **Example**: `fetch("https://api.example.com/users")` retrieves a list of users from the server.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `fetch("https://jsonplaceholder.typicode.com/posts/1")
+  .then(response => response.json())
+  .then(data => console.log("Fetched data:", data))
+  .catch(error => console.error("Fetch error:", error));`
+}} />
+
+#### Explanation
+This example sends a **GET** request to fetch data about a specific post with the ID `1`. After receiving the response, it converts the data to JSON format and logs it to the console. If there is an error (e.g., network issue), it will be caught and logged.
+
+---
+
+### 2. **POST** Request
+The **POST** request is used to **send data** to the server to create a new resource. Unlike GET, it is not idempotent, meaning that calling it multiple times may create multiple resources.
+
+- **Use Case**: Submitting a form, creating a new user, or adding a new item to a database.
+- **Example**: `fetch("https://api.example.com/users", { method: "POST", body: JSON.stringify(userData) })` sends user data to create a new user on the server.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `fetch("https://jsonplaceholder.typicode.com/posts", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    title: "New Post",
+    body: "This is a new post",
+    userId: 1
+  })
+})
+  .then(response => response.json())
+  .then(data => console.log("Created post:", data))
+  .catch(error => console.error("Error:", error));`
+}} />
+
+#### Explanation
+This example sends a **POST** request to create a new post with a title, body, and user ID. The data is converted to JSON format in the request body. After the request is successful, the created post data is logged. If there’s an error, it’s logged to the console.
+
+---
+
+### 3. **PUT** Request
+The **PUT** request is used to **update an existing resource** on the server. It is often idempotent, meaning that calling it multiple times with the same data results in the same outcome, without creating duplicates.
+
+- **Use Case**: Updating a user profile, modifying product details, or changing settings.
+- **Example**: `fetch("https://api.example.com/users/1", { method: "PUT", body: JSON.stringify(updatedData) })` updates the information for the user with ID 1.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `fetch("https://jsonplaceholder.typicode.com/posts/1", {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    id: 1,
+    title: "Updated Post",
+    body: "This post has been updated",
+    userId: 1
+  })
+})
+  .then(response => response.json())
+  .then(data => console.log("Updated post:", data))
+  .catch(error => console.error("Error:", error));`
+}} />
+
+#### Explanation
+This **PUT** request replaces all data for the post with ID `1`. The updated post data is sent in the body as JSON. Upon success, the updated post data is logged to the console. Any errors are also logged.
+
+---
+
+### 4. **PATCH** Request
+The **PATCH** request is similar to PUT but is used for **partial updates**. Unlike PUT, which generally replaces the entire resource, PATCH only updates specific fields.
+
+- **Use Case**: Updating a single field in a profile, like changing an email address or updating a single product attribute.
+- **Example**: `fetch("https://api.example.com/users/1", { method: "PATCH", body: JSON.stringify({ email: "new@example.com" }) })` updates only the email field for the user with ID 1.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `fetch("https://jsonplaceholder.typicode.com/posts/1", {
+  method: "PATCH",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    title: "Partially Updated Post"
+  })
+})
+  .then(response => response.json())
+  .then(data => console.log("Patched post:", data))
+  .catch(error => console.error("Error:", error));`
+}} />
+
+#### Explanation
+This **PATCH** request partially updates the post with ID `1`, changing only the `title` field. The new title is sent in the request body. After the request completes, the partially updated post data is logged. Errors are caught and logged.
+
+---
+
+### 5. **DELETE** Request
+The **DELETE** request is used to **remove a resource** from the server. Like GET and PUT, it is generally idempotent, meaning calling it multiple times will result in the same outcome (if the resource is already deleted, subsequent calls will simply confirm that it no longer exists).
+
+- **Use Case**: Deleting a user account, removing an item from a cart, or erasing a post.
+- **Example**: `fetch("https://api.example.com/users/1", { method: "DELETE" })` deletes the user with ID 1 from the server.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `fetch("https://jsonplaceholder.typicode.com/posts/1", {
+  method: "DELETE"
+})
+  .then(response => {
+    if (response.ok) {
+      console.log("Deleted post successfully");
+    } else {
+      console.error("Failed to delete post");
+    }
+  })
+  .catch(error => console.error("Error:", error));`
+}} />
+
+#### Explanation
+This example sends a **DELETE** request to remove the post with ID `1`. If the request is successful (indicated by `response.ok`), a success message is logged. If not, an error message is shown. Any network or server errors are also logged.
+
+---
+
+### Summary Table of HTTP Methods
+
+| HTTP Method | Usage                          | Example Operation                     |
+|-------------|--------------------------------|---------------------------------------|
+| **GET**     | Retrieve data                  | Fetching a list of products           |
+| **POST**    | Create a new resource          | Submitting a form to create a user    |
+| **PUT**     | Update an entire resource      | Replacing all details of a user       |
+| **PATCH**   | Update part of a resource      | Updating a user’s email address       |
+| **DELETE**  | Delete a resource              | Removing a user account               |
+
+---
+
+Understanding these request types allows you to interact effectively with APIs and build applications that communicate smoothly with back-end services. Using the correct HTTP method ensures that your actions align with best practices, creating more predictable and reliable systems.
+
+---
+
+## Handling Errors in Network Requests
+
+Network requests can fail for various reasons, such as network issues, server errors, or invalid URLs. It is essential to handle these errors gracefully to improve user experience.
+
+### Using `try...catch` with Async/Await
+
+Using `async/await` with `fetch()` can make your code cleaner and easier to read. Here is an example of handling errors in an async function.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `async function fetchData() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+}
+
+fetchData();`
+}} />
+
+### Explanation
+
+- **Error Handling**: The `try...catch` block handles any errors that occur during the fetch request.
+- **Awaiting Response**: The `await` keyword pauses the function execution until the Promise resolves, making it easier to work with asynchronous code.
+
+---
+
+## Activity: Fetching and Posting Data with the Fetch API
+
+**Time:** 30 minutes  
+**Instructions:**  
+
+1. **Fetch Data**
+   - Use a GET request to fetch data from any free API you can find (make sure it includes good documentation!).
+   - Display the fetched user data in the console.
+
+2. **Change Data**
+   - If the API you found allows it, make a PUT, PATCH, or DELETE request.
+    - If not, continue searching for another option, or ask your colleagues for help.
+    - As a fallback option, use the \{JSON\} Placeholder API.
+   - Log the response from the server in the console.
+
+**Critical Thinking**: What challenges might you face when dealing with large amounts of data in responses? How does async error handling improve the user experience in real applications?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the purpose of the 'json()' method in the Fetch API?"
+  options={[
+    {
+      text: "To send data to the server in JSON format.",
+      feedback: "Incorrect. The 'json()' method is used to parse the response body as JSON."
+    },
+    {
+      text: "To parse the response body as JSON.",
+      correct: true,
+      feedback: "Correct! The 'json()' method parses the response body as JSON."
+    },
+    {
+      text: "To check the status of the response.",
+      feedback: "Incorrect. The 'json()' method does not check the response status."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which of the following options is used to set the request method to POST in the Fetch API?"
+  options={[
+    {
+      text: "method: 'GET'",
+      feedback: "Incorrect. 'GET' is the default method, but 'POST' is needed to send data to the server."
+    },
+    {
+      text: "method: 'POST'",
+      correct: true,
+      feedback: "Correct! The 'POST' method is used to send data to the server."
+    },
+    {
+      text: "headers: { 'Content-Type': 'application/json' }",
+      feedback: "Incorrect. This specifies the request headers but does not change the method to 'POST'."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What does the 'catch' method do when using the Fetch API with Promises?"
+  options={[
+    {
+      text: "It catches all network errors that occur during the fetch request.",
+      correct: true,
+      feedback: "Correct! The 'catch' method is used to handle any errors that occur during the fetch request."
+    },
+    {
+      text: "It stops the fetch request from running.",
+      feedback: "Incorrect. The 'catch' method handles errors; it doesn't stop the request."
+    },
+    {
+      text: "It parses the response body as JSON.",
+      feedback: "Incorrect. The 'json()' method parses the response body, not 'catch'."
+    }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you explored **asynchronous programming** with the **Fetch API** in JavaScript. You learned how to make **GET** and **POST** requests to retrieve and send data, process JSON responses, and handle errors effectively.
+
+ Understanding how to interact with external APIs is an essential skill for building dynamic, data-driven applications.
+
+---
+
+## References
+
+- [MDN Web Docs: Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+- [Making HTTP Requests with Fetch](https://javascript.info/fetch)
+- [Async/Await with Fetch](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)
+
+---
+
+## Additional Resources
+
+- [Understanding Fetch API Basics](https://www.freecodecamp.org/news/fetch-api-cheatsheet/)
+- [More Fetch API Information](https://flaviocopes.com/fetch-api/)

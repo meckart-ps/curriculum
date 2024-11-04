@@ -1,0 +1,585 @@
+---
+title: "Asynchronous Programming with Promises"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Asynchronous Programming with Promises
+
+## Workplace Context
+
+As your e-commerce platform evolves, you are now tasked with integrating it with several third-party APIs, including a payment gateway and an inventory management system. These integrations rely on **asynchronous operations**, such as fetching data and handling delayed responses. To build a responsive, user-friendly experience, you must master **JavaScript Promises** — a powerful way to manage asynchronous programming.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Explain the concept of asynchronous programming in JavaScript and its importance.
+- Create and use JavaScript Promises to handle asynchronous operations.
+- Chain Promises to handle multiple asynchronous tasks in sequence.
+- Use error handling techniques with Promises to ensure your application can gracefully handle unexpected scenarios.
+
+---
+
+## Introduction to Asynchronous Programming
+
+JavaScript is single-threaded, meaning it can only execute one task at a time. However, modern web applications require multiple tasks to happen concurrently, such as fetching data, reading files, or waiting for user input. This is where **asynchronous programming** comes into play — allowing JavaScript to manage multiple operations without blocking the main thread.
+
+### Synchronous vs. Asynchronous Code
+
+Synchronous code executes line by line, waiting for each line to complete before moving to the next. This can cause the application to freeze if a long-running task is in progress.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `console.log("Start");
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+console.log("End");`
+}} />
+
+Asynchronous code allows other operations to continue while waiting for tasks to complete, creating a non-blocking experience.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `// Asynchronous Code Example with setTimeout
+console.log("Start");
+setTimeout(() => {
+  console.log("This happens asynchronously");
+}, 1000);
+console.log("End");`
+}} />
+
+Notice how `"End"` is logged before the asynchronous message. JavaScript doesn't wait for the `setTimeout` to finish before continuing. This is because the [`setTimeout` method](https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout) uses basic asynchronous programming to execute code after a specified delay, the second parameter (`1000` milliseconds, or one second, in the case above).
+
+However, what would we expect from a delay of zero, as in `setTimeout(() => {}, 0)`? The code will execute immediately with zero delay, and the `"This happens asynchronously"` message will be logged before the `"End"` message, right?
+
+Not quite. Try changing the value of `1000` to `0` above and see what happens.
+
+*Why* does this happen? JavaScript operates on something called the **event loop**, which governs how the JavaScript engine handles tasks. The event loop ensures that tasks are executed in a non-blocking manner, allowing other operations to continue while waiting for tasks to complete. This has an effect on all asynchronous operations, even those we *expect* to happen immediately. We will discuss the event loop in more detail in the next lesson.
+
+---
+
+## Promises
+
+**Promises** are a way to manage asynchronous tasks in JavaScript. They represent a value that may not be available yet but will be resolved at some point in the future. A Promise can have three states:
+
+- **Pending**: The initial state; the operation is not yet complete.
+- **Fulfilled**: The operation completed successfully.
+- **Rejected**: The operation failed.
+
+Since the value of an asynchronous action isn't necessarily known when it is assigned to a variable, a `Promise` can occupy that space in the meantime. The asynchronous action is *literally* returning the promise to give a final value at some point in the future.
+
+When the state of a promise changes to either fulfilled or rejected, it is considered to be "settled." Similarly, a "resolved" promise is one that has settled or matched to the eventual state of another promise, and further action upon it will have no effect.
+
+Think of a Promise like a real-life promise. It is a guarantee that something will happen in the future, even though the outcome (success or failure) is not yet known.
+
+## Creating Promises
+
+You can manually create promises using the `Promise` constructor.
+
+The `Promise` constructor takes an `executor()` function that has parameters `resolveFunc` and `rejectFunc`, which are callbacks for the resolved and rejected cases of the promise. Most of the time, you will see these named `resolve` and `reject` in practice.
+
+Here is a basic example:
+
+```javascript
+const myFirstPromise = new Promise((resolve, reject) => {
+  // We call resolve(...) when what we were doing asynchronously was successful, and reject(...) when it failed.
+  // In this example, we use setTimeout(...) to simulate async code.
+  // In reality, you will probably be using some external source of data or network request.
+  setTimeout(() => {
+    resolve("Success!"); // Yay! Everything went well!
+  }, 250);
+});
+
+myFirstPromise.then((successMessage) => {
+  // successMessage is whatever we passed in the resolve(...) function above.
+  // It doesn't have to be a string, but if it is only a success message, it probably will be.
+  console.log(`Yay! ${successMessage}`);
+});
+```
+
+One of the most common reasons to create promises is to handle errors that are not handled by traditional asynchronous functions. As an example, let's look at the `setTimeout()` method:
+
+```javascript
+setTimeout(() => saySomething("10 seconds passed"), 10 * 1000);
+```
+
+If the function `saySomething()` throws an error, nothing catches it. The best practice to handle these kinds of situations, when encountered, is to wrap the low-level callback-accepting functions in a promise, and then never call those functions directly again.
+
+For example, we could create a new function `wait()` that wraps `setTimeout()` in a promise, and from then on we would use `wait()` instead of `setTimeout()`:
+
+```javascript
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+wait(10 * 1000)
+  .then(() => saySomething("10 seconds"))
+  .catch(failureCallback);
+```
+
+Since `setTimeout()` doesn't really fail, we can leave out the `reject` portion of the `Promise` constructor. However, if we needed to add a rejection case, we could do so like this:
+
+```javascript
+const wait = (ms) => new Promise((resolve, reject) => {
+    try {
+        setTimeout(resolve, ms);
+    } catch (e) {
+        reject(e);
+    }
+});
+
+wait(10 * 1000)
+  .then(() => saySomething("10 seconds"))
+  .catch(failureCallback);
+```
+
+Building promises in this way can get quite complex, depending on the desired outcome. For further research, reference the [MDN documentation on the Promise constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise) if and when you find a use case for it.
+
+### Example: Creating Promises
+
+Here is a basic example of a Promise that simulates a delay using `setTimeout`, similar to the `wait()` function above, but utilizing TypeScript generics for type safety. Experiment with this code to see how you can change the inputs, returned values, and general outcomes.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+wait(1000).then(() => console.log("Done waiting!"));`
+}} />
+
+#### Explanation
+- **`resolve`** is a function that marks the Promise as fulfilled.
+- **`reject`** is a function that marks the Promise as rejected.
+- The `then` method is called when the Promise is fulfilled, allowing you to handle the result.
+
+---
+
+### Chaining Promises
+
+Promises are often chained to handle multiple asynchronous tasks in sequence.
+It is important to note that you must always return results from your promise chains, otherwise the callbacks won't know the result of a previous promise. When a promise is started but not returned, it is said to be "floating," and there is no way to track its settlement.
+
+Here is a reference image from MDN documentation that shows how promises behave when they are chained like this:
+
+![](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png)
+
+How would that code have looked without promises? Back in the old days, using many asynchronous callbacks in a row would lead to a nested callback structure that might have looked something like this. This and the next few examples are taken from the MDN documentation on using promises.
+
+```js
+doSomething(function (result) {
+  doSomethingElse(result, function (newResult) {
+    doThirdThing(newResult, function (finalResult) {
+      console.log(`Got the final result: ${finalResult}`);
+    }, failureCallback);
+  }, failureCallback);
+}, failureCallback);
+```
+
+Imagine if there were ten callbacks instead of only three...
+
+#### Example: Chaining Promises
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const fetchUser = (): Promise<string> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve("User data"), 1000);
+  });
+};
+
+const fetchOrders = (userData: string): Promise<string[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(["Order1", "Order2", "Order3"]), 1000);
+  });
+};
+
+fetchUser()
+  .then((user) => {
+    console.log("Fetched user:", user);
+    return fetchOrders(user);
+  })
+  .then((orders) => {
+    console.log("Fetched orders:", orders);
+  });`
+}} />
+
+##### Explanation
+- The `fetchUser` function returns a Promise that resolves with user data.
+- The `fetchOrders` function takes user data and returns a Promise that resolves with a list of orders.
+- Promises are chained using `then`, making it easy to handle sequential asynchronous tasks.
+
+---
+
+## Nesting Promises and `catch()` Tips
+
+You can also nest promises within one another, but this is a dangerous practice. Most often, nesting is used to limit the scope of `catch()` statements, since a nested `catch` only catches failures within its scope and below. This can increase error-handling precision.
+
+Here is an example of this:
+
+```js
+doSomethingCritical()
+  .then((result) =>
+    doSomethingOptional(result)
+      .then((optionalResult) => doSomethingExtraNice(optionalResult))
+      .catch((e) => {}),
+  ) // Ignore if optional stuff fails; proceed.
+  .then(() => moreCriticalStuff())
+  .catch((e) => console.error(`Critical failure: ${e.message}`));
+```
+
+Note that the optional steps here are nested — with the nesting caused not by the indentation, but by the placement of the outer parentheses around the steps.
+
+The inner error-silencing `catch` handler only catches failures from `doSomethingOptional()` and `doSomethingExtraNice()`, after which the code resumes with `moreCriticalStuff()`. Importantly, if `doSomethingCritical()` fails, its error is caught by the final (outer) `catch` only, and does not get swallowed by the inner `catch` handler.
+
+You can also chain `then()` statements *after* a `catch()`, which allows you to continue new tasks even after an action within the chain has failed.
+
+Here is another example:
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `new Promise((resolve, reject) => {
+  console.log("Initial");
+
+  resolve();
+})
+  .then(() => {
+    throw new Error("Something failed");
+
+    console.log("Do this");
+  })
+  .catch(() => {
+    console.error("Do that");
+  })
+  .then(() => {
+    console.log("Do this, no matter what happened before");
+  });`
+}} />
+
+Since the initial `then` throws an error, it will never log "Do this." That error will be caught by the `catch` statement, at which point the next `then` will execute.
+
+---
+
+## Error Handling with Promises
+
+In the example with nested callbacks earlier, we needed to call `failureCallback` with each nested function, as opposed to only once with `catch` at the end of a promise chain:
+
+```js
+doSomething()
+  .then((result) => doSomethingElse(result))
+  .then((newResult) => doThirdThing(newResult))
+  .then((finalResult) => console.log(`Got the final result: ${finalResult}`))
+  .catch(failureCallback);
+```
+
+Whenever an exception is thrown, JavaScript searches the promise chain for `catch()` handlers or an `onRejected` callback. This should look very familiar, as it is similar to how synchronous code handles errors with `try...catch`.
+
+```js
+try {
+  const result = syncDoSomething();
+  const newResult = syncDoSomethingElse(result);
+  const finalResult = syncDoThirdThing(newResult);
+  console.log(`Got the final result: ${finalResult}`);
+} catch (error) {
+  failureCallback(error);
+}
+```
+
+Promises solve a fundamental flaw with the nested callback structure seen earlier by catching *all* errors, even thrown exceptions and programming errors. This is essential for functional composition of asynchronous operations.
+
+We will return to these examples after the lesson on `async/await`. `async/await` allow you to make promises resemble synchronous code even more closely.
+
+---
+
+## Composition Tools
+
+Promise provides four tools for running asynchronous operations concurrently, called "composition tools."
+
+The first, `Promise.all`, allows us to start several asynchronous operations at the same time, and wait for them all to finish before executing a `then`:
+
+```js
+Promise.all([func1(), func2(), func3()]).then(([result1, result2, result3]) => {
+  // use result1, result2 and result3
+});
+```
+
+If any of the promises in the provided array rejects, the returned promise is rejected and all other operations are aborted. As an alternative, `Promise.allSettled()` -- the second compositional tool -- has similar behavior, but waits for all operations to complete before resolving.
+
+You can also create a sequence of promises by using some clever JavaScript:
+
+```js
+[func1, func2, func3]
+  .reduce((p, f) => p.then(f), Promise.resolve())
+  .then((result3) => {
+    /* use result3 */
+  });
+```
+
+The array of asynchronous functions is reduced to a promise chain, which is equivalent to:
+
+```js
+Promise.resolve()
+  .then(func1)
+  .then(func2)
+  .then(func3)
+  .then((result3) => {
+    /* use result3 */
+  });
+```
+
+You should always consider if you need promises to run sequentially or not. Running promises concurrently is more efficient when they do not depend on each other's results, as it avoids unnecessary blocking between the promises.
+
+The opposite of `Promise.all` is `Promise.any`, which returns a single promise that fulfills when *any* of the input's promises fulfill, with the first fulfillment value. It only rejects if *all* of the input promises reject, and throws an `AggregateError` containing an array of rejection reasons.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const promise1 = Promise.reject(0);
+const promise2 = new Promise((resolve) => setTimeout(resolve, 100, 'quick'));
+const promise3 = new Promise((resolve) => setTimeout(resolve, 500, 'slow'));
+
+const promises = [promise1, promise2, promise3];
+
+Promise.any(promises).then((value) => console.log(value));`
+}} />
+
+The final compositional tool, `Promise.race`, returns a single Promise that settles with the eventual state of the first input promise that settles.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const promise1 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 500, 'one');
+});
+
+const promise2 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, 'two');
+});
+
+Promise.race([promise1, promise2]).then((value) => {
+  console.log(value);
+  // Both resolve, but promise2 is faster
+});`
+}} />
+
+---
+
+### Activity: Using Promises to Simulate API Requests
+
+**Time:** 30 minutes  
+**Instructions:**  
+
+1. Create a file called `apiSimulator.ts`.
+2. Implement three functions that simulate API requests using Promises:
+   - `getProductDetails` should simulate fetching product details (e.g., name, price).
+   - `getProductReviews` should simulate fetching reviews for a product.
+   - `getRelatedProducts` should simulate fetching related products.
+3. Chain these Promises together to display product details, reviews, and related products in the console.
+
+**Critical Thinking:** How does chaining Promises help keep the code organized? What challenges might you face when dealing with complex chains of Promises?
+
+---
+
+## Error Handling with Promises
+
+Error handling is a crucial part of managing asynchronous code. Promises provide a `catch` method to handle errors when something goes wrong, ensuring your application doesn’t crash unexpectedly.
+
+### Basic Error Handling
+
+Here’s an example of how to handle errors in a Promise.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const riskyOperation = (shouldFail: boolean): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    if (shouldFail) {
+      reject("Operation failed!");
+    } else {
+      resolve("Operation succeeded!");
+    }
+  });
+};
+
+riskyOperation(true)
+  .then((message) => console.log(message))
+  .catch((error) => console.error("Error:", error));`
+}} />
+
+#### Explanation
+- **`reject`** is called when the operation fails, passing an error message.
+- The `catch` method handles any errors, preventing them from propagating further.
+
+### Using `finally`
+
+The `finally` method runs after a Promise settles, whether it’s fulfilled or rejected. It’s useful for cleanup operations that should occur regardless of the outcome.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `const riskyOperation = (shouldFail: boolean): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    if (shouldFail) {
+      reject("Operation failed!");
+    } else {
+      resolve("Operation succeeded!");
+    }
+  });
+};
+
+riskyOperation(false)
+  .then((message) => console.log(message))
+  .catch((error) => console.error("Error:", error))
+  .finally(() => console.log("Operation completed."));`
+}} />
+
+---
+
+## Common Mistakes with Promises
+
+When working with Promises, developers often encounter some common pitfalls. Here are a few mistakes and how to avoid them:
+
+### Forgetting to Return a Promise
+
+If you forget to return a Promise inside a `then`, it can lead to unexpected behavior.
+
+```typescript
+// Common mistake
+fetchUser()
+  .then((user) => {
+    fetchOrders(user); // Not returning a Promise
+  })
+  .then((orders) => {
+    console.log("Fetched orders:", orders); // Orders may not be fetched correctly
+  });
+```
+
+#### Solution
+
+Always return a Promise when chaining tasks.
+
+```typescript
+fetchUser()
+  .then((user) => {
+    return fetchOrders(user); // Correctly returning the Promise
+  })
+  .then((orders) => {
+    console.log("Fetched orders:", orders); // Orders will be fetched correctly
+  });
+```
+
+### Nested Promises (Pyramid of Doom)
+
+Nesting Promises can lead to unreadable and hard-to-maintain code, known as the "Pyramid of Doom."
+
+```typescript
+fetchUser()
+  .then((user) => {
+    fetchOrders(user).then((orders) => {
+      fetchShippingDetails(orders).then((details) => {
+        console.log("Shipping details:", details);
+      });
+    });
+  });
+```
+
+#### Solution
+
+Chain Promises instead of nesting them.
+
+```typescript
+fetchUser()
+  .then((user) => fetchOrders(user))
+  .then((orders) => fetchShippingDetails(orders))
+  .then((details) => console.log("Shipping details:", details));
+```
+
+---
+
+## Activity: Building a Promise-Based Data Fetcher
+
+**Time:** 45 minutes  
+**Instructions:**  
+
+1. Create a file called `dataFetcher.ts`.
+2. Implement a series of functions using Promises that simulate fetching:
+   - `fetchUserData` (user information)
+   - `fetchOrderHistory` (order history for a user)
+   - `fetchOrderDetails` (detailed information for a specific order)
+3. Chain these Promises together to simulate a user logging in, viewing order history, and clicking an order to see details.
+4. Implement error handling for each step to handle potential issues (e.g., user data not found).
+
+**Critical Thinking:** What impact does effective error handling have on user experience in a real-world application? How does it enhance application stability?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the purpose of the 'catch' method in Promises?"
+  options={[
+    {
+      text: "To handle a fulfilled Promise.",
+      feedback: "Incorrect. The 'catch' method is used to handle rejected Promises.",
+    },
+    {
+      text: "To chain multiple Promises together.",
+      feedback: "Incorrect. The 'then' method is used for chaining Promises.",
+    },
+    {
+      text: "To handle errors that occur during the Promise execution.",
+      correct: true,
+     
+
+ feedback: "Correct! The 'catch' method handles errors in Promises."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is a common mistake when chaining Promises?"
+  options={[
+    {
+      text: "Using the 'finally' method.",
+      feedback: "Incorrect. 'Finally' is a proper way to handle cleanup after Promises settle.",
+    },
+    {
+      text: "Forgetting to return a Promise inside a 'then' block.",
+      correct: true,
+      feedback: "Correct! Not returning a Promise can cause unexpected behavior."
+    },
+    {
+      text: "Chaining Promises instead of nesting them.",
+      feedback: "Incorrect. Chaining Promises is a best practice to avoid the 'Pyramid of Doom.'",
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What are the three states of a Promise?"
+  options={[
+    {
+      text: "Started, Completed, Failed.",
+      feedback: "Incorrect. These are not the correct states of a Promise.",
+    },
+    {
+      text: "Pending, Fulfilled, Rejected.",
+      correct: true,
+      feedback: "Correct! These are the three states of a Promise."
+    },
+    {
+      text: "Loading, Ready, Error.",
+      feedback: "Incorrect. These are not the states of a Promise."
+    }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you explored **asynchronous programming** in JavaScript using **Promises**. You learned how to handle asynchronous tasks sequentially with Promise chaining and how to implement error handling using the `catch` and `finally` methods. These techniques will help you create smooth, non-blocking user experiences in your applications.
+
+---
+
+## References
+
+- [MDN Web Docs: Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+- [JavaScript Promises Explained](https://javascript.info/promise-basics)
+- [Handling Errors in Promises](https://javascript.info/promise-error-handling)
+
+---
+
+## Additional Resources
+
+- [Mastering JavaScript Promises](https://developers.google.com/web/fundamentals/primers/promises)
+- [Understanding Async Programming in JavaScript](https://eloquentjavascript.net/11_async.html)
+- [JavaScript Promises Cheatsheet](https://devhints.io/js-promises)

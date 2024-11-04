@@ -1,0 +1,436 @@
+---
+title: "TypeScript Functions, Interfaces, and Type Aliases"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# TypeScript Functions, Interfaces, and Type Aliases
+
+## Workplace Context
+
+You have joined a team that manages a large inventory management system. The system requires precise function definitions to calculate the total values of items, validate user data, and handle various object shapes for different categories of products. To ensure clarity and minimize errors in such a complex project, you are expected to use TypeScript functions, interfaces, and type aliases to enforce consistent data handling. This approach will reduce bugs and make it easier for your team to maintain and expand the system over time.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Define and use function annotations in TypeScript.
+- Use interfaces to describe object shapes and ensure data consistency.
+- Apply type aliases and union types to manage complex data structures.
+
+---
+
+## Functions in TypeScript
+
+In the previous lesson, you learned how to add basic annotations to function parameters and return types. Now, we will explore more advanced features, including **optional parameters**, **default parameters**, and **function overloads**. These techniques will help you write more flexible and maintainable functions, which is crucial in complex projects.
+
+### Optional and Default Parameters
+
+In TypeScript, you can make parameters optional by adding a question mark `?` after the parameter name. Optional parameters allow you to create functions that handle different scenarios without forcing every caller to provide all the arguments.
+
+#### Example: Optional Parameters
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function logMessage(message: string, level?: string): void {
+  const logLevel = level || "info";
+  console.log(\`[\${logLevel.toUpperCase()}] \${message}\`);
+}
+
+logMessage("System started");          // Defaults to "info"
+logMessage("System error", "error");   // Uses "error"
+`
+}} />
+
+In this example:
+- `level` is an optional parameter. If not provided, the function defaults to `"info"` by using the `||` operator.
+
+#### Example: Default Parameters
+TypeScript also supports **default parameters**, allowing you to specify a default value directly in the function signature. This makes the code cleaner and more explicit.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function greetUser(name: string, greeting: string = "Hello"): string {
+  return \`\${greeting}, \${name}!\`;
+}
+
+console.log(greetUser("Alice"));        // Outputs: "Hello, Alice!"
+console.log(greetUser("Bob", "Hi"));    // Outputs: "Hi, Bob!"
+`
+}} />
+
+In this example:
+- The `greeting` parameter defaults to `"Hello"` if not provided.
+
+### Function Overloads
+
+**Function overloads** allow you to define multiple signatures for a single function. This is particularly useful when a function needs to handle different types or numbers of arguments.
+
+#### Example: Function Overloads
+Here’s an example where we create a function that can accept either a string or an array of strings:
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `// Define function signatures (overloads)
+function formatInput(input: string): string;
+function formatInput(input: string[]): string;
+
+// Implement the function to handle both signatures
+function formatInput(input: string | string[]): string {
+  if (typeof input === "string") {
+    return input.toUpperCase();
+  } else {
+    return input.join(", ").toUpperCase();
+  }
+}
+
+console.log(formatInput("hello"));               // Outputs: "HELLO"
+console.log(formatInput(["apple", "banana"]));   // Outputs: "APPLE, BANANA"
+`
+}} />
+
+In this example:
+- The function `formatInput` can handle both a single `string` and an `array of strings` thanks to function overloads.
+- TypeScript checks that the correct overload is used based on the input type, helping you avoid runtime errors.
+
+### Arrow Functions and Context
+
+While arrow functions were introduced in the previous lesson, it’s crucial to understand their **context behavior**. Arrow functions in TypeScript do not have their own `this` context, making them ideal for scenarios where you need to maintain the outer context.
+
+#### Example: Using Arrow Functions in Callbacks
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface Button {
+  label: string;
+  onClick: () => void;
+}
+
+const button: Button = {
+  label: "Click me",
+  onClick: () => {
+    console.log("Button clicked!");
+  },
+};
+
+button.onClick(); // Outputs: "Button clicked!"
+`
+}} />
+
+In this example:
+- The `onClick` function is an arrow function, so it retains the context of its parent scope, avoiding common pitfalls related to `this` in JavaScript.
+
+---
+
+Let's design an activity that is both more challenging and more relevant to a real-world scenario, focusing on writing reusable and maintainable code using advanced function features. Here's the revised activity:
+
+## Activity: Creating a Flexible Calculator with TypeScript Functions
+
+**Time:** 30 minutes  
+**Instructions:**  
+
+You are tasked with creating a more advanced calculator that not only handles basic arithmetic but also performs additional operations based on user-defined rules. You will use TypeScript's advanced function features, including optional parameters, default parameters, function overloads, and strict type annotations to ensure type safety.
+
+**Steps:**
+
+1. **Create a New File:**  
+   Create a new file called `advancedCalculator.ts`.
+
+2. **Basic Calculator Functions:**  
+   Start by writing functions for basic calculator operations: addition, subtraction, multiplication, and division. 
+   - Each function should:
+     - Accept two parameters of type `number`.
+     - Return a `number` (or `null` if the operation is invalid, like division by zero).
+   - Use **default parameters** to provide default values for the second operand.
+  
+**Basic Calculator Template**
+```typescript
+// Example function template for addition
+function add(a: number = 0, b: number = 0): number {
+  return a + b;
+}
+
+// Division function with zero handling
+function divide(a: number, b: number = 1): number | null {
+  return b === 0 ? null : a / b;
+}
+```
+
+3. **Advanced Operations with Function Overloads:**  
+   Implement the following additional operations using **function overloads**:
+   - `calculate`: This function should:
+     - Accept either a `number` or an array of numbers.
+     - If it receives a single `number`, it should return its square.
+     - If it receives an array of numbers, it should return the sum of all numbers.
+   - Use **optional parameters** to specify if the sum should be calculated as an integer or floating-point number.
+
+**Overload Example Template**
+```typescript
+// Function overloads for calculating squares or summing arrays
+function calculate(value: number): number;
+function calculate(values: number[]): number;
+
+function calculate(input: number | number[]): number {
+  if (typeof input === "number") {
+    return input ** 2;
+  } else {
+    return input.reduce((acc, val) => acc + val, 0);
+  }
+}
+```
+
+4. **Handle User-Defined Rules:**  
+   Write a function called `applyRule` that:
+   - Accepts a `number` and a callback function as parameters.
+   - The callback function should take a `number` as an input and return a `number`.
+   - Use this function to implement a rule that rounds numbers to the nearest tenth or hundredth.
+
+**User-Defined Rule Template**
+```typescript
+// Apply user-defined rule to round numbers
+function applyRule(num: number, rule: (n: number) => number): number {
+  return rule(num);
+}
+
+// Example of using applyRule with a rounding rule
+const roundToTenth = (n: number) => Math.round(n * 10) / 10;
+console.log(applyRule(5.678, roundToTenth)); // Outputs 5.7
+```
+
+5. **Error Handling:**  
+   Ensure your calculator gracefully handles edge cases. For example:
+   - Division by zero should return `null`.
+   - Invalid inputs (like passing a `string` instead of a `number`) should trigger TypeScript compile-time errors.
+
+6. **Compile and Test Your Code:**  
+   - Create a `testCalculator.ts` file to test each function.
+   - Use sample input data to verify that your calculator behaves correctly under different scenarios.
+
+### Critical Thinking Questions
+
+1. How does TypeScript's type system help catch errors at compile time when building a complex calculator with multiple functions?
+2. What benefits do function overloads provide when designing flexible functions? Can you think of other scenarios where overloads might be beneficial?
+3. How does using callback functions promote the reusability of code in this context? What other advanced JavaScript concepts could enhance this calculator?
+
+---
+
+## Interfaces in TypeScript
+
+In TypeScript, **interfaces** are like blueprints that define the structure of an object. They are particularly useful in larger applications where maintaining consistent data shapes is essential. Using interfaces is like giving each object a job description so that it knows exactly what properties it needs to have.
+
+### Defining Interfaces
+
+An interface in TypeScript allows you to define the properties and types of an object in a reusable way.
+
+#### Example: Basic Interface
+
+Let’s define a simple `Product` interface for an inventory system.
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface Product {
+  id: number;
+  name: string;
+  price: number;
+  inStock: boolean;
+}
+
+let item: Product = {
+  id: 1,
+  name: "Laptop",
+  price: 999.99,
+  inStock: true,
+};
+
+console.log(item);`
+}} />
+
+### Using Interfaces with Functions
+
+You can also use interfaces to specify the expected structure of a parameter for a function.
+
+#### Example: Function with Interface Parameter
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface User {
+  username: string;
+  email: string;
+}
+
+function welcomeUser(user: User): string {
+  return \`Welcome, \${user.username}! Your email is \${user.email}.\`;
+}
+
+let newUser = { username: "john_doe", email: "john@example.com" };
+console.log(welcomeUser(newUser));`
+}} />
+
+This example shows how TypeScript ensures that the `User` object passed to `welcomeUser` must have the `username` and `email` properties. 
+
+### Extending Interfaces
+
+You can extend existing interfaces to create more specialized types, similar to **inheritance** in object-oriented programming.
+
+#### Example: Extending an Interface
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `interface Animal {
+  name: string;
+  age: number;
+}
+
+interface Dog extends Animal {
+  breed: string;
+}
+
+let myDog: Dog = {
+  name: "Buddy",
+  age: 3,
+  breed: "Golden Retriever",
+};
+
+console.log(myDog);`
+}} />
+
+**Analogy**: Think of interface extensions like inheriting traits from a parent. Just as a child inherits characteristics from their parents, a new interface can inherit properties from an existing one, while adding additional properties of its own.
+
+---
+
+## Type Aliases and Union Types
+
+In TypeScript, **type aliases** provide a way to create custom types that are easy to reuse, making your code more concise. You can think of a type alias as a **nickname** you give to a more complex type.
+
+### Creating Type Aliases
+
+A **type alias** allows you to give a name to any type, including primitive types, objects, or complex structures.
+
+#### Example: Basic Type Alias
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `type ProductID = string | number;
+
+let id1: ProductID = "ABC123";
+let id2: ProductID = 456;
+
+console.log(\`Product IDs: \${id1}, \${id2}\`);`
+}} />
+
+### Union Types
+
+A **union type** is a way to specify that a variable can hold more than one type. It’s like saying, “This item could be one of several types.” 
+
+#### Example: Using Union Types
+
+<CodeEditor template="vanilla-ts" language="typescript" showConsole files={{
+  'index.ts': `function printId(id: string | number): void {
+  if (typeof id === "string") {
+    console.log("The ID is a string: " + id.toUpperCase());
+  } else {
+    console.log("The ID is a number: " + id.toFixed(2));
+  }
+}
+
+printId("xyz");
+printId(123.456);`
+}} />
+
+### Activity: Use Interfaces and Type Aliases
+
+**Time:** 30 minutes  
+**Instructions:**  
+
+1. Create an interface called `Customer` with the following properties:
+    - `id`: a union type of `number` or `string`.
+    - `name`: a `string`.
+    - `email`: a `string`.
+    - `loyaltyMember`: a `boolean` that is optional.
+2. Write a function called `createCustomer` that accepts an argument of type `Customer` and returns a welcome message.
+3. Define a type alias for `ID` that is a union type of `number` and `string`.
+4. Use the `ID` type alias to type the `id` property in the `Customer` interface.
+
+**Critical Thinking:** Why might you choose to use type aliases over interfaces in certain situations? Reflect on scenarios where one approach is more beneficial than the other.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which keyword is used to define a type alias in TypeScript?"
+  options={[
+    {
+      text: "type",
+      correct: true,
+      feedback: "Correct! The 'type' keyword is used to define a type alias.",
+    },
+    {
+      text: "alias",
+      feedback: "Incorrect. There is no 'alias' keyword in TypeScript.",
+    },
+    {
+      text: "interface",
+      feedback
+
+: "Incorrect. 'interface' is used to define object shapes, not type aliases.",
+    },
+  ]}
+/>
+
+```typescript
+type Role = "admin" | "user" | "guest";
+```
+
+<MultipleChoiceQuestion
+  question="What type does the 'Role' type alias represent in the code above?"
+  options={[
+    {
+      text: "string",
+      feedback: "Incorrect. This is not a general string type, but a specific set of string literals.",
+    },
+    {
+      text: `"admin" | "user" | "guest"`,
+      correct: true,
+      feedback: "Correct! The 'Role' type is a union of specific string literals.",
+    },
+    {
+      text: "any",
+      feedback: "Incorrect. The 'any' type would allow any value, but this code restricts it to specific strings.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is the difference between an interface and a type alias in TypeScript?"
+  options={[
+    {
+      text: "Interfaces can be extended; type aliases cannot.",
+      feedback: "Incorrect. Type aliases can include union and intersection types, making them flexible as well.",
+    },
+    {
+      text: "Interfaces are only for objects; type aliases can represent any type.",
+      correct: true,
+      feedback: "Correct! Interfaces are typically used for object shapes, while type aliases can represent any type, including primitives and unions.",
+    },
+    {
+      text: "Type aliases are faster than interfaces.",
+      feedback: "Incorrect. There is no difference in performance between type aliases and interfaces in TypeScript.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned about TypeScript functions, interfaces, and type aliases. You can now annotate functions for precise input and output expectations, define object structures with interfaces, and create reusable custom types using type aliases. These tools will help you manage data consistently, enforce type safety, and write clearer code for larger projects.
+
+--- 
+
+## References
+
+- [TypeScript Functions Documentation](https://www.typescriptlang.org/docs/handbook/functions.html)
+- [TypeScript Interfaces on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/interface)
+- [TypeScript Official Handbook: Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)
+
+--- 
+
+## Additional Resources
+
+- [TypeScript Cheatsheet](https://typescript-cheatsheet.vercel.app/)
+- [Understanding TypeScript Functions](https://typescriptbook.io/tutorials/functions/)
+- [JavaScript and TypeScript Interface Differences](https://javascript.info/typescript#interfaces-vs-type-aliases)

@@ -11,8 +11,12 @@ export default {
     title: "Verison Control Primer",
     type: "page",
   },
-  308: {
-    title: "Introduction to JavaScript",
+  410: {
+    title: "HTML and CSS Review",
+    type: "page",
+  },
+  326: {
+    title: "Foundations of Web Design",
     type: "page",
   },
   411: {

@@ -1,0 +1,348 @@
+---
+title: "JavaScript Fundamentals, Template Literals, and Math Methods"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import EditorWithConsole from "@components/code-components/editor-with-console";
+
+# JavaScript Fundamentals, Template Literals, and Math Methods
+
+## Workplace Context
+
+You have just joined a new project, and your team expects you to hit the ground running by building new features using JavaScript. However, you first need to refresh your understanding of JavaScript basics like variables, data types, and functions. This training and the associated activities will review the foundational concepts that are critical for building interactive applications.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Declare and use variables to store data in JavaScript.
+- Perform basic mathematical operations on variables.
+- Create and call functions to organize and reuse code.
+
+---
+
+## Variables and Data Types
+
+### What are Variables?
+
+Variables are containers that store data values. In JavaScript, you can declare variables using `let`, `const`, or `var`.
+
+```javascript
+let username = "John";
+const age = 25;
+var isStudent = true;
+```
+
+- `let` allows you to declare variables that can be reassigned.
+- `const` declares variables that cannot be reassigned.
+- `var` is the older way of declaring variables but is generally avoided due to scope issues.
+
+### Data Types
+
+In JavaScript, common data types include:
+
+- **Strings**: Used to represent text (`"Hello, World!"`).
+- **Numbers**: Used for integers and decimals (`42`, `3.14`).
+- **Booleans**: Represent true or false values (`true`, `false`).
+
+### Template Literals
+
+Template literals are a way to embed expressions into strings, making it easier to create dynamic text without complex concatenation. Template literals are enclosed in backticks (\` \`), and variables or expressions are embedded using `${ }`.
+
+#### Example: Constructing a Dynamic String
+
+Using the live editor below, edit the values of `name` and `age` and observe the output below.
+
+<EditorWithConsole 
+    template="vanilla"
+    files={{
+        "/index.js": `let name = "John";
+let age = 30;
+let greeting = \`Hello, my name is \${name} and I am \${age} years old.\`;
+
+console.log(greeting);`
+}} />
+
+This method is more readable and concise compared to traditional string concatenation using the `+` operator:
+
+```javascript
+let greeting = "Hello, my name is " + name + " and I am " + age + " years old.";
+```
+
+---
+
+## Basic Mathematical Operations
+
+JavaScript supports standard mathematical operations like addition, subtraction, multiplication, and division.
+
+```javascript
+let a = 10;
+let b = 20;
+console.log(a + b); // 30
+console.log(a * b); // 200
+```
+
+You can also increment and decrement variables using `++` and `--`.
+
+```javascript
+let count = 0;
+count++;
+console.log(count); // 1
+count--;
+console.log(count); // 0
+```
+
+---
+
+## Functions and Parameters
+
+### What is a Function?
+
+A function is a block of code designed to perform a specific task. You define a function using the `function` keyword.
+
+```javascript
+function greet() {
+  console.log("Hello, World!");
+}
+greet(); // Output: Hello, World!
+```
+
+### Parameters and Arguments
+
+Functions can take **parameters**, which are inputs used inside the function.
+
+```javascript
+function greetUser(username) {
+  console.log("Hello, " + username);
+}
+greetUser("John"); // Output: Hello, John
+```
+
+### Returning Values from Functions
+
+Functions can also return values using the `return` statement.
+
+```javascript
+function add(a, b) {
+  return a + b;
+}
+let sum = add(5, 10);
+console.log(sum); // Output: 15
+```
+
+## Functions with Multiple Parameters
+
+Functions can accept multiple parameters, making them more flexible and reusable. Let us look at an example where we create a function to calculate the total cost of an item, including tax and discount.
+
+### Example: Function with Multiple Parameters
+
+<EditorWithConsole 
+    template="vanilla"
+    files={{
+        "/index.js": `function calculateTotalCost(price, taxRate, discount) {
+    let totalCost = (price - discount) * (1 + taxRate);
+    return totalCost;
+}
+
+console.log(calculateTotalCost(100, 0.07, 10));`
+}} />
+
+In this example:
+
+- `price`, `taxRate`, and `discount` are parameters passed to the function.
+- The function calculates the total cost by subtracting the discount, adding the tax, and returning the final amount.
+
+The initial example uses a `price` of 100, `taxRate` of 0.07, and `discount` of 10. Using the provided formula, this should output **96.3**, but instead the console shows **96.30000000000001**. Why is this?
+
+JavaScript, like some other programming languages, is actually bad at math due to limitations on how computers handle storing numbers. If you're interested in reading more about this peculiarity, read through this article on [Why JavaScript is Bad at Math (and how to work with its limitations)](https://javascript.plainenglish.io/why-javascript-is-bad-at-math-9b8247640caa).
+
+---
+
+## JavaScript Math Methods
+
+JavaScript provides several useful methods within the built-in `Math` object. These methods are essential for handling mathematical operations in your applications.
+
+### Generating a Random Number
+
+The `Math.random()` method generates a random floating-point number between 0 (inclusive) and 1 (exclusive).
+
+<EditorWithConsole
+  template="vanilla"
+  files={{
+    "/index.js": `let randomNumber = Math.random();
+console.log(randomNumber);`,
+  }}
+/>
+
+To generate a random integer within a specific range, you can combine `Math.random()` with `Math.floor()`.
+
+<EditorWithConsole
+  template="vanilla"
+  files={{
+    "/index.js": `let randomInteger = Math.floor(Math.random() * 10) + 1;
+console.log(randomInteger); // Random number between 1 and 10`,
+  }}
+/>
+
+**Critical Thinking:** Why must we add 1 to the `randomInteger` calculation? What would happen if we did not?
+
+### Rounding Numbers
+
+JavaScript provides different methods for rounding numbers, including:
+
+- `Math.floor()`: Rounds down to the nearest integer.
+- `Math.ceil()`: Rounds up to the nearest integer.
+- `Math.round()`: Rounds to the nearest integer (up or down, depending on the decimal).
+
+```javascript
+console.log(Math.floor(4.9)); // Output: 4
+console.log(Math.ceil(4.1)); // Output: 5
+console.log(Math.round(4.5)); // Output: 5
+```
+
+---
+
+## Activities
+
+### Activity 1: Practice with Variables and Functions
+
+**Time:** 30 minutes  
+**Instructions:**  
+Write a simple program that:
+
+1. Declares two variables (e.g., `x` and `y`) and assigns them values.
+2. Creates a function that adds those two variables and returns the result.
+3. Prints the result to the console.
+
+**Hint:** Use the `function` keyword to define your function, and remember to return the sum.
+
+---
+
+### Activity 2: Group Discussion on Common Challenges
+
+**Time:** 20 minutes  
+**Instructions:**  
+In small groups, discuss any challenges or misunderstandings you encountered during your prior experience related to variables or functions. Share solutions and best practices with your group.
+
+---
+
+### Activity 3: Interactive Coding Challenge: Create a Simple Calculator
+
+**Time:** 40 minutes  
+**Instructions:**  
+Build a basic calculator that takes two inputs from the user and performs addition, subtraction, multiplication, or division based on user input.
+
+1. Use `prompt()` to get input from the user.
+2. Create a function for each mathematical operation.
+3. Return and display the result using `console.log()` or in the browser using `alert()`.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which of the following is the correct way to declare a constant variable in JavaScript?"
+  options={[
+    {
+      text: "let age = 25;",
+      feedback:
+        "Incorrect. 'let' is used for variables that can be reassigned.",
+    },
+    {
+      text: "const age = 25;",
+      correct: true,
+      feedback:
+        "Correct! 'const' is used to declare a variable that cannot be reassigned.",
+    },
+    {
+      text: "var age = 25;",
+      feedback:
+        "Incorrect. 'var' is an older method of declaring variables and is generally avoided due to scoping issues.",
+    },
+    {
+      text: "const age == 25;",
+      feedback:
+        "Incorrect. '==' is a comparison operator, not used for declaring variables.",
+    },
+  ]}
+/>
+
+```javascript
+let a = 10;
+let b = 5;
+console.log(a + b);
+```
+
+<MultipleChoiceQuestion
+  question="What will the code above output?"
+  options={[
+    {
+      text: "105",
+      feedback:
+        "Incorrect. Remember, this is addition, not string concatenation.",
+    },
+    {
+      text: "15",
+      correct: true,
+      feedback: "Correct! Adding 10 and 5 results in 15.",
+    },
+    {
+      text: "5",
+      feedback: "Incorrect. You might have confused subtraction with addition.",
+    },
+    {
+      text: "50",
+      feedback:
+        "Incorrect. Multiplication would give you 50, but this is an addition operation.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which of the following correctly calls a function with one argument?"
+  options={[
+    {
+      text: "call greetUser('John');",
+      feedback:
+        "Incorrect. The 'call' keyword is not necessary to invoke a function.",
+    },
+    {
+      text: "greetUser['John'];",
+      feedback:
+        "Incorrect. Square brackets are used for array indexing, not function invocation.",
+    },
+    {
+      text: "greetUser('John');",
+      correct: true,
+      feedback: "Correct! This is the correct syntax for calling the function.",
+    },
+    {
+      text: "greetUser.call('John');",
+      feedback:
+        "Incorrect. The 'call' method is used to invoke functions with a specified context, but it's not necessary here.",
+    },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, we reviewed the basics of JavaScript, focusing on variables, data types, mathematical operations, and functions. You practiced declaring variables, writing functions, and working with basic math operations in JavaScript. These concepts are foundational and will be used in every JavaScript program you write.
+
+---
+
+## References
+
+- [JavaScript Variables on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#declarations)
+- [JavaScript Functions on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions)
+- [Why JavaScript is Bad at Math (and how to work with its limitations)](https://javascript.plainenglish.io/why-javascript-is-bad-at-math-9b8247640caa)
+
+---
+
+## Additional Resources
+
+- [Eloquent JavaScript (Chapter 2: Program Structure)](https://eloquentjavascript.net/02_program_structure.html)
+- [JavaScript.info (Functions)](https://javascript.info/function-basics)

@@ -1,0 +1,424 @@
+---
+title: "Arrays and Loops"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+
+# Arrays and Loops
+
+## Workplace Context
+
+As part of your development team, you are tasked with building an application that handles lists of data, such as a user’s shopping cart or a list of tasks. To manage this data efficiently, you need to understand how to work with **arrays** and how to iterate through them using **loops**. Arrays allow you to store multiple values in a single variable, and loops provide a way to process each value in an array.
+
+Before you begin working on your team's production application, your supervisor has tasked you with a small project to demonstrate your ability to integrate these concepts effectively. After a brief upskilling and refresher session, you will build an interactive shopping cart interface.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+
+- Create and manipulate arrays using built-in JavaScript methods.
+- Use loops to iterate through arrays and perform actions on their elements.
+- Apply array and loop techniques to dynamically display content in web applications.
+
+---
+
+## Introduction to Arrays
+
+An **array** is a special variable that can hold more than one value at a time. You can think of an array as a list of items, each identified by an index starting from 0.
+
+### Declaring an Array
+
+```javascript
+let fruits = ["apple", "banana", "cherry"];
+```
+
+In this example:
+
+- `"apple"` is at index 0.
+- `"banana"` is at index 1.
+- `"cherry"` is at index 2.
+
+You can access elements in the array using their index:
+
+```javascript
+console.log(fruits[0]); // "apple"
+```
+
+---
+
+## Modifying Arrays
+
+JavaScript provides several methods for modifying arrays:
+
+- **push()**: Adds an item to the end of the array.
+
+  ```javascript
+  fruits.push("orange"); // ["apple", "banana", "cherry", "orange"]
+  ```
+
+- **pop()**: Removes the last item from the array.
+
+  ```javascript
+  fruits.pop(); // ["apple", "banana", "cherry"]
+  ```
+
+- **shift()**: Removes the first item from the array.
+
+  ```javascript
+  fruits.shift(); // ["banana", "cherry"]
+  ```
+
+- **unshift()**: Adds an item to the beginning of the array.
+  ```javascript
+  fruits.unshift("kiwi"); // ["kiwi", "banana", "cherry"]
+  ```
+
+---
+
+## Introduction to Loops
+
+Loops are used to run the same block of code multiple times. The most common loop is the **for** loop, which is ideal for iterating through arrays.
+
+### Basic `for` Loop Syntax
+
+```javascript
+for (let i = 0; i < fruits.length; i++) {
+  console.log(fruits[i]);
+}
+```
+
+This loop will:
+
+1. Start at index 0 (`i = 0`).
+2. Continue as long as `i` is less than the length of the `fruits` array.
+3. Increment `i` after each iteration.
+
+### `for-of` Loop
+
+The `for-of` loop is another way to loop over array elements:
+
+```javascript
+for (let fruit of fruits) {
+  console.log(fruit);
+}
+```
+
+### `while` and `do...while` Loops
+
+In addition to the `for` loop, JavaScript provides two other looping mechanisms: the **`while`** loop and the **`do...while`** loop. Both are useful when you want to repeat a block of code while a certain condition is true.
+
+### `while` Loop
+
+The **`while`** loop repeats a block of code as long as a specified condition is `true`. The condition is checked **before** the loop runs each time.
+
+#### Syntax
+
+```javascript
+while (condition) {
+  // code to be executed
+}
+```
+
+#### Example: Counting Down with a `while` Loop
+
+Let us say we want to count down from 5 to 1 using a `while` loop. We will start with a variable `count` set to 5, and as long as `count` is greater than 0, we will print the value and then decrement `count`.
+
+```javascript
+let count = 5;
+
+while (count > 0) {
+  console.log(count);
+  count--;
+}
+```
+
+In this example, the condition `count > 0` is checked before each loop iteration. Once `count` reaches 0, the loop stops.
+
+### `do...while` Loop
+
+The **`do...while`** loop is similar to the `while` loop, but with one key difference: the code inside the loop is executed **at least once**, even if the condition is initially `false`. The condition is checked **after** the loop has executed.
+
+#### Syntax
+
+```javascript
+do {
+  // code to be executed
+} while (condition);
+```
+
+#### Example: Getting User Input with a `do...while` Loop
+
+Let us use a `do...while` loop to simulate asking a user for input. We will assume that we need the user to enter a number, and we will keep asking until they enter a number greater than 0.
+
+```javascript
+let userNumber;
+
+do {
+  userNumber = prompt("Please enter a number greater than 0:");
+} while (userNumber <= 0);
+
+console.log(`You entered: ${userNumber}`);
+```
+
+In this example, the code inside the `do...while` loop will always run **at least once**, even if the user enters `0` or a negative number initially. The condition `userNumber <= 0` is checked after each iteration.
+
+### Key Differences Between `while` and `do...while`
+
+| `while` Loop                                 | `do...while` Loop                         |
+|----------------------------------------------|-------------------------------------------|
+| Checks the condition **before** the loop runs. | Checks the condition **after** the loop runs. |
+| The loop may **never run** if the condition is false initially. | The loop **always runs at least once**, even if the condition is false initially. |
+
+## Infinite Loops
+
+### What is an Infinite Loop?
+
+An **infinite loop** occurs when a loop continues to run endlessly because the condition that controls the loop is never met or changed. This usually happens when:
+- The condition is always `true`.
+- The code inside the loop does not correctly modify the condition.
+
+**Infinite loops can cause your program to freeze or crash**, as the loop never finishes and consumes all available resources.
+
+### Example: Infinite Loop with a `while` Loop
+
+In the following example, the condition `count > 0` will never be false because `count` is never decremented inside the loop. As a result, the loop runs indefinitely:
+
+```javascript
+let count = 5;
+
+while (count > 0) {
+  console.log(count); // This will print "5" forever
+  // Missing code to decrement `count`
+}
+```
+
+### How to Avoid Infinite Loops
+
+To prevent infinite loops, make sure that:
+1. **The loop condition is correctly defined.**
+    - Ensure the condition will eventually become `false` so that the loop stops.
+2. **The condition changes inside the loop.**
+    - Ensure that the code inside the loop modifies the variables that control the loop condition.
+
+### Example: Fixing the Infinite Loop
+
+In this example, the loop will stop once `count` reaches 0 because we are decrementing `count` inside the loop:
+
+```javascript
+let count = 5;
+
+while (count > 0) {
+  console.log(count);
+  count--;  // Decrement `count` to eventually exit the loop
+}
+```
+
+### Infinite Loops in a `for` Loop
+
+An infinite loop can also happen in a `for` loop if the condition is always `true` or the increment/decrement is missing:
+
+```javascript
+for (let i = 0; i >= 0; i++) {
+  console.log(i); // This will print increasing numbers forever
+}
+```
+
+In this case, the loop condition `i >= 0` is always true, so the loop will run indefinitely.
+
+---
+
+## Hands-On: Create a Shopping Cart App
+
+In this activity, you will create a shopping cart application where users can add items to their cart, remove items, and display the contents of the cart.
+
+**Time:** 60 minutes  
+**Instructions:**  
+Using the template provided below, create a simple shopping cart app that:
+
+1. Allows users to add items to a cart.
+2. Removes the last item when the "Remove Last Item" button is clicked.
+3. Displays the list of items in the cart.
+
+### Step 1: Set Up the HTML
+
+You will need an input field for the item, a button to add the item to the cart, and a button to remove the last item.
+
+```html
+<input id="itemInput" type="text" placeholder="Enter an item" />
+<button id="addItemButton">Add Item</button>
+<button id="removeItemButton">Remove Last Item</button>
+<ul id="cart"></ul>
+```
+
+### Step 2: JavaScript for Adding and Removing Items
+
+Write JavaScript that adds items to the cart and removes the last item when the respective buttons are clicked.
+
+```javascript
+let cart = [];
+let itemInput = document.getElementById("itemInput");
+let addItemButton = document.getElementById("addItemButton");
+let removeItemButton = document.getElementById("removeItemButton");
+let cartList = document.getElementById("cart");
+
+addItemButton.addEventListener("click", function () {
+  let item = itemInput.value;
+
+  if (item === "") {
+    alert("Please enter an item.");
+    return;
+  }
+
+  cart.push(item); // Add item to cart array
+  renderCart();
+  itemInput.value = ""; // Clear the input field
+});
+
+removeItemButton.addEventListener("click", function () {
+  cart.pop(); // Remove last item from cart array
+  renderCart();
+});
+
+function renderCart() {
+  cartList.innerHTML = ""; // Clear existing list
+  for (let i = 0; i < cart.length; i++) {
+    let listItem = document.createElement("li");
+    listItem.innerText = cart[i];
+    cartList.appendChild(listItem);
+  }
+}
+```
+
+### Step 3: Additional Features and accessibility
+
+What additional features or accessibility options could improve the functionality of this shopping cart?
+
+When considering what additional features you could add to an application you are working on, it is important to keep the scope of your development in mind:
+
+- What were you asked to do by your supervisor (instructor)?
+- What tasks might have been given to another member of the team?
+- How much time do you have available to expand this development?
+
+### Step 4: Style
+
+Once your application is working as intended, and you have added any additional features desired, take some time to style the elements created by the application so that they are more presentable and accessible.
+
+### Step 5: Review
+
+Just like in the workplace, never assume that the code we provide to you is the best possible solution! You will often work with outdated, incorrect, or non-functional legacy code that must be updated to meet current standards and best practices.
+
+Take the last fifteen minutes of this activity to review our code -- and your code if you chose to take a different approach -- and discuss with your peers what you might do to improve the performance, accessibility, and/or readability of this feature. Make sure the code adheres to best practices!
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which array method adds an element to the end of an array?"
+  options={[
+    {
+      text: "shift()",
+      feedback:
+        "Incorrect. The 'shift()' method removes the first element from an array.",
+    },
+    {
+      text: "unshift()",
+      feedback:
+        "Incorrect. The 'unshift()' method adds an element to the beginning of an array.",
+    },
+    {
+      text: "push()",
+      correct: true,
+      feedback:
+        "Correct! The 'push()' method adds an element to the end of an array.",
+    },
+    {
+      text: "pop()",
+      feedback:
+        "Incorrect. The 'pop()' method removes the last element from an array.",
+    },
+  ]}
+/>
+
+```javascript
+let fruits = ["apple", "banana", "cherry"];
+console.log(fruits[1]);
+```
+
+<MultipleChoiceQuestion
+  question="What does the code above output?"
+  options={[
+    { text: "'apple'", feedback: "Incorrect. 'apple' is at index 0." },
+    {
+      text: "'banana'",
+      correct: true,
+      feedback: "Correct! 'banana' is at index 1.",
+    },
+    { text: "'cherry'", feedback: "Incorrect. 'cherry' is at index 2." },
+    {
+      text: "undefined",
+      feedback:
+        "Incorrect. The index 1 exists in this array, so 'undefined' would not be the result.",
+    },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which loop checks the condition before running the code block?"
+  options={[
+    {
+      text: "while loop",
+      correct: true,
+      feedback: "Correct! The `while` loop checks the condition before each iteration."
+    },
+    {
+      text: "do...while loop",
+      feedback: "Incorrect. The `do...while` loop checks the condition after the loop runs."
+    },
+    {
+      text: "for loop",
+      feedback: "Incorrect. The `for` loop is a different type of loop that also checks the condition before running."
+    }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which loop guarantees that the code block will run at least once?"
+  options={[
+    {
+      text: "while loop",
+      feedback: "Incorrect. The `while` loop may not run if the condition is false initially."
+    },
+    {
+      text: "do...while loop",
+      correct: true,
+      feedback: "Correct! The `do...while` loop runs at least once, even if the condition is false."
+    },
+    {
+      text: "for loop",
+      feedback: "Incorrect. The `for` loop does not guarantee that the code block will run at least once."
+    }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned how to create and manipulate arrays using JavaScript and how to use loops to iterate through arrays. You applied these concepts by building a shopping cart app that dynamically displays and updates its contents. Arrays and loops are powerful tools for handling lists of data and performing repetitive tasks efficiently in your applications.
+
+---
+
+## References
+
+- [JavaScript Arrays on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
+- [JavaScript Loops on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration)
+
+---
+
+## Additional Resources
+
+- [JavaScript.info (Arrays)](https://javascript.info/array)
+- [Eloquent JavaScript (Chapter 4: Data Structures)](https://eloquentjavascript.net/04_data.html)

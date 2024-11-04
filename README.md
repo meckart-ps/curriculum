@@ -1,1 +1,1 @@
-# curriculum
+# Per Scholas Curriculum

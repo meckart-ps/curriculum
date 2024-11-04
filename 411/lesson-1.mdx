@@ -3,7 +3,7 @@ title: "JavaScript Fundamentals, Template Literals, and Math Methods"
 ---
 
 import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
-import EditorWithConsole from "@components/code-components/editor-with-console";
+import CodeEditor from "@components/code-components/code-editor";
 
 # JavaScript Fundamentals, Template Literals, and Math Methods
 
@@ -55,8 +55,10 @@ Template literals are a way to embed expressions into strings, making it easier 
 
 Using the live editor below, edit the values of `name` and `age` and observe the output below.
 
-<EditorWithConsole 
+<CodeEditor 
     template="vanilla"
+    language="javascript"
+    showConsole
     files={{
         "/index.js": `let name = "John";
 let age = 30;
@@ -138,8 +140,10 @@ Functions can accept multiple parameters, making them more flexible and reusable
 
 ### Example: Function with Multiple Parameters
 
-<EditorWithConsole 
+<CodeEditor 
     template="vanilla"
+    language="javascript"
+    showConsole
     files={{
         "/index.js": `function calculateTotalCost(price, taxRate, discount) {
     let totalCost = (price - discount) * (1 + taxRate);
@@ -168,8 +172,10 @@ JavaScript provides several useful methods within the built-in `Math` object. Th
 
 The `Math.random()` method generates a random floating-point number between 0 (inclusive) and 1 (exclusive).
 
-<EditorWithConsole
-  template="vanilla"
+<CodeEditor 
+    template="vanilla"
+    language="javascript"
+    showConsole
   files={{
     "/index.js": `let randomNumber = Math.random();
 console.log(randomNumber);`,
@@ -178,8 +184,10 @@ console.log(randomNumber);`,
 
 To generate a random integer within a specific range, you can combine `Math.random()` with `Math.floor()`.
 
-<EditorWithConsole
-  template="vanilla"
+<CodeEditor 
+    template="vanilla"
+    language="javascript"
+    showConsole
   files={{
     "/index.js": `let randomInteger = Math.floor(Math.random() * 10) + 1;
 console.log(randomInteger); // Random number between 1 and 10`,

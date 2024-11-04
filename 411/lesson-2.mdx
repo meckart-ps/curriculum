@@ -4,7 +4,7 @@ title: "DOM Manipulation & Event Handling"
 
 import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
 import Embed from "@components/layout-components/embed";
-import EditorWithPreview from "@components/code-components/editor-with-preview";
+import CodeEditor from "@components/code-components/code-editor";
 
 # DOM Manipulation & Event Handling
 
@@ -99,8 +99,10 @@ Using the editor below, create a simple counter application that adds or subtrac
 
 You may edit `index.html` to add `id` attributes to elements, or make other modifications as necessary.
 
-<EditorWithPreview 
+<CodeEditor 
     template="vanilla"
+    language="javascript"
+    showPreview
     files={{
         "/index.js": `// 1. Select Elements
 // 2. Add Event Listeners
@@ -119,8 +121,10 @@ The following example contains code that translates a string into a hex code for
 
 How would the behavior of this application change if the event listener was attached to a `change` event instead of `input`? Test this using the editor below.
 
-<EditorWithPreview
+<CodeEditor
   template="vanilla"
+  language="javascript"
+  showPreview
   files={{
     "/index.js": /* JS */`import "./style.css"
     

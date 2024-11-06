@@ -1,0 +1,326 @@
+---
+title: "HTML and CSS Review"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# HTML and CSS Review
+
+## Workplace Context
+
+Imagine you are a new front-end developer at a company focused on creating accessible and responsive websites for various clients. Your team emphasizes the importance of well-structured, semantic HTML and clean, efficient CSS to ensure all web applications are inclusive and perform well across different devices. Before diving into your first project, you need to review these foundational concepts to ensure your code meets the company's high standards for accessibility and responsiveness.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Create well-structured, responsive web pages using semantic HTML and CSS.
+- Explain and apply the CSS box model, selectors, and properties effectively.
+- Use responsive design techniques, including media queries, fluid grids, and flexible images.
+
+---
+
+## Semantic HTML
+
+Semantic HTML provides meaning to the web content, improving accessibility and search-engine optimization (SEO). Each element clearly describes its purpose, making it easier for screen readers and search engines to interpret the content.
+
+**Key Semantic Elements:**
+- **`<header>`**: Represents introductory content or navigation.
+- **`<nav>`**: Contains navigation links.
+- **`<main>`**: Main content of the document, unique to the page.
+- **`<section>`**: Thematic grouping of content, often with a heading.
+- **`<article>`**: Self-contained content, like a blog post or news article.
+- **`<footer>`**: Contains information about its containing element, like copyright info or links.
+
+<CodeEditor template="html" showPreview files={{
+  'index.html': `<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML Sandbox</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+<header>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <article>
+    <h1>Welcome to Our Blog</h1>
+    <p id="text1">This is a sample article demonstrating the use of semantic HTML.</p>
+  </article>
+</main>
+<footer>
+  <p>&copy; 2024 My Company</p>
+</footer>
+</body>
+
+</html>`}} />
+
+---
+
+## CSS Fundamentals: Selectors, Properties, and the Box Model
+
+**CSS Selectors** allow you to target HTML elements to apply styles. These include:
+- **Element selectors**: `p { color: blue; }`
+- **Class selectors**: `.container { padding: 20px; }`
+- **ID selectors**: `#header { background-color: lightgray; }`
+- **Attribute selectors**: `input[type="text"] { border: 1px solid #ccc; }`
+
+**The CSS Box Model**:
+Every HTML element is a rectangular box, consisting of:
+- **Content**: The actual content, like text or an image.
+- **Padding**: Space between the content and the border.
+- **Border**: A line surrounding the padding (if any) and content.
+- **Margin**: Space outside the border, creating distance from other elements.
+
+<CodeEditor template="html" showPreview files={{
+    'index.html': {code: `<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML Sandbox</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+<header>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <article>
+    <h1>Welcome to Our Blog</h1>
+    <p id="text1">This is a sample article demonstrating the use of semantic HTML.</p>
+  </article>
+</main>
+<footer>
+  <p>&copy; 2024 My Company</p>
+</footer>
+</body>
+
+</html>`, 
+    active: false},
+    'styles.css': { code: `body {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 40px 15px;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: rgb(215, 223, 231);
+  border-bottom: 1px solid rgb(140, 150, 160);
+}
+
+nav > ul {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  list-style-type: none;
+  margin: 0;
+}
+
+nav a {
+  color: midnightblue;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: slateblue;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#text1 {
+  margin: 20px;
+  padding: 15px;
+  border: 5px solid orange;
+  background-image: linear-gradient(to bottom, lightblue 0%, lightblue 100%), linear-gradient(to bottom, lightgreen 0%, lightgreen 100%);
+  background-clip: content-box, padding-box;
+  outline: 20px solid orangered;
+}
+
+footer {  
+  position: fixed;
+  bottom: 0;
+  right: 50px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}`, 
+    active: true }}} />
+
+**In this example, for the `p` element with the `id` of `text1`:**
+- The light blue area is the content.
+- The light green area is the padding.
+- The orange area is the border.
+- The orange-red area is the outline.
+
+**Visualizing the Box Model**: Use browser developer tools to inspect and understand the box model of elements.
+
+---
+
+## Responsive Web Design Principles
+
+Responsive web design ensures that web pages look and function well on all devices, from desktops to smartphones.
+
+**Fluid Grids and Flexible Images**:
+- **Fluid grids** use relative units like percentages rather than fixed units like pixels.
+- **Flexible images** resize themselves within their parent containers to prevent overflow.
+
+**Media Queries**: Allow you to apply CSS rules based on device characteristics like screen width.
+
+**Example**:
+```css
+/* Default styles */
+body {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Styles for screens wider than 768px */
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
+}
+```
+
+---
+
+## Activities
+
+### Code Along: Building a Basic Responsive Web Page
+- **Time**: 1 hour
+- **Objective**: Practice semantic HTML and responsive CSS techniques.
+- **Task**: Build a web page with a header, main content area, and footer.
+- **Steps**:
+  1. Create semantic HTML structure with meaningful elements.
+  2. Use CSS to style the page, applying the box model and basic properties.
+  3. Add media queries to adjust the layout for different screen sizes.
+
+**Sample Code**:
+<CodeEditor template="html" showPreview files={{
+  'index.html': `<header class="site-header">
+  <h1>My Responsive Page</h1>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="#section1">Section 1</a></li>
+      <li><a href="#section2">Section 2</a></li>
+    </ul>
+  </nav>
+</header>
+<main class="content">
+  <section id="section1">
+    <h2>Section 1</h2>
+    <p>Content goes here.</p>
+  </section>
+  <section id="section2">
+    <h2>Section 2</h2>
+    <p>More content here.</p>
+  </section>
+</main>
+<footer class="site-footer">
+  <p>Footer content here.</p>
+</footer>`,
+  'styles.css': `body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+.site-header {
+  background: #333;
+  color: #fff;
+  padding: 10px 20px;
+}
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+.content {
+  padding: 20px;
+}
+@media (max-width: 600px) {
+  .main-nav ul {
+    flex-direction: column;
+  }
+}`}} />
+
+---
+
+### Hands-On: Implementing a Responsive Navigation Menu
+- **Time**: 1.5 hours
+- **Objective**: Create a navigation menu that adjusts for different screen sizes.
+- **Task**: Design a horizontal navigation bar that switches to a dropdown menu on smaller screens.
+- **Steps**:
+  1. Write HTML for a navigation menu.
+  2. Style the menu using Flexbox for a horizontal layout.
+  3. Use media queries to change the layout to a vertical menu on small screens.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the purpose of semantic HTML?"
+  options={[
+    { text: "To provide additional meaning to the structure of a web page.", correct: true },
+    { text: "To make the page load faster." },
+    { text: "To improve the look of the web page." },
+    { text: "To simplify CSS styling." }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which of the following properties are part of the CSS box model?"
+  options={[
+    { text: "Content, Padding, Border, Margin", correct: true },
+    { text: "Content, Background, Border, Margin" },
+    { text: "Padding, Margin, Shadow, Background" },
+    { text: "Content, Padding, Outline, Margin" }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you reviewed semantic HTML, core CSS concepts, and responsive design techniques. You also applied these concepts through hands-on activities, building a well-structured and responsive web page. These skills are essential for creating modern, accessible, and adaptable web experiences.
+
+---
+
+### References
+
+- [MDN Web Docs - HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [MDN Web Docs - CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [W3C - Introduction to Responsive Design](https://www.w3.org/standards/webdesign/htmlcss)
+
+### Additional Resources
+
+- [CSS Tricks - A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+- [A List Apart - Responsive Web Design](https://alistapart.com/article/responsive-web-design/)

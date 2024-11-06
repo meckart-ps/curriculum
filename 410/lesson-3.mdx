@@ -1,0 +1,246 @@
+---
+title: "Integrating Accessibility into Web Design"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Integrating Accessibility into Web Design
+
+## Workplace Context
+
+As a front-end developer at your company, ensuring that websites are accessible to all users, including those with disabilities, is crucial. The design team has tasked you with making a new project more inclusive by enhancing its accessibility features. You need to ensure the site can be easily navigated with a keyboard, provide clear labels for form fields, and offer helpful ARIA attributes for screen readers.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Implement ARIA roles and attributes to improve accessibility for screen readers.
+- Design accessible forms with clear labels and proper keyboard navigation.
+- Apply techniques for handling dynamic content updates to maintain accessibility.
+
+---
+
+## Review of ARIA (Accessible Rich Internet Applications)
+
+**ARIA** is a set of attributes that make web content more accessible, especially for screen reader users. ARIA roles, states, and properties can be added to HTML to provide additional context and functionality for users with assistive technologies.
+
+### Common ARIA Roles and Attributes
+
+1. **Roles**:
+   - `role="navigation"`: Defines a navigation section.
+   - `role="button"`: Identifies an element as a button, even if it is not a native `<button>`.
+   - `role="alert"`: Alerts the user to an important message.
+
+2. **States and Properties**:
+   - `aria-hidden="true"`: Hides content from screen readers.
+   - `aria-label`: Provides a label for an element, especially when a visual label is not available.
+   - `aria-live="polite"`: Informs screen readers of dynamic content updates.
+
+<CodeEditor template="html" showPreview files={{
+  'index.html': `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARIA Example</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header role="banner">
+    <nav role="navigation">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <button role="button" aria-label="Click to submit the form">Submit</button>
+    <div role="alert" aria-live="polite">Form submitted successfully!</div>
+  </main>
+</body>
+</html>`,
+  'styles.css': `body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+div[role="alert"] {
+  margin-top: 20px;
+  color: green;
+  font-weight: bold;
+}`}} />
+
+---
+
+## Designing Accessible Forms
+
+Forms are critical for user interaction, and making them accessible is essential. Here are some best practices:
+
+### Use Clear and Descriptive Labels
+- Always use `<label>` elements for form controls.
+- Associate labels with inputs using the `for` attribute.
+
+**Example**:
+```html
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" required>
+```
+
+### Use `aria-describedby` for Additional Information
+- Use `aria-describedby` to associate form fields with additional descriptions, like instructions or error messages.
+
+**Example**:
+```html
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" aria-describedby="emailHelp" required>
+<small id="emailHelp">We'll never share your email with anyone else.</small>
+```
+
+### Handling Form Validation
+- Provide clear, accessible feedback for validation errors.
+- Use ARIA attributes like `aria-invalid="true"` to indicate invalid fields.
+
+<CodeEditor template="html" showPreview files={{
+  'index.html': `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Form Example</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <form>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required aria-invalid="false">
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>`,
+  'styles.css': `body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input:invalid {
+  border: 2px solid red;
+}
+
+input:valid {
+  border: 2px solid green;
+}`}} />
+
+---
+
+## Keyboard Navigation and Focus Management
+
+Keyboard accessibility is crucial for users who rely on keyboard navigation rather than a mouse.
+
+### Tips for Keyboard Navigation
+1. Use the `tabindex` attribute to control the tab order of elements.
+2. Ensure all interactive elements, like buttons and links, are focusable.
+3. Use the `:focus` pseudo-class to provide visual feedback when elements receive focus.
+
+**Example**:
+```css
+button:focus {
+  outline: 2px dashed blue;
+}
+```
+
+### Managing Focus for Dynamic Content
+When content updates dynamically (e.g., modal dialogs or alerts), make sure the focus shifts appropriately.
+
+**Example**: Use JavaScript to move focus to a modal when it opens.
+```javascript
+document.querySelector('#modal').focus();
+```
+
+---
+
+## Activities
+
+### Implementing ARIA Attributes
+- **Time**: 45 minutes
+- **Objective**: Add ARIA attributes to improve the accessibility of an existing project.
+- **Instructions**:
+  1. Identify elements that can benefit from ARIA roles and attributes.
+  2. Update the HTML to include these attributes.
+  3. Test the project using a screen reader to ensure the attributes are effective.
+
+### Designing an Accessible Form
+- **Time**: 45 minutes
+- **Objective**: Create a fully accessible form with validation and ARIA attributes.
+- **Instructions**:
+  1. Design a form with inputs for name, email, and message.
+  2. Add labels, validation messages, and ARIA attributes.
+  3. Ensure the form can be navigated using only the keyboard.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the purpose of using ARIA roles in web design?"
+  options={[
+    { text: "To add visual styles to elements", correct: false },
+    { text: "To improve accessibility for screen readers", correct: true },
+    { text: "To make elements load faster", correct: false },
+    { text: "To simplify HTML code", correct: false }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which ARIA attribute would you use to provide a label for an element?"
+  options={[
+    { text: "aria-label", correct: true },
+    { text: "aria-hidden", correct: false },
+    { text: "aria-live", correct: false },
+    { text: "aria-describedby", correct: false }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned how to enhance web accessibility using ARIA roles and attributes. You also practiced designing accessible forms and handling keyboard navigation. These techniques will help ensure your web applications are usable by a diverse audience, including those with disabilities.
+
+---
+
+## References
+
+- [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/)
+- [MDN Web Docs - ARIA](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA)
+- [WebAIM - Accessible Forms](https://webaim.org/techniques/forms/)
+
+## Additional Resources
+
+- [Deque University - ARIA Practices](https://dequeuniversity.com/library/aria)

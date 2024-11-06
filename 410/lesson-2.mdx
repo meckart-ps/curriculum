@@ -1,0 +1,218 @@
+---
+title: "Flexbox, Grid, and DevTools"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Flexbox, Grid, and DevTools
+
+## Workplace Context
+
+Your team at the company has received a new project that requires the use of modern CSS layout techniques. Clients have specifically requested that the website be responsive and easy to maintain. Your supervisor emphasizes the importance of mastering **CSS Flexbox** and **Grid** to build flexible and adaptive layouts. Additionally, you will use **developer tools** to debug and optimize your CSS.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Use Flexbox to create flexible and adaptive layouts.
+- Implement complex grid-based designs using CSS Grid.
+- Utilize browser developer tools to debug and optimize CSS layouts.
+
+---
+
+## Introduction to Flexbox
+
+**CSS Flexbox** (Flexible Box Layout) is a layout model that allows you to align and distribute space among items in a container, even when their size is unknown or dynamic. It simplifies tasks like vertical centering, equal spacing between elements, and responsiveness.
+
+### Key Concepts of Flexbox
+
+1. **Main Axis and Cross Axis**:
+   - **Main axis**: Defined by the `flex-direction` property. It can be horizontal (`row`) or vertical (`column`).
+   - **Cross axis**: Perpendicular to the main axis.
+
+2. **Container Properties**:
+   - `display: flex;` — Defines a flex container and enables the use of Flexbox properties.
+   - `flex-direction`: Specifies the direction of the main axis (`row`, `row-reverse`, `column`, `column-reverse`).
+   - `justify-content`: Aligns items along the main axis (options: `flex-start`, `flex-end`, `center`, `space-between`, `space-around`).
+   - `align-items`: Aligns items along the cross axis (options: `flex-start`, `flex-end`, `center`, `stretch`, `baseline`).
+
+3. **Item Properties**:
+   - `flex`: A shorthand for `flex-grow`, `flex-shrink`, and `flex-basis`.
+   - `align-self`: Aligns a single item on the cross axis, overriding `align-items`.
+
+<CodeEditor template="html" showPreview files={{
+  'index.html': `<link rel="stylesheet" href="./styles.css" />
+
+<div class="flex-container">
+  <div class="item">Item 1</div>
+  <div class="item">Item 2</div>
+  <div class="item">Item 3</div>
+</div>`,
+  'styles.css': `.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 200px;
+  background-color: lightgray;
+}
+
+.item {
+  width: 100px;
+  height: 100px;
+  background-color: steelblue;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}`}} />
+
+---
+
+## CSS Grid Layout
+
+**CSS Grid** is a two-dimensional layout system that provides a way to structure content in rows and columns. It offers more flexibility for building complex and nested layouts compared to Flexbox.
+
+### Key Concepts of CSS Grid
+
+1. **Container Properties**:
+   - `display: grid;` — Defines a grid container.
+   - `grid-template-columns` and `grid-template-rows`: Specifies the number and size of columns and rows.
+   - `gap`: Adds space between grid items (`row-gap`, `column-gap`, or the shorthand `gap`).
+
+2. **Item Properties**:
+   - `grid-column` and `grid-row`: Specify where an item should be placed within the grid.
+   - `grid-area`: Assigns a name to a grid item to be referenced in `grid-template-areas`.
+
+**Example**:
+<CodeEditor template="html" showPreview files={{
+  'index.html': `<link rel="stylesheet" href="./styles.css" />
+
+<div class="grid-container">
+  <div class="item item1">1</div>
+  <div class="item item2">2</div>
+  <div class="item item3">3</div>
+  <div class="item item4">4</div>
+</div>`,
+  'styles.css': `.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 100px 100px;
+  gap: 10px;
+  background-color: lightgray;
+}
+
+.item {
+  background-color: teal;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}`}} />
+
+---
+
+## Using Developer Tools for Debugging and Optimization
+
+Modern browsers come equipped with **developer tools** that are essential for debugging and optimizing your CSS. Here's how to use some of the features:
+
+1. **Inspect Element**:
+   - Right-click on an element and select "Inspect" to see the HTML and CSS.
+   - Modify styles in real-time to test changes.
+
+2. **Box Model Visualization**:
+   - Use the "Computed" tab to view the box model properties: margin, border, padding, and content size.
+
+3. **Layout Debugging**:
+   - Use the "Layout" or "Grid" tabs (available in some browsers) to visualize Flexbox and Grid structures.
+
+**Activity**: Open a webpage, inspect an element using the developer tools, and adjust the styles to see the effects in real-time.
+
+---
+
+## Activity
+
+### Creating a Responsive Layout with Flexbox and Grid
+- **Time**: 2.5 hours
+- **Objective**: Combine Flexbox and Grid to build a fully responsive layout.
+
+We will be utilizing the [Testimonials Grid Section challenge](https://www.frontendmentor.io/challenges/testimonials-grid-section-Nnw6J7Un7) from Frontend Mentor, a website that contains professional web designs to help you learn and grow as a developer. A future module will discuss the difference between designers and developers, and how you as a developer will interact with the design team.
+
+Begin by downloading and extracting the [project's starter files](/curriculum-assets/410/testimonials-grid-section-main.zip).
+
+You are **encouraged to work alongside one or more peers** to complete this activity.
+
+### The Challenge
+Your challenge is to build out the testimonials grid section below and get it looking as close to the design as possible.
+
+You can use any tools you like to help you complete the challenge. So if you have something you would like to practice, feel free to give it a go.
+
+Your users should be able to:
+
+- View the optimal layout for the site depending on their device's screen size
+
+### Where to Find Assets
+Your task is to build out the project to the design below. 
+
+![The image shows multiple testimonial cards from graduates of a coding bootcamp. Each card features a different graduate, their profile photo, name, and a summary of their experience with the bootcamp. The testimonials emphasize the program's positive impact, such as career advancements, supportive staff, and hands-on learning. The cards have a visually appealing layout with different background colors, including shades of purple, dark gray, white, and light gray. The text highlights personal and professional transformations attributed to the bootcamp.](/curriculum-assets/410/testimonials-grid-section-main/design/desktop-design.jpg)
+
+The design is in JPG static format. Using JPGs will mean that you will need to use your best judgment for styles such as `font-size`, `padding` and `margin`.
+
+You will find all the required assets in the `/images` folder. The assets are already optimized.
+
+There is also a `style-guide.md` file containing the information you will need, such as color palette and fonts.
+
+### Building the Project
+Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+
+1. Initialize your project as a public repository on [GitHub](https://github.com/).
+2. Look through the designs to start planning out how you will tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
+3. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
+4. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
+5. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which property is used to define a grid container?"
+  options={[
+    { text: "display: flex;", correct: false },
+    { text: "display: grid;", correct: true },
+    { text: "grid-template-columns;", correct: false },
+    { text: "justify-content;", correct: false }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="How do you align items along the main axis in Flexbox?"
+  options={[
+    { text: "align-items", correct: false },
+    { text: "justify-content", correct: true },
+    { text: "flex-direction", correct: false },
+    { text: "align-self", correct: false }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned how to use CSS Flexbox and Grid to create responsive and flexible layouts. You also practiced using browser developer tools to debug and optimize your CSS. Mastering these skills will make your web layouts more adaptable and efficient, ensuring they work well on all devices.
+
+---
+
+### References
+
+- [MDN Web Docs - CSS Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout)
+- [MDN Web Docs - CSS Grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout)
+- [Google Chrome DevTools](https://developer.chrome.com/docs/devtools/)
+- [Frontend Mentor](https://www.frontendmentor.io/)
+
+### Additional Resources
+
+- [A Complete Guide to Flexbox - CSS Tricks](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+- [A Complete Guide to Grid - CSS Tricks](https://css-tricks.com/snippets/css/complete-guide-grid/)

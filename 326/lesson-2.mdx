@@ -1,0 +1,265 @@
+---
+title: "Getting Started with Figma"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+import Embed from "@components/layout-components/embed";
+
+# Getting Started with Figma
+
+## Workplace Context
+
+As a new member of a creative team, you will be working with **Figma**, a popular design tool that streamlines collaboration between designers and developers. In this lesson, you will get familiar with Figma’s interface, set up your account, and create your first wireframe for a client project. Learning how to navigate and utilize Figma will help you contribute effectively to team projects, ensuring smooth communication and accurate implementation of design specifications.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Set up a Figma account and explore its core features.
+- Use basic tools in Figma to create frames, text, shapes, and organize elements.
+- Apply best practices in wireframing to create a simple, effective layout.
+
+---
+
+## Figma
+
+Trusted by development teams across the industry, Figma is a tool for design, collaboration, and creation. The Figma community is vast, granting access to a plethora of resources, templates, kits, and finished products.
+
+In this section, we will explore the basic features of Figma. This will enable you to design simple wireframes using Figma, and give you valuable insight on how to leverage Figma designs during the development process.
+
+Figma is powerful software with many complex features; however, we will not become experts in Figma through this lesson.
+
+### Benefits of Figma
+
+In addition to a wide variety of benefits for team collaboration and client interactions, Figma helps to answers some of the questions we previously asked while wireframing:
+- What information is the wireframe missing that would make your job easier?
+- How does the scale and ratio of the wireframe affect your implementation?
+
+Figma can help a designer provide the developer with the information they need to create a site accurately, including specific CSS properties like font size or distance between elements.
+
+It also helps create responsive layouts by allowing frames to be resized, and demonstrating how elements within the wireframe respond.
+
+### Setting Up Figma
+
+As a prerequisite to the remainder of this section, you will need a Figma account.
+
+1. **Create an Account**
+   - Go to [Figma's website](https://www.figma.com/) and sign up for a free account. The resulting screen will allow you to either continue with a Google account, or sign up using an email and password of your choosing.
+Continue with one of these methods, and click “Create account.”
+   - Figma’s free plan provides ample tools and storage to get started with wireframing.
+   - Once your account has been created, you will see Figma’s dashboard, which contains all of the files and information you have available on your account. We will return to explore this dashboard shortly.
+
+2. **(Optional) Sign up for the Figma Education Plan**
+   - Before we get started, let us attempt to register for the Figma Education plan, which will give you free access to all of the Figma Pro features, for free!
+   - This step is not required, so if you run into any issues while applying for this type of account, you can either ask your instructors for aid or simply move on to the next steps. This will allow you to explore some of Figma’s pro features, but those features are not required for this module.
+   - Navigate to the [Figma Education application](https://www.figma.com/education/apply) and begin filling out the form. See below for an example, but remember to use your own information where applicable.
+
+<center>
+![The image shows a Figma Education Plan application form designed for students, educators, or administrators to apply for free access to Figma’s education resources. It includes sections where users can specify their role (student, educator, or administrator), type of institution, reason for applying, school name, website, primary field of study, and upload proof of enrollment. The form also asks for the expected graduation date and includes consent checkboxes to agree to Figma's terms of service and eligibility confirmation. At the bottom, a "Submit" button is available to complete the application.](/curriculum-assets/326/figma-education-application.png)
+</center>
+
+3. **Get Familiar with the Interface**
+   - Once you are logged in, take a moment to explore the dashboard. Notice sections like **Files**, **Recent**, **Drafts**, and **Team**.
+   - On the dashboard, you will see a design called “Figma basics.” For now, we are going to explore the design interface of Figma, and leave the dashboard tools for a later lab. **Double-click on "Figma basics" to open the design file.**
+   - A short on-screen tutorial should walk you through the very basic steps of creating a Figma design.
+
+---
+
+## Activity: Figma Basics
+
+For convenience, the Figma tutorial steps are included below with some additional context.
+
+### 1. Frames
+
+Frames are containers for Figma design elements, similar to how **divs** are containers for HTML design elements. Most components in a Figma design will be contained inside of frames. 
+
+You can create a new frame by clicking on the frame icon highlighted on the toolbar, or by using the hotkey **F**. Once you have done so, click and drag anywhere on the canvas (the light gray area) to create a new frame.
+<br></br>
+<center>
+![](/curriculum-assets/326/figma-basics-1.webp)
+</center>
+
+### 2. Text
+   
+Text can be added by clicking the text icon (large T) on the toolbar, or by using the hotkey **T**. Once you have done so, click into your frame and begin typing to add some text.
+<br></br>
+<center>
+![](/curriculum-assets/326/figma-basics-2.webp)
+</center>
+
+You will notice the the text is very small. There are a couple of reasons for this: the text defaults to a 12px font size, and we are currently very zoomed out on the Figma canvas.
+
+For now, we will leave the font size alone. Instead, let us zoom in to a more manageable view.
+
+### 3. Zoom
+
+**To zoom, press and hold the Z key, and click and drag over the area you would like to zoom to.** You can also hold Z and click to zoom in increments. To return to the original canvas size, use the shortcut **Shift + 1**.
+<br></br>
+<center>
+![](/curriculum-assets/326/figma-basics-3.webp)
+</center>
+
+### 4. Formatting
+
+Hitting “Next” on the on-screen tutorial will bring you to another pre-existing text element on the canvas, but you can continue experimenting with your own elements if desired.
+
+The right-side design panel contains all of the formatting information and controls for a selected element. This includes alignment, position, size, rotation, positioning constraints, and any properties specific to that element.
+
+Many of these properties should look familiar, as they have direct representations in CSS.
+
+Experiment with a few of these properties to change the way the selected text appears.
+<br></br>
+<center>
+![](/curriculum-assets/326/figma-basics-4.webp)
+</center>
+
+### 5. Frame Properties
+
+The on-screen tutorial will next bring you to the frame containing these elements. Just like divs have properties that can be controlled, Figma frames do as well.
+
+Try experimenting with the frame’s properties to see how it affects the elements inside. Those elements have specific positioning constraints and other properties that will cause them to respond in predictable ways. 
+
+In this way, designers can plan for responsive designs and give developers the information they need to implement them.
+
+Maybe we did not make the best design decisions in our example below., but it is all for the sake of learning!
+<br></br>
+<center>
+![](/curriculum-assets/326/figma-basics-5.png)
+</center>
+
+### 6. Layers
+
+The final element that we will highlight on the design interface is the layers panel, located on the left side of the screen. 
+
+Here, you can see which frames are contained within other frames, which elements each frame holds, and the hierarchy of those components. You can also select those components via the layers panel, rather than attempting to click on them directly on the canvas.
+
+Additionally, you can lock a component to prevent it from being accidentally edited by clicking the lock icon, or hide it from view by clicking the eye icon.
+<br></br>
+<center>
+![](/curriculum-assets/326/figma-basics-6.png)
+</center>
+
+While layer-based navigation and a component hierarchy is essential for efficient design, it also provides important information for the developers that implement these designs in practice!
+
+### 7. Experiment
+
+Now, experiment! There are many more tools available in the main toolbar that we have not yet covered, and many options for creating and editing designs of all kinds.
+
+Your will give have a short block of time to continue exploring before returning to the next activity, where we will expand upon the basics outlined here to create our first Figma wireframe from scratch.
+
+---
+
+## Activity: Creating a Simple Wireframe
+
+Remember the simple wireframe we put together earlier? Now, we will build it in Figma.
+
+![A wireframe layout showing a sign-up form on the left with labeled fields for "Email," "Password," and "Address," along with a circular profile picture placeholder and a "Submit" button. The right side displays a welcome section with three square placeholders labeled "HTML," "CSS," and "JavaScript," each with short descriptions. Numbered annotations are added to certain elements, indicating specific areas of focus or instructions.](/curriculum-assets/326/wireframe-3.png)
+
+1. Second password field for verification. Include validation warnings and errors.
+2. Address selector through Maps program.
+3. Submit button disabled until all information is validated.
+4. Begin with top three items. Can enable a carousel here to cycle through top nine to twelve best-selling items.
+
+### Step-by-Step
+
+#### 1. Create a New Design 
+
+Begin by creating a new design file for this activity via the Figma dashboard.
+
+#### 2. Create Initial Frames
+
+Create two frames: one for the Sign Up page and one for the Welcome page. Do not worry about their exact dimensions yet; you can change that later.
+
+![](/curriculum-assets/326/create-wireframe-1.png)
+
+#### 3. Create Component Frames
+
+Create frames for the remaining components, ignoring the text for now. You will need to change the frames’ properties in order to make them look correct.
+
+![](/curriculum-assets/326/create-wireframe-2.png)
+
+#### 4. Add Text
+
+Finally, add the text layers to each page. You will need to adjust font size, alignment, position, and other properties using the design panel.
+
+![](/curriculum-assets/326/create-wireframe-3.png)
+
+#### 5. Aside: Icons
+
+Icon design is another topic entirely, so we will leave the shopping cart icons out.
+
+#### 6. Add Comments
+
+As a last step, add comments to the design to convey additional functionality that is not immediately apparent on the design itself.
+
+![](/curriculum-assets/326/create-wireframe-4.png)
+
+### Finished Example
+
+Below is what our finished design looks like. If yours is different, that is okay! Design is a creative process with no strictly "correct" solution, and designing with Figma takes practice.
+
+<Embed src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2F02GrQjoW5YqwcCR0DTb3cD%2FFirst-Wireframe%3Ftype%3Ddesign%26node-id%3D0%253A1%26mode%3Ddev" />
+
+### Reflection
+
+After completing your wireframe, take a few minutes to answer these reflection questions:
+
+1. How does breaking down a layout into simple shapes and frames help clarify the design process?
+2. What challenges did you encounter while working with Figma for the first time?
+3. How might this wireframe evolve as more details and interactive elements are added?
+
+---
+
+## Design fidelity
+
+Take note that the wireframe draft looks slightly different than our original sketch.
+
+Figma offers a higher level of control and detail, thanks to things like automatic alignment, pixel-perfect positioning and sizing, and a variety of other features.
+
+This means that your Figma designs will often differ from quick sketches, because the Figma designs will be more accurate representations of actual implementations.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which tool would you use to add a frame in Figma?"
+  options={[
+    { text: "The Rectangle tool", correct: false },
+    { text: "The Text tool", correct: false },
+    { text: "The Frame tool (F)", correct: true },
+    { text: "The Pen tool", correct: false }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="In Figma, which panel allows you to see and manage each element in a stacked view?"
+  options={[
+    { text: "Inspector Panel", correct: false },
+    { text: "Layers Panel", correct: true },
+    { text: "Assets Panel", correct: false },
+    { text: "Tools Panel", correct: false }
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned the basics of Figma, set up your account, and created a simple wireframe for a homepage layout. You practiced using frames, shapes, and text to organize a design and explored how Figma’s tools can help streamline the design process.
+
+Mastering these foundational tools in Figma will enable you to contribute effectively to team projects, collaborate with designers, and create wireframes that guide developers in building user-friendly websites.
+
+---
+
+## References
+
+- [Figma Basics Guide](https://help.figma.com/hc/en-us/articles/360040107293-Getting-Started-with-Figma)
+- [MDN Web Docs - HTML Basics](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics)
+
+## Additional Resources
+
+- [Figma Design Tutorials](https://www.figma.com/resources/learn/design/)
+- [YouTube: Figma for Beginners](https://www.youtube.com/results?search_query=figma+for+beginners)

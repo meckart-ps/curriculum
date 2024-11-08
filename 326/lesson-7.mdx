@@ -1,0 +1,488 @@
+---
+title: "Tailwind CSS"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Tailwind CSS
+
+## Workplace Context
+
+In a fast-paced web development environment, writing custom CSS can be time-consuming. Tailwind CSS, a utility-first CSS framework, is popular among developers because it allows for rapid styling directly in HTML using a large set of utility classes. This lesson introduces Tailwind’s approach to CSS, helping you leverage its utility classes to create responsive and consistent designs quickly and efficiently.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Explain the benefits of using Tailwind CSS.
+- Use utility classes in Tailwind to style components.
+- Understand the basics of configuring Tailwind for a project.
+- Create responsive layouts using Tailwind's grid and flex utilities.
+
+---
+
+## What is Tailwind CSS?
+
+Tailwind CSS is a **utility-first CSS framework** that enables you to style elements directly in HTML with concise, single-purpose classes. Unlike component-based libraries (e.g., Bootstrap), Tailwind focuses on utilities that allow granular control over design and layout.
+
+### Key Benefits of Tailwind CSS
+
+1. **Rapid Development**: Use classes directly in HTML to style elements without writing custom CSS.
+2. **Consistency**: Utility classes promote a consistent design across pages.
+3. **Responsive Design**: Built-in support for responsive design, enabling layouts that adapt to different screen sizes.
+4. **Customizable**: Tailwind’s configuration allows for extensive customization and theming.
+
+### Example: Styling a Button
+
+With Tailwind, you can create a button like this without writing any CSS:
+
+<CodeEditor template="html" showPreview 
+      options={{
+        externalResources: ["https://cdn.tailwindcss.com"]
+      }}
+      files={{ "index.html": `<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-4 rounded">
+  Click Me
+</button>` }} />
+
+This example uses Tailwind’s utility classes for background color, hover effects, font weight, padding, margins, and rounded corners.
+
+---
+
+## Difference between Tailwind and Traditional CSS
+
+Take a look at the `styles.css` file in the following editor:
+
+<CodeEditor template="html" showPreview
+  options={{
+    experimental_enableServiceWorker: true,
+  }}
+  files={{
+    'index.html': `<link rel="stylesheet" href="./styles.css">
+
+<div class="chat-notification">
+  <div class="chat-notification-logo-wrapper">
+    <img class="chat-notification-logo" src="/public/logo.svg" alt="ChitChat Logo" />
+  </div>
+  <div class="chat-notification-content">
+    <h4 class="chat-notification-title">ChitChat</h4>
+    <p class="chat-notification-message">You have a new message!</p>
+  </div>
+</div>`,
+    'styles.css': `body {
+  background-color: slategray;
+}
+
+.chat-notification {
+  display: flex;
+  max-width: 24rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  font-family: "Inter var", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+.chat-notification-logo-wrapper {
+  flex-shrink: 0;
+}
+.chat-notification-logo {
+  height: 3rem;
+  width: 3rem;
+}
+.chat-notification-content {
+  margin-left: 1.5rem;
+  padding-top: 0.25rem;
+}
+.chat-notification-title {
+  color: #1a202c;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  margin: 0;
+}
+.chat-notification-message {
+  color: #718096;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}`,
+    '/public/logo.svg': `<svg class="h-12 w-12" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a"><stop stop-color="#2397B3" offset="0%"></stop><stop stop-color="#13577E" offset="100%"></stop></linearGradient><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b"><stop stop-color="#73DFF2" offset="0%"></stop><stop stop-color="#47B1EB" offset="100%"></stop></linearGradient></defs><g fill="none" fill-rule="evenodd"><path d="M28.872 22.096c.084.622.128 1.258.128 1.904 0 7.732-6.268 14-14 14-2.176 0-4.236-.496-6.073-1.382l-6.022 2.007c-1.564.521-3.051-.966-2.53-2.53l2.007-6.022A13.944 13.944 0 0 1 1 24c0-7.331 5.635-13.346 12.81-13.95A9.967 9.967 0 0 0 13 14c0 5.523 4.477 10 10 10a9.955 9.955 0 0 0 5.872-1.904z" fill="url(#a)" transform="translate(1 1)"></path><path d="M35.618 20.073l2.007 6.022c.521 1.564-.966 3.051-2.53 2.53l-6.022-2.007A13.944 13.944 0 0 1 23 28c-7.732 0-14-6.268-14-14S15.268 0 23 0s14 6.268 14 14c0 2.176-.496 4.236-1.382 6.073z" fill="url(#b)" transform="translate(1 1)"></path><path d="M18 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM24 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM30 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="#FFF"></path></g></svg>`
+}} />
+
+That is a lot of custom CSS, and most of it is not reusable!
+
+With Tailwind, all of that CSS is handled for you. See the following example:
+
+<CodeEditor template="html" showPreview
+  options={{
+    externalResources: ["https://cdn.tailwindcss.com"],
+    experimental_enableServiceWorker: true,
+  }}
+  files={{
+    'index.html': `<link rel="stylesheet" href="./styles.css">
+
+<div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 my-2">
+  <div class="shrink-0">
+    <img class="h-12 w-12" src="/public/logo.svg" alt="ChitChat Logo" />
+  </div>
+  <div>
+    <div class="text-xl font-medium text-black">ChitChat</div>
+    <p class="text-slate-500">You have a new message!</p>
+  </div>
+</div>`,
+    'styles.css': `body {
+  background-color: slategray;
+}`,
+    '/public/logo.svg': `<svg class="h-12 w-12" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a"><stop stop-color="#2397B3" offset="0%"></stop><stop stop-color="#13577E" offset="100%"></stop></linearGradient><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b"><stop stop-color="#73DFF2" offset="0%"></stop><stop stop-color="#47B1EB" offset="100%"></stop></linearGradient></defs><g fill="none" fill-rule="evenodd"><path d="M28.872 22.096c.084.622.128 1.258.128 1.904 0 7.732-6.268 14-14 14-2.176 0-4.236-.496-6.073-1.382l-6.022 2.007c-1.564.521-3.051-.966-2.53-2.53l2.007-6.022A13.944 13.944 0 0 1 1 24c0-7.331 5.635-13.346 12.81-13.95A9.967 9.967 0 0 0 13 14c0 5.523 4.477 10 10 10a9.955 9.955 0 0 0 5.872-1.904z" fill="url(#a)" transform="translate(1 1)"></path><path d="M35.618 20.073l2.007 6.022c.521 1.564-.966 3.051-2.53 2.53l-6.022-2.007A13.944 13.944 0 0 1 23 28c-7.732 0-14-6.268-14-14S15.268 0 23 0s14 6.268 14 14c0 2.176-.496 4.236-1.382 6.073z" fill="url(#b)" transform="translate(1 1)"></path><path d="M18 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM24 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM30 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="#FFF"></path></g></svg>`
+}} />
+
+While the outcome is not exactly identical, Tailwind allows us to keep this component styled consistently with the rest of the application, rather than relying on custom CSS.
+
+---
+
+## Setting Up Tailwind CSS
+
+The simplest way to get started with Tailwind is to include it via a content delivery network (CDN) within your HTML file: 
+
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+```
+
+This is **not** the recommended way to include Tailwind in a production application, but is quick and easy for small project or testing purposes.
+
+To add Tailwind to a project via npm, follow these steps:
+
+1. **Install Tailwind**:
+   Tailwind requires Node.js and npm. Use the following commands in your project directory:
+
+   ```bash
+   npm install -D tailwindcss
+   npx tailwindcss init
+   ```
+
+2. **Configure Tailwind**:
+   - Tailwind’s configuration file (`tailwind.config.js`) is where you can customize colors, breakpoints, and other settings. This is optional for basic usage but essential for larger projects.
+
+3. **Include Tailwind in CSS**:
+   Add Tailwind’s directives to your CSS file:
+
+   ```css
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+   ```
+
+4. **Compile CSS**:
+   Use Tailwind’s CLI to build the final CSS file:
+
+   ```bash
+   npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
+   ```
+
+---
+
+## Working with Tailwind Utility Classes
+
+Tailwind provides an extensive list of utility classes that allow you to control nearly every aspect of an element’s styling. Here are some commonly used utilities:
+
+### Layout and Spacing Utilities
+
+- **Padding and Margin**: Control spacing with classes like `p-4` (padding) and `m-2` (margin).
+- **Flexbox**: Use `flex`, `justify-center`, `items-center`, and similar classes to create flexible layouts.
+
+<CodeEditor template="html" showPreview 
+      options={{
+        externalResources: ["https://cdn.tailwindcss.com"]
+      }}
+      files={{ "index.html": `<div class="flex justify-center items-center h-screen bg-gray-100">
+  <div class="p-6 bg-white rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-800">Centered Box</h2>
+  </div>
+</div>` }} />
+
+### Typography Utilities
+
+Tailwind provides classes for text size, color, alignment, font weight, and more.
+
+<CodeEditor template="html" showPreview 
+      options={{
+        externalResources: ["https://cdn.tailwindcss.com"]
+      }}
+      files={{ "index.html": `<p class="text-lg font-bold text-blue-500">
+  Tailwind makes styling text easy!
+</p>` }} />
+
+### Color Utilities
+
+Colors are a key feature in Tailwind, with predefined color classes like `bg-blue-500`, `text-gray-700`, `hover:bg-blue-700`, etc.
+
+### Customizable Utilities
+
+Tailwind allows you to customize the values of utility classes as needed, preventing the need to create additional utilities when "magic numbers" are absolutely necessary. You caan put any arbitrary value in the utility classes by using square bracket (`[]`) notation, as shown below.
+
+```html
+<div class="py-[15px] bg-[#f67e7e]space-y-[10px] sm:py-[10px] sm:flex sm:items-center sm:space-y-0 sm:space-x-6">...</div>
+```
+
+### Customizable selectors
+
+Likewise, you can create arbitrary CSS selectors within your utilities, as follows:
+
+```html
+<div class="[&>.sub-div]:py-6 [&_div]:font-large">
+    <div class="sub-div">...</div>
+    <div>...</div>
+</div>
+```
+
+---
+
+## Utility Classes versus Inline Styles
+
+This looks a lot like inline styles, so why not just use those?
+
+Utility classes have numerous advantages over inline styling:
+- With inline styles (or even traditional CSS), every value is a "magic number" (a number without a known source or reasoning). In order to keep things consistent, like margins or padding, you need to remember what values you have used in other places. 
+- With utility classes, you choose styles from a pre-defined design system, which lends itself to more consistent interfaces.
+- You cannot include media queries for responsive design within inline styles.
+- With Tailwind’s [responsive utilities](https://tailwindcss.com/docs/responsive-design), you can determine which styles to apply to which breakpoints (small, medium, or large screens, and more).
+- Inline styles cannot handle element states such as hover and focus.
+- Tailwind’s [state variants](https://tailwindcss.com/docs/hover-focus-and-other-states) allow you to define state-specific classes easily in line.
+
+### Example: Flexbox Utility
+
+The following component is responsive, and includes hover and focus states.
+
+<CodeEditor template="html" showPreview 
+  options={{
+    externalResources: ["https://cdn.tailwindcss.com"]
+  }}
+  files={{
+  "index.html": `<div
+  class="py-8 px-8 max-w-sm mx-auto bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6"
+>
+  <img
+    class="block mx-auto h-24 rounded-full sm:mx-0 sm:shrink-0"
+    src="https://uploads.codesandbox.io/uploads/user/0b26283e-9aa6-444a-bf48-51b35aa5bc02/Zuys-erin-lindford.jpg"
+    alt="Woman's Face"
+  />
+  <div class="text-center space-y-2 sm:text-left">
+    <div class="space-y-0.5">
+      <p class="text-lg text-black font-semibold">Erin Lindford</p>
+      <p class="text-slate-500 font-medium">Product Engineer</p>
+    </div>
+    <button
+      class="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+    >
+      Message
+    </button>
+  </div>
+</div>`
+}} />
+
+### Exercise: Identifying Utility Classes
+
+Generally, utility classes are named in such a way that makes it relatively obvious which CSS properties they control. For example, `p` is for padding, `m` for margin, `bg` for background, etc. Similarly, `pr` is `padding-right`.
+
+Using this knowledge, take an educated guess at which CSS properties the following Tailwind utility classes might control:
+<div class="grid grid-cols-3">
+    <div>
+        - `mx-auto`
+        - `rounded-full`
+        - `flex`
+        - `items-center`
+        - `shadow`
+    </div>
+    <div>
+        - `h-12`
+        - `w-12`
+        - `max-w-sm`
+        - `text-black`
+        - `font-medium`
+    </div>
+    <div>
+        - `space-y-2`
+        - `hover:bg-blue`
+        - `focus:ring-2`
+        - `float-right`
+        - `justify-self-center`
+    </div>
+</div>
+
+---
+
+## Utility Classes and CSS
+
+As you have likely realized, converting traditional CSS properties into their utility class alternatives is a relatively intuitive process. 
+
+With a bit of practice and experience, these utility classes become second-nature to use, just like traditional CSS.
+
+When in doubt, or when looking for a specific utility, remember that modern documentation often includes a full text search option. The shortcut Ctrl + K is the standard for opening these searches within webpages.
+
+Try searching the [Tailwind CSS documentation](https://tailwindcss.com/docs) for a class that can control the translate property.
+
+---
+
+## Responsive Design with Tailwind
+
+Tailwind makes it easy to apply styles based on screen size using responsive prefixes. For instance, to make text size responsive, you can use classes like `text-lg sm:text-xl md:text-2xl lg:text-3xl`.
+
+```html
+<p class="text-lg sm:text-xl md:text-2xl lg:text-3xl">
+  This text changes size based on the screen width.
+</p>
+```
+
+> **Exercise**: In the following editor, create a card component that adapts to different screen sizes by adjusting the font size, padding, and margins.
+
+<CodeEditor
+  showPreview
+  options={{
+    externalResources: ["https://cdn.tailwindcss.com"]
+  }}
+  template="html"
+  files={{
+    "index.html": `<link rel="stylesheet" href="./styles.css">
+
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl my-10">
+    <div class="md:flex">
+        <div class="md:shrink-0">
+        <img class="h-48 w-full object-fit md:h-full md:w-48" src="https://perscholas.org/wp-content/themes/per-scholas/assets/images/logo1.svg" alt="Per Scholas logo">
+        </div>
+        <div class="p-8">
+        <h2 class="block mt-1 text-lg leading-tight font-semibold text-gray-900 sm:text-xl md:text-2xl">Responsive Card</h2>
+        <p class="mt-2 text-gray-500">
+            This is a responsive card component styled with Tailwind CSS.
+        </p>
+        </div>
+    </div>
+</div>`,
+    'styles.css': `body {
+    background-color: slategray;
+}`,
+  }}
+/>
+
+---
+
+## Customizing Tailwind with Configuration
+
+The Tailwind configuration file (`tailwind.config.js`) allows you to extend Tailwind’s functionality by adding custom colors, fonts, breakpoints, and more.
+
+### Example: Customizing Colors
+
+In your `tailwind.config.js` file:
+
+```javascript
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brandBlue: '#0070f3',
+        brandYellow: '#ffd60a',
+      },
+    },
+  },
+};
+```
+
+You can then use these custom colors in your HTML:
+
+```html
+<div class="text-brandBlue bg-brandYellow">
+  Custom color example
+</div>
+```
+
+### Adding Custom Fonts
+
+You can add custom fonts by defining them in the configuration file and including them in the HTML file:
+
+```javascript
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Roboto', 'sans-serif'],
+      },
+    },
+  },
+};
+```
+
+```html
+<h1 class="font-sans">This uses a custom font!</h1>
+```
+
+---
+
+## Activity: Building a Responsive Navigation Bar
+
+Using Tailwind CSS, create a responsive navigation bar with the following features:
+- A horizontal layout on larger screens (`md` breakpoint) and a vertical layout on smaller screens.
+- Different colors and styles for the navigation links on hover.
+- A logo aligned to the left.
+
+### Example Code
+
+```html
+<div class="bg-gray-800 p-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="#" class="text-white font-bold text-xl">MyLogo</a>
+    <nav class="hidden md:flex space-x-4">
+      <a href="#" class="text-gray-300 hover:text-white">Home</a>
+      <a href="#" class="text-gray-300 hover:text-white">About</a>
+      <a href="#" class="text-gray-300 hover:text-white">Contact</a>
+    </nav>
+  </div>
+</div>
+```
+
+> **Challenge**: Use responsive prefixes to hide the navigation links on small screens and display them as a hamburger menu.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is a primary benefit of using utility classes in Tailwind CSS?"
+  options={[
+    { text: "To write inline styles", correct: false },
+    { text: "To apply styles directly in HTML without custom CSS", correct: true },
+    { text: "To organize files into folders", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which Tailwind utility class would you use to apply padding of 4 units?"
+  options={[
+    { text: "m-4", correct: false },
+    { text: "p-4", correct: true },
+    { text: "space-x-4", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="How do you create responsive styles with Tailwind?"
+  options={[
+    { text: "By using media queries in custom CSS", correct: false },
+    { text: "By using responsive prefixes like `sm`, `md`, and `lg`", correct: true },
+    { text: "By adding inline styles directly", correct: false },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned how to use Tailwind CSS for efficient, utility-first styling. Tailwind’s utility classes enable you to create responsive layouts quickly, while its configuration options allow customization to fit project needs. By mastering Tailwind, you can create flexible, consistent designs without writing complex custom CSS.
+
+## References
+
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Tailwind Configuration Guide](https://tailwindcss.com/docs/configuration)
+- [Responsive Design with Tailwind](https://tailwindcss.com/docs/responsive-design)

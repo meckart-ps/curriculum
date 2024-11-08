@@ -1,0 +1,1284 @@
+---
+title: "Developing with Figma"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+import Embed from "@components/layout-components/embed";
+
+# Developing with Figma
+
+## Workplace Context
+
+Imagine you have joined a development team at a tech company that uses **Figma** as its primary design tool. You are tasked with building user interfaces for web applications based on Figma designs provided by the design team. Understanding how to leverage Figma’s Dev Mode and other developer-focused features will help you seamlessly translate designs into fully functional websites. In this lesson, you will learn how developers can use Figma to inspect designs, export CSS, and streamline workflows, ensuring an efficient and accurate implementation.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Explain the purpose of Figma’s Dev Mode and its benefits for development.
+- Use Figma’s Dev Mode to inspect design elements and extract CSS properties.
+- Describe how Figma integrates with developer tools, such as Visual Studio Code and Jira.
+- Explore prototyping features in Figma to understand interactive design elements.
+
+---
+
+## Benefits of Figma for Developers
+
+Figma is not just for designers — it is also a powerful tool for developers. Figma’s **Dev Mode** provides developers with detailed insights into each design element, enabling accurate implementation of the designs. Here are the key benefits of using Figma as a developer:
+
+### Major Benefits
+
+1. **Element Inspection**: Figma’s Dev Mode allows developers to inspect individual elements to view their CSS properties. This removes the guesswork involved in implementing designs and ensures pixel-perfect accuracy.
+
+2. **Code Export**: CSS (and other styling code) can be exported directly from Figma. This export feature supports multiple styling libraries, making it easy to implement the exact look and feel specified by the design team.
+
+3. **Tool Integrations**: Figma has direct integrations with popular developer tools, including Jira, Visual Studio Code, Slack, and Microsoft Teams. These integrations enable smooth communication and quick transitions between design and code.
+
+---
+
+## Activating and Using Figma Dev Mode
+
+### Setting Up Dev Mode
+
+[**Dev Mode**](https://www.figma.com/dev-mode/) is a paid feature in Figma, though it is also available through the Figma Education plan. If you were able to sign up for the Education plan, you can activate Dev Mode by following these steps:
+
+1. Open a Figma file and switch to **Dev Mode** via the top menu.
+2. The interface will change, giving you access to inspection tools and code export options.
+
+> **Note**: If you weren’t able to sign up for the Education plan, the following activity will provide an overview of the Dev Mode features.
+
+---
+
+## Activity: Guide to Dev Mode
+
+The best guide to Dev Mode in Figma is produced by none other than Figma itself!
+
+Next, take a break from this lesson to explore the [Guide to Dev Mode](https://help.figma.com/hc/en-us/articles/15023124644247-Guide-to-Dev-Mode). Explore the features the guide covers if you have Dev Mode available. If not, pair up with a colleague that does and walk through the guide together, or explore the guide as a full team.
+
+---
+
+## Figma to Code
+
+Figma’s **Figma to Code** feature allows developers to export an entire frame and its contents in the format of their choice, based on the front-end framework or library they are using.
+
+To demonstrate this, the following steps show how Figma to Code works, using a resume template as an example.
+
+### Example: Figma to Code Workflow
+
+1. **Figma Design**: Start with a fully designed frame, such as a resume template.
+
+<Embed src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FqT6HiXYVK3IEHrYuXOXUZI%2FResume-%252F-CV%25E2%2580%25A8-Templates-(Community)%3Ftype%3Ddesign%26node-id%3D0%253A1%26mode%3Ddev" />
+
+2. **Export Screen**: In Dev Mode, select **Figma to Code** to see the code export options.
+
+![](/curriculum-assets/326/figma-to-code.png)
+
+3. **Generated Code**: The generated code can be imported into a development environment for a live preview without any modifications.
+
+<CodeEditor showPreview template="html" files={{
+    "styles.css": `h1 {
+  text-decoration: underline;
+}
+`,
+    "index.html": `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Figma to Code Example</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div
+      style="width: 595px; height: 842px; position: relative; background: white"
+    >
+      <div
+        style="
+          left: 40px;
+          top: 40px;
+          position: absolute;
+          color: black;
+          font-size: 36px;
+          font-family: Roboto;
+          font-weight: 700;
+          text-transform: uppercase;
+          line-height: 45px;
+          word-wrap: break-word;
+        "
+      >
+        rick Tang
+      </div>
+      <div
+        style="
+          left: 41px;
+          top: 89px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 400;
+          text-transform: capitalize;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Product Designer
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 149px;
+          position: absolute;
+          color: black;
+          font-size: 15px;
+          font-family: Roboto;
+          font-weight: 700;
+          text-decoration: underline;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          word-wrap: break-word;
+        "
+      >
+        profile
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 245px;
+          position: absolute;
+          color: black;
+          font-size: 15px;
+          font-family: Roboto;
+          font-weight: 700;
+          text-decoration: underline;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          word-wrap: break-word;
+        "
+      >
+        experience
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 277px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Uber
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 292px;
+          position: absolute;
+          color: black;
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Product Designer
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 396px;
+          position: absolute;
+          color: black;
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Product Designer
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 498px;
+          position: absolute;
+          color: black;
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Product Designer
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 600px;
+          position: absolute;
+          color: black;
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        UX/UI Design Intern
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 381px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        IFTTT
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 483px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Facebook
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 585px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Google Maps
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 308px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Mar 2015 - Present
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 410px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Dec 2013 - Mar 2015
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 512px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        June 2013 - Sep 2013
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 614px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        June 2012 - Sep 2013
+      </div>
+      <div
+        style="
+          width: 299px;
+          left: 266px;
+          top: 327px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          line-height: 13px;
+          word-wrap: break-word;
+        "
+      >
+        Designed safety-focused experiences for Riders and Drivers
+        <br />Physical space problem solving and it’s interaction with the
+        digital Navigated organization to achieve operational improvements
+      </div>
+      <div
+        style="
+          width: 299px;
+          left: 266px;
+          top: 429px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          line-height: 13px;
+          word-wrap: break-word;
+        "
+      >
+        Product and system design for a complex product<br />Designed both
+        consumer and developer products for IFTTT Responsible for maintaining
+        design across iOS, Android, and web
+      </div>
+      <div
+        style="
+          width: 299px;
+          left: 266px;
+          top: 531px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          line-height: 13px;
+          word-wrap: break-word;
+        "
+      >
+        Designer and prototyped internal tools<br />Worked with Privacy team to
+        build assets and features<br />Redesigned Newsfeed curation experience
+        for mobile
+      </div>
+      <div
+        style="
+          width: 299px;
+          left: 266px;
+          top: 633px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          line-height: 13px;
+          word-wrap: break-word;
+        "
+      >
+        Contributed to Maps on iOS wireframe ans user experience Designed and
+        prototyped onboarding experience Asset and feature design for Maps on
+        Android
+      </div>
+      <div
+        style="
+          width: 299px;
+          left: 257px;
+          top: 182px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          word-wrap: break-word;
+        "
+      >
+        UX/UI specialist focused on designing clean and functional projects
+        across all platforms and devices in response to specific briefs and
+        problems, while always maintaining a unique look and feel.
+      </div>
+      <div
+        style="
+          width: 515px;
+          height: 0px;
+          left: 41px;
+          top: 125px;
+          position: absolute;
+          border: 1px rgba(0, 0, 0, 0.15) solid;
+        "
+      ></div>
+      <div
+        style="
+          width: 677px;
+          height: 0px;
+          left: 231px;
+          top: 125px;
+          position: absolute;
+          transform: rotate(90deg);
+          transform-origin: 0 0;
+          border: 1px rgba(0, 0, 0, 0.15) solid;
+        "
+      ></div>
+      <div
+        style="
+          left: 257px;
+          top: 327px;
+          position: absolute;
+          color: black;
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          line-height: 13px;
+          word-wrap: break-word;
+        "
+      >
+        • • •
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 429px;
+          position: absolute;
+          color: black;
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          line-height: 13px;
+          word-wrap: break-word;
+        "
+      >
+        • • •
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 531px;
+          position: absolute;
+          color: black;
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          line-height: 13px;
+          word-wrap: break-word;
+        "
+      >
+        • • •
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 633px;
+          position: absolute;
+          color: black;
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          line-height: 13px;
+          word-wrap: break-word;
+        "
+      >
+        • • •
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 735px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Rhode Island School of Design
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 775px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Brown University
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 751px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        BFA Industrial Design, Class of 2013
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 791px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Interdisciplinary studies, Sep 2010 - May 2013
+      </div>
+      <div
+        style="
+          left: 257px;
+          top: 702px;
+          position: absolute;
+          color: black;
+          font-size: 15px;
+          font-family: Roboto;
+          font-weight: 700;
+          text-decoration: underline;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          word-wrap: break-word;
+        "
+      >
+        Education
+      </div>
+      <div
+        style="
+          left: 41px;
+          top: 149px;
+          position: absolute;
+          color: black;
+          font-size: 15px;
+          font-family: Roboto;
+          font-weight: 700;
+          text-decoration: underline;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          word-wrap: break-word;
+        "
+      >
+        Details
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 319px;
+          position: absolute;
+          color: black;
+          font-size: 15px;
+          font-family: Roboto;
+          font-weight: 700;
+          text-decoration: underline;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          word-wrap: break-word;
+        "
+      >
+        links
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 444px;
+          position: absolute;
+          color: black;
+          font-size: 15px;
+          font-family: Roboto;
+          font-weight: 700;
+          text-decoration: underline;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          word-wrap: break-word;
+        "
+      >
+        skills
+      </div>
+      <div
+        style="
+          left: 41px;
+          top: 221px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Phone
+      </div>
+      <div
+        style="
+          left: 41px;
+          top: 261px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Email
+      </div>
+      <div
+        style="
+          left: 41px;
+          top: 237px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.1px;
+          word-wrap: break-word;
+        "
+      >
+        (315) 802-8179
+      </div>
+      <div
+        style="
+          left: 41px;
+          top: 277px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.1px;
+          word-wrap: break-word;
+        "
+      >
+        ricktang@gmail.com
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 377px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.1px;
+          word-wrap: break-word;
+        "
+      >
+        Dribbble
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 402px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.1px;
+          word-wrap: break-word;
+        "
+      >
+        Behance
+      </div>
+      <div
+        style="
+          left: 41px;
+          top: 182px;
+          position: absolute;
+          color: black;
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          word-wrap: break-word;
+        "
+      >
+        Address
+      </div>
+      <div
+        style="
+          left: 41px;
+          top: 198px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        San Francisco, California
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 477px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Figma
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 514px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Sketch
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 551px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Adobe Photoshop
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 588px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Adobe Illustrator
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 625px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Principle
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 662px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Adobe XD
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 352px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 10px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.1px;
+          word-wrap: break-word;
+        "
+      >
+        LinkedIn
+      </div>
+      <div
+        style="
+          width: 165px;
+          height: 3px;
+          left: 40px;
+          top: 494px;
+          position: absolute;
+        "
+      >
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: #d9d9d9;
+          "
+        ></div>
+        <div
+          style="
+            width: 158px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: black;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          width: 165px;
+          height: 3px;
+          left: 40px;
+          top: 531px;
+          position: absolute;
+        "
+      >
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: #d9d9d9;
+          "
+        ></div>
+        <div
+          style="
+            width: 158px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: black;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          width: 165px;
+          height: 3px;
+          left: 40px;
+          top: 568px;
+          position: absolute;
+        "
+      >
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: #d9d9d9;
+          "
+        ></div>
+        <div
+          style="
+            width: 127px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: black;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          width: 165px;
+          height: 3px;
+          left: 40px;
+          top: 605px;
+          position: absolute;
+        "
+      >
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: #d9d9d9;
+          "
+        ></div>
+        <div
+          style="
+            width: 86px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: black;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          width: 165px;
+          height: 3px;
+          left: 40px;
+          top: 642px;
+          position: absolute;
+        "
+      >
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: #d9d9d9;
+          "
+        ></div>
+        <div
+          style="
+            width: 104px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: black;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          width: 165px;
+          height: 3px;
+          left: 40px;
+          top: 679px;
+          position: absolute;
+        "
+      >
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: #d9d9d9;
+          "
+        ></div>
+        <div
+          style="
+            width: 104px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: black;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 745px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        English
+      </div>
+      <div
+        style="
+          width: 165px;
+          height: 3px;
+          left: 40px;
+          top: 762px;
+          position: absolute;
+        "
+      >
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: #d9d9d9;
+          "
+        ></div>
+        <div
+          style="
+            width: 118px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: black;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 782px;
+          position: absolute;
+          color: rgba(0, 0, 0, 0.7);
+          font-size: 9px;
+          font-family: Roboto;
+          font-weight: 400;
+          letter-spacing: 0.09px;
+          word-wrap: break-word;
+        "
+      >
+        Italian
+      </div>
+      <div
+        style="
+          width: 165px;
+          height: 3px;
+          left: 40px;
+          top: 799px;
+          position: absolute;
+        "
+      >
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: #d9d9d9;
+          "
+        ></div>
+        <div
+          style="
+            width: 165px;
+            height: 3px;
+            left: 0px;
+            top: 3px;
+            position: absolute;
+            background: black;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          left: 40px;
+          top: 712px;
+          position: absolute;
+          color: black;
+          font-size: 15px;
+          font-family: Roboto;
+          font-weight: 700;
+          text-decoration: underline;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          word-wrap: break-word;
+        "
+      >
+        Languages
+      </div>
+    </div>
+  </body>
+</html>`
+}} />
+
+---
+
+## VS Code Integration with Figma
+
+For developers who work in **Visual Studio Code (VS Code)**, Figma offers a [plugin](https://marketplace.visualstudio.com/items?itemName=figma.figma-vscode-extension) that brings essential Figma functions into the code editor, streamlining development workflows.
+
+The following is taken directly from the Figma for VS Code plugin webpage, to serve as an overview of its features.
+
+### Streamline your design to code workflow with Figma for VS Code
+
+Figma for VS Code lets you navigate and inspect design files, collaborate with designers, track changes, and speed up implementation - all without leaving your text editor. Improve developer productivity by eliminating the context switching and busy work needed to turn designs into code.
+
+### What can you do with Figma for VS Code?
+
+#### See and respond to comments and activity in real time
+
+No longer worry about missing notifications in Figma. With Figma for VS Code, open live design files in the sidebar and collaborate in real time.
+- Receive and respond to new comments and activity within Figma files.
+- Discuss layouts with designers using cursor chat.
+
+![](https://static.figma.com/uploads/a4510b0ae063e1ae709281f30ef95f974299e6b5)
+
+#### Get code suggestions based on designs
+
+Stay in the flow and more productive than ever before with autocompletions based on the designs you’re actively working in.
+- Select a layer on your design and the properties will appear as code suggestions while you type
+- Download assets to your repo with a single click
+
+![](https://static.figma.com/uploads/8bd1c51851ccc4de47cb1f9163dbf062d777a809)
+
+#### Link code files to design components
+
+Help your whole team move faster by keeping your design system and codebase in sync. Quickly navigate and document your codebase in relation to design files and no longer worry about finding existing implementations of components.
+- Add and review dev resource links to easily reference documentation
+
+![](https://static.figma.com/uploads/a408b84a3c203a3ecc74d3b7131c1eddd4d53b4a)
+
+#### Run Dev Mode plugins to customize your experience
+
+Use plugins to extend workflows and code output in Dev Mode—without leaving VS Code.
+- Run codegen plugins to tailor code snippets to whatever framework you’re using—or your design system.
+- Connect to tools like Github, Jira, and Storybook to stay in sync across sources of truth.
+
+---
+
+## Prototyping in Figma
+
+**Prototyping** involves creating semi-functional designs that simulate how an interface will behave. Prototypes allow designers and developers to explore interactions, transitions, and navigation flow.
+
+### Common Prototyping Practices
+
+- **Animating Menus**: Simulate the appearance and behavior of dropdown or slide-out menus.
+- **Page Transitions**: Demonstrate smooth transitions between different pages or sections.
+- **Loading States**: Show how the application will indicate loading progress.
+- **Navigational Flow**: Illustrate how users will move through the application’s content and screens.
+
+**Note**: Prototyping is best demonstrated live or through video content due to its interactive nature. We will explore prototyping further in upcoming resources.
+
+---
+
+## Activity: Applying Dev Mode and Exporting CSS
+
+**Objective**: Practice using Figma Dev Mode to inspect design elements, export CSS, and implement these styles in your code.
+
+### Instructions
+
+1. Open a design file in Figma Dev Mode (if you have access to it).
+2. **Inspect Elements**: Click on a design element to view its CSS properties in the Inspector.
+3. **Export CSS**: Copy the CSS and paste it into your code editor.
+4. **Implement Styles**: Use the exported CSS to style an element in your code, matching the Figma design.
+
+If Dev Mode is unavailable, use the images and CodeSandbox provided above as a reference.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the primary purpose of Figma’s Dev Mode for developers?"
+  options={[
+    { text: "To create new design elements", correct: false },
+    { text: "To view and export CSS properties of design elements", correct: true },
+    { text: "To add animations to prototypes", correct: false },
+    { text: "To manage design files and folders", correct: false }
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which tool allows you to link design components directly to code files?"
+  options={[
+    { text: "Figma Community", correct: false },
+    { text: "Figma to Code", correct: false },
+    { text: "Figma Dev Mode", correct: false },
+    { text: "Figma VS Code Plugin", correct: true }
+  ]}
+/>
+
+---
+
+## Final Tips for Working with Figma as a Developer
+
+As you continue with this course, keep in mind the following tips:
+
+1. **Use Figma for Design Insights**: Dev Mode can help you ensure accuracy in your implementations.
+2. **Leverage Prototypes**: Use Figma prototypes to understand user interactions before coding.
+3. **Explore Community Resources**: If you are unsure about designing from scratch, Figma Community provides many pre-built resources to help you get started.
+4. **Practice with Real Projects**: The more you practice with real Figma designs, the more familiar you will become with common design trends and standards.
+
+---
+
+## Summary
+
+In this lesson, you learned how Figma supports developers by providing tools to inspect designs, export CSS, and collaborate seamlessly through integrations like VS Code. You also explored the concept of prototyping and how it helps developers and designers visualize interactions before development begins. By mastering these tools, you will be able to implement designs efficiently and accurately in your development work.
+
+---
+
+## References
+
+- [Figma Dev Mode Guide](https://help.figma.com/hc/en-us/articles/360042319193-Use-Dev-Mode)
+- [Figma Prototyping Basics](https://help.figma.com/hc/en-us/articles/360040451713-Prototype-using-Figma)
+
+## Additional Resources
+
+- [VS Code Figma Plugin](https://marketplace.visualstudio.com/items?itemName=figma.figma-vscode)
+- [YouTube: Figma Dev Mode for Developers](https://www.youtube.com/results?search_query=figma+dev+mode+for+developers)

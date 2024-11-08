@@ -1,0 +1,729 @@
+---
+title: "Bootstrap"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Bootstrap
+
+## Workplace Context
+
+As a developer, you will often work in environments where rapid prototyping and design consistency are essential. Bootstrap is one of the most widely used CSS frameworks, known for its comprehensive grid system, pre-designed components, and utility classes that allow developers to create responsive, mobile-first websites quickly. This lesson will guide you through Bootstrap’s core features, enabling you to build responsive layouts and use its component library effectively.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Describe the benefits of using Bootstrap in web development.
+- Implement Bootstrap’s grid system to create responsive layouts.
+- Use Bootstrap’s components and utilities to build consistent UI elements.
+- Customize Bootstrap to match a specific design or brand style.
+
+---
+
+## What is Bootstrap?
+
+Bootstrap is a **CSS framework** that provides a set of styles, components, and JavaScript plugins for building responsive, mobile-first websites. It includes a powerful grid system, ready-to-use components like buttons, cards, and modals, and utilities for common design patterns. Bootstrap helps teams deliver consistent and professional-looking websites quickly, especially useful in team-based environments.
+
+### Key Benefits of Bootstrap
+
+1. **Responsive Grid System**: Bootstrap’s grid system makes it easy to create layouts that adapt to various screen sizes.
+2. **Reusable Components**: Buttons, forms, navbars, and more are pre-designed for quick integration.
+3. **Consistent Styling**: Ensures a cohesive look and feel across projects.
+4. **Customizable**: Use Bootstrap’s configuration to apply branding, colors, and styles that match your project’s needs.
+
+---
+
+## Setting Up Bootstrap
+
+You can add Bootstrap to your project in various ways:
+
+1. **Using the CDN**: The fastest way to start is to include Bootstrap’s CDN links in the `<head>` section of your HTML.
+
+   ```html
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   ```
+
+2. **Installing via npm**: For larger projects, you may want to install Bootstrap via npm for better control over versioning.
+
+   ```bash
+   npm install bootstrap
+   ```
+
+3. **Importing into Sass**: You can customize Bootstrap by importing it into a Sass file, allowing you to modify variables and include only the components you need.
+
+---
+
+### Difference between Bootstrap and Traditional CSS
+
+Here is the same example used in the previous lesson on Tailwind CSS:
+
+<CodeEditor template="html" showPreview
+  options={{
+    experimental_enableServiceWorker: true,
+  }}
+  files={{
+    'index.html': `<link rel="stylesheet" href="./styles.css">
+
+<div class="chat-notification">
+  <div class="chat-notification-logo-wrapper">
+    <img class="chat-notification-logo" src="/public/logo.svg" alt="ChitChat Logo" />
+  </div>
+  <div class="chat-notification-content">
+    <h4 class="chat-notification-title">ChitChat</h4>
+    <p class="chat-notification-message">You have a new message!</p>
+  </div>
+</div>`,
+    'styles.css': `body {
+  background-color: slategray;
+}
+
+.chat-notification {
+  display: flex;
+  max-width: 24rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  font-family: "Inter var", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+.chat-notification-logo-wrapper {
+  flex-shrink: 0;
+}
+.chat-notification-logo {
+  height: 3rem;
+  width: 3rem;
+}
+.chat-notification-content {
+  margin-left: 1.5rem;
+  padding-top: 0.25rem;
+}
+.chat-notification-title {
+  color: #1a202c;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  margin: 0;
+}
+.chat-notification-message {
+  color: #718096;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}`,
+    '/public/logo.svg': `<svg class="h-12 w-12" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a"><stop stop-color="#2397B3" offset="0%"></stop><stop stop-color="#13577E" offset="100%"></stop></linearGradient><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b"><stop stop-color="#73DFF2" offset="0%"></stop><stop stop-color="#47B1EB" offset="100%"></stop></linearGradient></defs><g fill="none" fill-rule="evenodd"><path d="M28.872 22.096c.084.622.128 1.258.128 1.904 0 7.732-6.268 14-14 14-2.176 0-4.236-.496-6.073-1.382l-6.022 2.007c-1.564.521-3.051-.966-2.53-2.53l2.007-6.022A13.944 13.944 0 0 1 1 24c0-7.331 5.635-13.346 12.81-13.95A9.967 9.967 0 0 0 13 14c0 5.523 4.477 10 10 10a9.955 9.955 0 0 0 5.872-1.904z" fill="url(#a)" transform="translate(1 1)"></path><path d="M35.618 20.073l2.007 6.022c.521 1.564-.966 3.051-2.53 2.53l-6.022-2.007A13.944 13.944 0 0 1 23 28c-7.732 0-14-6.268-14-14S15.268 0 23 0s14 6.268 14 14c0 2.176-.496 4.236-1.382 6.073z" fill="url(#b)" transform="translate(1 1)"></path><path d="M18 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM24 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM30 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="#FFF"></path></g></svg>`
+}} />
+
+Now, let us compare that to using Bootstrap utilities:
+
+<CodeEditor template="html" showPreview
+  options={{
+    externalResources: [
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css",
+    ],
+    experimental_enableServiceWorker: true,
+  }}
+  files={{
+    'index.html': `<link rel="stylesheet" href="./styles.css">
+
+<div
+  class="p-4 mx-auto mt-4 bg-white rounded shadow-lg d-flex align-items-center column-gap-3"
+  style="max-width: 24rem"
+>
+  <div class="flex-shrink-0">
+    <img style="width: 3rem" src="/public/logo.svg" alt="ChitChat Logo" />
+  </div>
+  <div>
+    <div class="fs-3 fw-medium text-black">ChitChat</div>
+    <p class="text-secondary m-0">You have a new message!</p>
+  </div>
+</div>`,
+    'styles.css': `body {
+  background-color: slategray;
+}`,
+    '/public/logo.svg': `<svg class="h-12 w-12" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a"><stop stop-color="#2397B3" offset="0%"></stop><stop stop-color="#13577E" offset="100%"></stop></linearGradient><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b"><stop stop-color="#73DFF2" offset="0%"></stop><stop stop-color="#47B1EB" offset="100%"></stop></linearGradient></defs><g fill="none" fill-rule="evenodd"><path d="M28.872 22.096c.084.622.128 1.258.128 1.904 0 7.732-6.268 14-14 14-2.176 0-4.236-.496-6.073-1.382l-6.022 2.007c-1.564.521-3.051-.966-2.53-2.53l2.007-6.022A13.944 13.944 0 0 1 1 24c0-7.331 5.635-13.346 12.81-13.95A9.967 9.967 0 0 0 13 14c0 5.523 4.477 10 10 10a9.955 9.955 0 0 0 5.872-1.904z" fill="url(#a)" transform="translate(1 1)"></path><path d="M35.618 20.073l2.007 6.022c.521 1.564-.966 3.051-2.53 2.53l-6.022-2.007A13.944 13.944 0 0 1 23 28c-7.732 0-14-6.268-14-14S15.268 0 23 0s14 6.268 14 14c0 2.176-.496 4.236-1.382 6.073z" fill="url(#b)" transform="translate(1 1)"></path><path d="M18 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM24 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM30 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="#FFF"></path></g></svg>`
+}} />
+
+Very similar to Tailwind, but with some key differences!
+
+---
+
+## Research: Bootstrap Utilities
+
+We will take a few minutes to explore the Bootstrap documentation, focusing on **utilities**.
+
+Begin by navigating to the [utilities](https://getbootstrap.com/docs/5.3/utilities/background/) section of the documentation, and take a look through some of the available utilities’ syntax and behavior.
+
+Make note of any utilities that you might use frequently; you will likely need them for upcoming exercises and assignments!
+
+Do not venture outside of the utilities section just yet -- we will cover things like layout and components soon.
+
+### Key Differences between Bootstrap and Tailwind
+
+Notice the presence of actual inline styles in the previous example. 
+
+Bootstrap’s approach is built on a responsive grid system. This means that most of its sizing and positioning options are relative to other elements.
+
+For example, the utility classes for width vary as shown below:
+- **Tailwind:** `max-w-12` is equivalent to `max-width: 3rem`, a fixed width.
+- **Bootstrap:** `mw-100` is equivalent to `max-width: 100%`, a responsive width.
+
+As you grow more familiar with the Bootstrap grid and flexbox systems, you will uncover the pros and cons of using this approach.
+
+---
+
+## Working with Bootstrap’s Grid System
+
+[Bootstrap’s grid system](https://getbootstrap.com/docs/5.3/layout/grid/) is based on a 12-column layout and is responsive by default, making it simple to build layouts that adjust to different screen sizes. The grid system uses **containers**, **rows**, and **columns** to align and organize content.
+
+The grid also includes breakpoints -- utility additions that allow you to control how columns respond to the size of the user’s screen.
+- Extra small (`xs`)
+- Small (`sm`)
+- Medium (`md`)
+- Large (`lg`)
+- Extra large (`xl`)
+- Extra extra large (`xxl`)
+
+### Example: Bootstrap's Grid
+
+The following code demonstrates Bootstrap’s responsive grid layout. You can see examples like this and more by visiting the [Bootstrap documentation](https://getbootstrap.com/docs/5.3/layout/grid/).
+
+<CodeEditor template="html" showPreview
+  options={{
+    externalResources: [
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+        "https://getbootstrap.com/docs/5.3/assets/css/docs.css",
+        "https://getbootstrap.com/docs/5.3/assets/js/docs.min.js"
+    ],
+  }}
+  files={{
+    "index.html": `<div class="p-3 m-0 border-0 bd-example bd-example-row">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-1">1</div>
+      <div class="col-1">2</div>
+      <div class="col-1">3</div>
+      <div class="col-1">4</div>
+      <div class="col-1">5</div>
+      <div class="col-1">6</div>
+      <div class="col-1">7</div>
+      <div class="col-1">8</div>
+      <div class="col-1">9</div>
+      <div class="col-1">10</div>
+      <div class="col-1">11</div>
+      <div class="col-1">12</div>
+    </div>
+    <div class="row">
+      <div class="col">1 of 2</div>
+      <div class="col">2 of 2</div>
+    </div>
+    <div class="row">
+      <div class="col">1 of 3</div>
+      <div class="col">2 of 3</div>
+      <div class="col">3 of 3</div>
+    </div>
+    <div class="row">
+      <div class="col-4">4 of 12 columns</div>
+      <div class="col-8">8 of 12 columns</div>
+    </div>
+    <div class="row">
+      <div class="col-3">3 of 12</div>
+      <div class="col">Remaining</div>
+      <div class="col-4">4 of 12</div>
+    </div>
+  </div>
+</div>` }}
+/>
+
+- `col-6`: The column spans 6 out of 12 columns on small screens.
+- `col-md-4`: On medium screens and larger, the column spans 4 out of 12 columns.
+
+### Example: Responsive Grid
+
+At specific breakpoints, the responsive columns below will stack vertically instead of being horizontally aligned.
+
+<CodeEditor template="html" showPreview
+  options={{
+    externalResources: [
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+        "https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+    ],
+  }}
+  files={{
+    "index.html": `<div class="p-3 m-0 border-0 bd-example bd-example-row">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">1 of 2</div>
+      <div class="col">2 of 2</div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-12">Responsive 1 of 3</div>
+      <div class="col-md-4 col-12">Responsive 2 of 3</div>
+      <div class="col-md-4 col-12">Responsive 3 of 3</div>
+    </div>
+  </div>
+</div>` }} />
+
+---
+
+## Research: Bootstrap Grid
+
+Take another few minutes to explore the Bootstrap documentation, focusing on **layout**.
+
+Begin by navigating to the [grid](https://getbootstrap.com/docs/5.3/layout/grid/) section of the documentation, and take a look through some of the available layout classes’ syntax and behavior.
+
+Make note of classes that affect grid layout, like alignment, spacing, and responsiveness. Utilizing the grid effectively is key to creating optimal layouts.
+
+Do not venture outside of the layout section just yet -- we will cover components soon.
+
+---
+
+## Bootstrap Components
+
+Bootstrap includes a variety of pre-designed components that make it easy to build common UI elements like buttons, cards, modals, and navigation bars.
+
+Many components include bundled JavaScript functionality, which makes them particularly useful. In order for your elements to “hook” into Bootstrap’s JavaScript, you must use the correct classes and other attributes on each element.
+
+One of the most common attributes you will see used is the `data-bs-` attribute such as `data-bs-toggle` and `data-bs-parent`, which help define the targets for certain Bootstrap JavaScript functions.
+
+This will all become clear with the following examples.
+
+### Example: Accordion
+
+Accordions are vertically-collapible elements that help to keep content condensed.
+
+Try clicking on the various accordion items below to see the result. Then, inspect the code to determine how this component is put together.
+
+<CodeEditor template="html" showPreview
+  options={{
+    externalResources: ["https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+        "https://getbootstrap.com/docs/5.3/assets/css/docs.css",
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ],
+  }}
+  files={{
+    "index.html": `<div class="p-3 m-0 border-0 bd-example bd-example-row">
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseOne"
+          aria-expanded="true"
+          aria-controls="collapseOne"
+        >
+          Accordion Item #1
+        </button>
+      </h2>
+      <div
+        id="collapseOne"
+        class="accordion-collapse collapse show"
+        data-bs-parent="#accordionExample"
+      >
+        <div class="accordion-body">
+          <strong>This is the first item's accordion body.</strong> It is
+          shown by default, until the collapse plugin adds the appropriate
+          classes that we use to style each element. These classes control the
+          overall appearance, as well as the showing and hiding via CSS
+          transitions. You can modify any of this with custom CSS or
+          overriding our default variables. It's also worth noting that just
+          about any HTML can go within the <code>.accordion-body</code>,
+          though the transition does limit overflow.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseTwo"
+          aria-expanded="false"
+          aria-controls="collapseTwo"
+        >
+          Accordion Item #2
+        </button>
+      </h2>
+      <div
+        id="collapseTwo"
+        class="accordion-collapse collapse"
+        data-bs-parent="#accordionExample"
+      >
+        <div class="accordion-body">
+          <strong>This is the second item's accordion body.</strong> It is
+          hidden by default, until the collapse plugin adds the appropriate
+          classes that we use to style each element. These classes control the
+          overall appearance, as well as the showing and hiding via CSS
+          transitions. You can modify any of this with custom CSS or
+          overriding our default variables. It's also worth noting that just
+          about any HTML can go within the <code>.accordion-body</code>,
+          though the transition does limit overflow.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseThree"
+          aria-expanded="false"
+          aria-controls="collapseThree"
+        >
+          Accordion Item #3
+        </button>
+      </h2>
+      <div
+        id="collapseThree"
+        class="accordion-collapse collapse"
+        data-bs-parent="#accordionExample"
+      >
+        <div class="accordion-body">
+          <strong>This is the third item's accordion body.</strong> It is
+          hidden by default, until the collapse plugin adds the appropriate
+          classes that we use to style each element. These classes control the
+          overall appearance, as well as the showing and hiding via CSS
+          transitions. You can modify any of this with custom CSS or
+          overriding our default variables. It's also worth noting that just
+          about any HTML can go within the <code>.accordion-body</code>,
+          though the transition does limit overflow.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+  }}
+/>
+
+### Example: Cards
+
+Cards are simply stylized content containers that serve a variety of purposes.
+
+Note how minimal the markup for cards is compared to accordions, because cards do not inherently include any functional components.
+
+<CodeEditor template="html" showPreview
+  options={{
+    externalResources: ["https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+        "https://getbootstrap.com/docs/5.3/assets/css/docs.css",
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ],
+  }}
+  files={{
+    "index.html": `<div class="p-3 m-0 border-0 bd-example bd-example-row">
+  <div class="card mx-auto" style="width: 18rem">
+    <img
+      src="https://perscholas.org/wp-content/themes/per-scholas/assets/images/logo1.svg"
+      class="card-img-top p-4"
+      alt="Per Scholas logo"
+    />
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">
+        Some quick example text to build on the card title and make up the
+        bulk of the card's content.
+      </p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+</div>`
+  }}
+/>
+
+### Example: Carousels
+
+Carousels are like slideshows for showing multiple pieces of information in a sequence, typically used for images. Try clicking through the carousel below.
+
+<CodeEditor template="html" showPreview
+  options={{
+    externalResources: ["https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+        "https://getbootstrap.com/docs/5.3/assets/css/docs.css",
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ],
+  }}
+  files={{
+    "index.html": `<div class="p-3 m-0 border-0 bd-example bd-example-row">
+  <div id="carouselExampleCaptions" class="carousel slide">
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            src="https://perscholas.org/wp-content/uploads/2023/05/20190625-143859-_DSC5051-scaled1-1000x1000.jpg"
+            class="d-block object-fit-cover w-100"
+            style="max-height: 500px"
+            alt=""
+          />
+          <div class="carousel-caption text-dark">
+            <h5>Per Scholas</h5>
+            <p>We're learning about Boostrap components!</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://perscholas.org/wp-content/uploads/2023/05/perscholas_main_servicesfeature1.jpg"
+            class="d-block object-fit-cover w-100"
+            style="max-height: 500px"
+            alt=""
+          />
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Unlocking Potential</h5>
+            <p>How does this carousel work?</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://perscholas.org/wp-content/uploads/2023/05/support-cta1-1000x667.jpg"
+            class="d-block object-fit-cover w-100"
+            style="max-height: 500px"
+            alt=""
+          />
+          <div class="carousel-caption d-none d-md-block">
+            <h5>With a Smile</h5>
+            <p>Bootstrap does most of the work for us.</p>
+          </div>
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+</div>`
+  }}
+/>
+
+### Example: Navigation
+
+Navigation bars are present in almost every application ever.
+
+Wouldn't it be nice if Bootstrap gave us flexible options for creating good ones?
+
+And, it's responsive! Try <a href="https://4tg82r.csb.app/" target="_blank">opening this example in a new tab</a> and adjusting the window size.
+
+<CodeEditor template="html" showPreview
+  options={{
+    externalResources: ["https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+        "https://getbootstrap.com/docs/5.3/assets/css/docs.css",
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ],
+  }}
+  files={{
+    "index.html": `<div class="p-3 m-0 border-0 bd-example bd-example-row">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="https://perscholas.org/wp-content/themes/per-scholas/assets/images/logo1.svg" alt="Per Scholas" height=24" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="p-3">
+      <h5 class="mt-3">Navigation</h5>
+      <p>
+        Navigation bars are present in almost every application ever...<br />Wouldn't
+        it be nice if Bootstrap gave us flexible options for creating good
+        ones?<br /><br />
+        And, it's responsive! Try
+        <a href="https://4tg82r.csb.app/" target="_blank"
+          >opening this example in a new tab</a
+        >
+        and adjusting the window size.
+      </p>
+    </div>`
+  }}
+/>
+
+### More Components
+
+Each of these components is flexible and extensible, able to be manipulated to fit your specific needs. There are also many more components that we did not demonstrate here.
+
+To examine the full list of Bootstrap components and all of their various options, make sure to reference the [Bootstrap documentation](https://getbootstrap.com/docs/5.3/components/accordion/).
+
+Being able to navigate documentation quickly and efficiently to uncover the information you need is one of the hallmarks of a good developer!
+
+---
+
+## Customizing Bootstrap with Sass
+
+Bootstrap allows for customization using Sass, a CSS preprocessor. By modifying variables, you can change Bootstrap’s colors, spacing, fonts, and more to match your design requirements.
+
+### Example: Changing the Primary Color
+
+1. **Install Sass** and Bootstrap in your project.
+
+   ```bash
+   npm install sass bootstrap
+   ```
+
+2. **Create a custom SCSS file** and import Bootstrap.
+
+   ```scss
+   // custom.scss
+   $primary: #ff5733; // Custom primary color
+
+   @import "bootstrap";
+   ```
+
+3. Compile the SCSS file:
+
+   ```bash
+   npx sass custom.scss custom.css
+   ```
+
+4. **Link the compiled CSS** in your HTML file.
+
+   ```html
+   <link href="custom.css" rel="stylesheet">
+   ```
+
+You can now use Bootstrap classes, but with a customized color palette.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the primary benefit of using Bootstrap’s grid system?"
+  options={[
+    { text: "To apply custom styles to each element", correct: false },
+    { text: "To create responsive layouts easily", correct: true },
+    { text: "To organize files into folders", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which Bootstrap class would you use to create a button with primary styling?"
+  options={[
+    { text: "btn btn-primary", correct: true },
+    { text: "button-primary", correct: false },
+    { text: "btn-primary-button", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="How can you customize Bootstrap’s colors?"
+  options={[
+    { text: "Using inline styles", correct: false },
+    { text: "By modifying variables in Sass", correct: true },
+    { text: "Changing the class names", correct: false },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned the basics of using Bootstrap for efficient front-end development. Bootstrap’s grid system, reusable components, and customization options make it a powerful tool for creating responsive, professional websites quickly. By mastering Bootstrap, you will be able to build visually consistent and adaptable designs across a variety of projects.
+
+---
+
+## References
+
+- [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [Bootstrap Grid System](https://getbootstrap.com/docs/5.3/layout/grid/)
+- [Customizing Bootstrap](https://getbootstrap.com/docs/5.3/customize/overview/)

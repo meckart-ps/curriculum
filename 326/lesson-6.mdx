@@ -1,0 +1,260 @@
+---
+title: "CSS Libraries"
+---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# CSS Libraries
+
+## Workplace Context
+
+As a front-end developer in a fast-paced tech company, you will often use CSS libraries to streamline the styling process. These libraries save time, enhance consistency, and allow your team to produce professional designs quickly. This lesson covers popular CSS libraries, focusing on the functionality, versatility, and utility classes that can simplify complex layouts.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Explain the purpose and advantages of CSS libraries.
+- Identify popular CSS libraries commonly used in web development.
+- Describe the purpose of utility classes and their common use cases.
+- Understand the basic features of Sass as a CSS extension.
+
+---
+
+## CSS Libraries Overview
+
+A library implements functionality for a narrowly-scoped purpose, providing developers with predefined functions and classes for that purpose.
+
+CSS libraries help streamline the design and development process by providing pre-packaged solutions for common styling and layout problems such as:
+- Flexible grid systems
+- Convenient layout classes
+- Pre-styled form, menu, and navigation components
+- ..and so much more!
+
+While web development can be accomplished through pure CSS alone, you will find
+that CSS libraries become a cornerstone of your development efforts going forward.
+
+CSS libraries provide pre-built classes and functions that developers can use to create consistent and responsive designs efficiently. Using a CSS library helps with:
+
+- **Layout and Flexibility**: Libraries often come with grid systems and layout utilities.
+- **Reusable Components**: Many libraries have pre-styled components like buttons, forms, and navigation bars.
+- **Consistency Across Projects**: They help ensure a uniform look and feel, critical for branding and user experience.
+
+### Popular CSS Libraries
+
+1. [**Tailwind CSS**](https://tailwindcss.com) - A utility-first CSS library with a modern, flexible approach.
+2. [**Bootstrap**](https://getbootstrap.com) - A well-known library offering a mix of utility and component classes.
+3. [**Materialize CSS**](https://materializecss.com) - Inspired by Google’s Material Design, useful for mobile-friendly designs.
+4. [**Foundation**](https://get.foundation) - Known for its robust grid system and responsive features.
+5. [**Bulma**](https://bulma.io) - A CSS framework based on Flexbox, easy to use for fast layouts.
+6. [**Skeleton**](http://getskeleton.com) - A lightweight library for basic styling, perfect for quick prototypes.
+7. [**Open Props**](https://open-props.style) - A modern CSS library focused on design tokens and properties.
+
+> **Note**: In your spare time, explore each library’s website to familiarize yourself with its unique features. Reflect on how these libraries might fit into different types of projects.
+
+---
+
+## Utility Classes
+
+Utility classes are pre-defined, single-purpose classes that control specific CSS properties, making styling simple and consistent.
+
+- **Example**: To center text, add the class `text-center`; for padding, use `pt-4`, `pl-2`, etc.
+- Utility classes cover properties like **margin**, **padding**, **alignment**, **color**, and **sizing**.
+
+**Example Code Block: Using Utility Classes**
+
+```html
+<div class="text-center pt-4 bg-gray-200">
+  <p>This text is centered and padded!</p>
+</div>
+```
+
+While utilities vary between libraries, they are often used interchangeably due to their "common sense" naming conventions. For example, Tailwind and Bootstrap both use the `text-center` class to center text.
+
+### Advantages of Utility Classes
+1. **Simplicity**: Reduces the need to write custom CSS for each component.
+2. **Consistency**: Ensures uniform styling across pages or elements.
+3. **Modular Design**: Allows for easy adjustments to individual properties without complex CSS.
+
+> **Exercise**: Using your knowledge of utility classes, make an educated guess about what these Tailwind utility classes might do: `mx-auto`, `shadow-md`, `bg-blue-500`. Use the Tailwind CSS documentation to verify.
+
+---
+
+## Introduction to Sass: A CSS Extension
+
+Many of these libraries also make use of common CSS extension languages, one of which is [Sass (Syntactically Awesome Style Sheets)](https://sass-lang.com). Others of note include [Less](https://lesscss.org) and [Stylus](https://stylus-lang.com), which accomplish much of the same functionality.
+
+Sass is a CSS _preprocessor_. It adds features that do not exist yet in CSS such as nesting, mixins, inheritance, and more that allow you to write more robust styling.
+
+Once you are finished writing with Sass, it will process (compile) your Sass file (.scss) and save it as a normal CSS file (.css) for inclusion with your finished application.
+
+### Features of Sass
+
+1. **Variables**: Sass allows you to use variables to store colors, font sizes, or other values, enabling consistency across styles.
+   
+   ```scss
+   $primary-color: #3498db;
+   body {
+     background-color: $primary-color;
+   }
+   ```
+
+2. **Nesting**: With Sass, you can nest CSS rules, making it easier to manage complex selectors.
+
+   ```scss
+   nav {
+     ul {
+       list-style: none;
+       li {
+         display: inline-block;
+       }
+     }
+   }
+   ```
+
+3. **Partials and Modules**: Allows you to split Sass into partial files, making your stylesheets modular. You can import these into other stylesheets using the `@use` rule.
+
+   ```scss filename="base.scss"
+    $font-stack: Helvetica, sans-serif;
+    $primary-color: #333;
+
+    body {
+      font: 100% $font-stack;
+      color: $primary-color;
+    }
+    ```
+
+    ```scss filename="styles.scss"
+    @use "base";
+
+    .inverse {
+        background-color: base.$primary-color;
+        color: white;
+    }
+    ```
+
+4. **Mixins**: Reusable pieces of code that you can insert into other styles using the `@include` rule.
+
+   ```scss
+   @mixin theme($theme: DarkGray) {
+       background-color: $theme;
+       box-shadow: 0 0 1px rgba($theme, 0.25);
+       color: white;
+   }
+
+   .info {
+       @include theme;
+   }
+
+   .warning {
+       @include theme(Orange);
+   }
+
+   .error {
+       @include theme(Red);
+   }
+
+   .success {
+       @include theme(Green);
+   }
+   ```
+
+5. **Inheritance**: Reduces repetition by extending placeholder classes with `@extend`.
+
+   ```scss
+    %message-shared {
+        border: 1px solid #ccc;
+        padding: 10px;
+        color: #333;
+    }
+
+    .message {
+        @extend %message-shared;
+    }
+
+    .success {
+        @extend %message-shared;
+        border-color: green;
+    }
+
+    .error {
+        @extend %message-shared;
+        border-color: red;
+    }
+   ```
+
+6. **Operators:** Finally, Sass offers a number of operators to allow you to do math within your CSS.
+
+   ```scss
+   @use "sass:math";
+
+   .container {
+       display: flex;
+   }
+
+   article[role="main"] {
+       width: math.div(600px, 960px) * 100%;
+   }
+
+   aside[role="complementary"] {
+       width: math.div(300px, 960px) * 100%;
+       margin-left: auto;
+   }
+   ```
+
+### Compiling Sass
+
+After writing Sass, you compile it into regular CSS. This step converts `.scss` files into `.css` files that can be included in your project.
+
+---
+
+## Activity: Working with Sass
+
+Open a simple HTML and CSS setup. Try creating a Sass file that uses variables, nesting, and a mixin to style a basic layout. 
+
+Use an online Sass compiler if you are not set up locally.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the primary purpose of a CSS library?"
+  options={[
+    { text: "To create custom CSS for each element", correct: false },
+    { text: "To provide pre-built styles and layout tools", correct: true },
+    { text: "To eliminate the need for CSS in a project", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which of the following is a utility class typically used for adding margin?"
+  options={[
+    { text: "p-4", correct: false },
+    { text: "m-4", correct: true },
+    { text: "text-center", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What feature does Sass add to CSS?"
+  options={[
+    { text: "Inline styles", correct: false },
+    { text: "Variables and mixins", correct: true },
+    { text: "JavaScript functionality", correct: false },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you explored the purpose of CSS libraries and some popular options, learned about utility classes and how they simplify design, and reviewed the basics of Sass. Understanding these libraries and extensions will prepare you for using powerful CSS tools, helping you build responsive, maintainable, and professional-looking designs efficiently.
+
+## References
+
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Bootstrap Documentation](https://getbootstrap.com/)
+- [Sass Documentation](https://sass-lang.com/)

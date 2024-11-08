@@ -1,3 +1,168 @@
 ---
 title: "Introduction to the DOM"
 ---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+import Embed from "@components/layout-components/embed";
+
+# Introduction to the DOM
+
+## Workplace Context
+
+As a front-end developer, one of your primary responsibilities is to create interactive, dynamic web applications. To do this, you need to understand the **Document Object Model (DOM)**, which is the foundation of how browsers interpret and render HTML documents. The DOM provides a structured way to access, update, and manipulate the content of a webpage using JavaScript.
+
+In this lesson, you will explore the basic structure of the DOM, learn how to select elements, and understand why the DOM is a key interface for building interactive web applications.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Explain the purpose and structure of the DOM in web development.
+- Identify key elements of the DOM, such as nodes and elements.
+- Use modern JavaScript methods to select elements in the DOM.
+- Inspect the DOM using browser Developer Tools.
+
+---
+
+## What is the DOM?
+
+The **Document Object Model (DOM)** is a programming interface for web documents. It represents the structure of an HTML or XML document as a tree of objects, allowing JavaScript to interact with and manipulate the content and structure of a webpage.
+
+The DOM acts as a bridge between the HTML content and JavaScript code, enabling dynamic updates to the document's structure, style, and content without reloading the entire page.
+
+### Key Concepts
+
+1. **Nodes**: The DOM is structured as a tree of nodes. Nodes can represent elements, attributes, text, or other components of the document.
+2. **Elements**: Elements are a type of node that represent HTML tags (e.g., `<div>`, `<p>`, `<a>`).
+3. **Document Object**: The `document` object is the root of the DOM tree and represents the entire webpage.
+
+> **Analogy**: Think of the DOM as a family tree, where each element is a family member (node) with parent, child, and sibling relationships.
+
+### Example: Interactive DOM Visualizer
+
+Take a look at the [interactive DOM visualizer](https://bioub.github.io/dom-visualizer/) below, built by Romain Bohdanowicz. It allows you to view the DOM structure of an HTML document, which you can interact with. Try adding some elements!
+
+> **Note:** Due to the use of iframes, you will need to click "update" to initialize the visualizer. You can also open the visualizer in a new tab using the link above.
+
+<Embed height="750px" title="DOM Visualizer" src="https://bioub.github.io/dom-visualizer/" />
+
+---
+
+## Selecting Elements in the DOM
+
+To interact with elements in the DOM, we need to select them using JavaScript. Modern JavaScript offers several methods for element selection:
+
+1. **`getElementById()`**: Selects an element by its `id` attribute.
+2. **`getElementsByClassName()`**: Selects elements by their class name (returns a collection).
+3. **`querySelector()`**: Selects the first element that matches a CSS selector.
+4. **`querySelectorAll()`**: Selects all elements that match a CSS selector (returns a NodeList).
+
+### Example Code Block
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>DOM Selection Example</title>
+</head>
+<body>
+  <h1 id="main-title">Hello, World!</h1>
+  <p class="description">This is a simple paragraph.</p>
+  <button id="action-btn">Change Text</button>
+
+  <script src="./script.js"></script>
+</body>
+</html>`,
+    'script.js': `// Selecting elements
+const title = document.getElementById('main-title');
+const paragraph = document.querySelector('.description');
+const button = document.querySelector('#action-btn');
+
+// Manipulating content
+button.addEventListener('click', () => {
+    title.textContent = 'You clicked the button!';
+    paragraph.textContent = 'The paragraph text has changed.';
+});`
+}} />
+
+In this example:
+- We use `getElementById()` to select the heading.
+- We use `querySelector()` to select the paragraph and button.
+- We add an event listener to update the text content when the button is clicked.
+
+---
+
+## Inspecting the DOM with Developer Tools
+
+One of the best ways to explore and understand the DOM is by using browser Developer Tools.
+
+### Steps to Inspect the DOM
+1. Open your browser (e.g., Chrome, Firefox).
+2. Right-click on any element on the page and select **Inspect**.
+3. Navigate to the **Elements** tab to see the DOM tree.
+4. Hover over elements in the DOM tree to highlight them on the webpage.
+
+> **Pro Tip**: You can edit the HTML directly in the Developer Tools to see live changes on the page. This is useful for testing and debugging.
+
+---
+
+## Activity: Exploring the DOM
+
+### Task
+Open the Developer Tools on a webpage of your choice (e.g., https://perscholas.org/). Use the **Elements** tab to:
+- Inspect the structure of the DOM.
+- Select an element and change its text content directly in the Developer Tools.
+- Use the **Console** tab to write JavaScript code that changes the content of an element.
+
+### Reflection
+Discuss your findings with a partner. What elements did you inspect? How did the page change when you modified the content?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="What is the main purpose of the Document Object Model (DOM)?"
+  options={[
+    { text: "To style elements on a webpage", correct: false },
+    { text: "To represent the structure of a webpage as a tree of objects", correct: true },
+    { text: "To store user data in the browser", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which method would you use to select an element by its class name?"
+  options={[
+    { text: "getElementById()", correct: false },
+    { text: "getElementsByClassName()", correct: true },
+    { text: "querySelector()", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What does the `document` object represent in the DOM?"
+  options={[
+    { text: "The entire HTML document", correct: true },
+    { text: "A single element on the page", correct: false },
+    { text: "The head section of the document", correct: false },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you learned the basics of the DOM, including its structure and how to interact with it using JavaScript. You explored different methods for selecting elements and saw how to inspect the DOM using browser Developer Tools. Mastering these fundamentals will prepare you for more advanced topics in DOM manipulation and dynamic content creation.
+
+---
+
+## Additional Resources
+
+- [MDN Web Docs: Introduction to the DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
+- [MDN Web Docs: `querySelector()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
+- [Google Chrome Developer Tools Guide](https://developer.chrome.com/docs/devtools/)

@@ -23,8 +23,16 @@ export default {
     title: "JavaScript Review",
     type: "page",
   },
+  412: {
+    title: "The Document Object Model",
+    type: "page",
+  },
   413: {
     title: "TypeScript and Advanced JavaScript",
+    type: "page",
+  },
+  414: {
+    title: "Project: HTML, CSS, and JavaScript",
     type: "page",
   },
   README: {

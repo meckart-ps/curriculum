@@ -1,3 +1,198 @@
 ---
-title: "Basic DOM Manipulation"
+title: "Dynamic DOM Manipulation"
 ---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Dynamic DOM Manipulation
+
+## Workplace Context
+
+Imagine you are part of a team developing an e-commerce platform. Your task is to implement features like dynamically displaying products, filtering categories, and updating the cart—all while ensuring high performance and maintainability. 
+
+This lesson explores how to handle complex DOM manipulation scenarios effectively, focusing on event delegation, dynamic classes, and efficient updates. These advanced techniques will prepare you for real-world challenges where performance and scalability are crucial.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Use **event delegation** to manage events efficiently for dynamically created elements.
+- Apply advanced techniques to dynamically add and toggle classes and attributes.
+- Implement efficient DOM updates using `DocumentFragment`.
+
+---
+
+## Event Delegation
+
+Event delegation is a technique where a single event listener is attached to a parent element to handle events on its child elements. This is particularly useful when the child elements are created dynamically.
+
+<CodeEditor template="html" showPreview showConsole files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Delegation Example</title>
+</head>
+<body>
+  <ul id="product-list">
+    <li data-id="1">Product 1 <button class="add-to-cart">Add to Cart</button></li>
+    <li data-id="2">Product 2 <button class="add-to-cart">Add to Cart</button></li>
+  </ul>
+  <button id="add-product">Add New Product</button>
+
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const productList = document.getElementById('product-list');
+const addProductButton = document.getElementById('add-product');
+
+// Event delegation for the product list
+productList.addEventListener('click', (event) => {
+  if (event.target.classList.contains('add-to-cart')) {
+    const productId = event.target.closest('li').dataset.id;
+    console.log(\`Added product \${productId} to cart.\`);
+  }
+});
+
+// Dynamically add a new product
+addProductButton.addEventListener('click', () => {
+  const newProduct = document.createElement('li');
+  newProduct.dataset.id = '3';
+  newProduct.innerHTML = 'Product 3 <button class="add-to-cart">Add to Cart</button>';
+  productList.appendChild(newProduct);
+});`
+}} />
+
+---
+
+## Dynamic Classes and Attributes
+
+Dynamically toggling classes or attributes on elements is essential for creating interactive and visually responsive user interfaces.
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Classes and Attributes</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="toggle-box" class="box"></div>
+  <button id="toggle-btn">Toggle State</button>
+
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const box = document.getElementById('toggle-box');
+const button = document.getElementById('toggle-btn');
+
+button.addEventListener('click', () => {
+  box.classList.toggle('active');
+  box.setAttribute('aria-hidden', !box.classList.contains('active'));
+});`,
+  "styles.css": `.box {
+    width: 100px;
+    height: 100px;
+    background-color: lightgray;
+}
+
+.box.active {
+    background-color: lightblue;
+}`
+}} />
+
+---
+
+## Efficient DOM Updates with `DocumentFragment`
+
+Using `DocumentFragment` allows you to batch updates to the DOM, improving performance and reducing reflows.
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efficient DOM Updates</title>
+</head>
+<body>
+  <ul id="batch-list"></ul>
+  <button id="batch-add">Add 100 Items</button>
+
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const batchList = document.getElementById('batch-list');
+const batchAddButton = document.getElementById('batch-add');
+
+batchAddButton.addEventListener('click', () => {
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 1; i <= 100; i++) {
+    const listItem = document.createElement('li');
+    listItem.textContent = \`Item \${i}\`;
+    fragment.appendChild(listItem);
+  }
+
+  batchList.appendChild(fragment);
+});`
+}} />
+
+---
+
+## Activity: Build an Interactive Shopping List
+
+### Task
+Create a shopping list that allows users to:
+- Add items dynamically with an input field.
+- Remove individual items using event delegation.
+- Toggle the "purchased" state of items with dynamic styling.
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Why is event delegation more efficient for dynamically created elements?"
+  options={[
+    { text: "It allows you to attach events directly to the element.", correct: false },
+    { text: "It uses a single listener to handle multiple elements.", correct: true },
+    { text: "It prevents elements from being removed.", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What does `DocumentFragment` help with?"
+  options={[
+    { text: "Improving DOM manipulation performance by batching updates.", correct: true },
+    { text: "Adding elements to the DOM automatically.", correct: false },
+    { text: "Removing elements from the DOM.", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Which method toggles a class on an element?"
+  options={[
+    { text: "classList.toggle()", correct: true },
+    { text: "classList.add()", correct: false },
+    { text: "setAttribute()", correct: false },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you explored advanced DOM manipulation techniques, including event delegation, dynamic class and attribute updates, and performance optimization using `DocumentFragment`. Mastering these concepts enables you to build efficient and scalable applications. In the next lesson, you will explore additional techniques to handle complex dynamic applications.
+
+---
+
+## Additional Resources
+- [MDN: Event Delegation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_delegation)
+- [MDN: DocumentFragment](https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment)
+- [MDN: classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)

@@ -1,3 +1,336 @@
 ---
-title: "Event Handling Fundamentals"
+title: "Advanced Event Handling and Event Delegation"
 ---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Advanced Event Handling and Event Delegation
+
+## Workplace Context
+
+In dynamic web applications, user interactions drive functionality — whether it is deleting items in a shopping cart, updating fields in a form, or triggering animations on user input. Handling these interactions efficiently becomes increasingly critical as applications grow in complexity.
+
+Imagine you are part of a team building a content management system (CMS) where new fields or options can be added dynamically. Attaching individual event listeners to each new element would lead to performance bottlenecks and cumbersome maintenance. Instead, by understanding **event propagation** and applying **event delegation**, you can write scalable, efficient, and maintainable code to handle these interactions.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Explain the phases of event propagation (capturing, target, and bubbling).
+- Use event delegation to handle events efficiently, especially for dynamically added elements.
+- Prevent default behaviors and stop event propagation when necessary.
+- Apply these concepts to build scalable, high-performance web applications.
+
+---
+
+## Event Propagation Deep Dive
+
+When an event occurs in the DOM, it follows a structured path known as **propagation**, consisting of three phases:
+
+1. **Capturing Phase**:
+   - The event travels from the root of the DOM tree (e.g., `document`) to the target element.
+   - Use this phase to capture events before they reach the target.
+
+2. **Target Phase**:
+   - The event arrives at the target element.
+   - Use this phase to handle the event directly on the target element.
+
+3. **Bubbling Phase**:
+   - The event travels back up the DOM tree from the target element to the root.
+   - Use this phase for event delegation or to listen on parent elements.
+
+### Visualizing Event Propagation
+
+Consider the following HTML structure:
+```html
+<div id="parent">
+  <div id="child">
+    <button id="button">Click Me</button>
+  </div>
+</div>
+```
+
+If a click event occurs on the `button`, the propagation path will look like this:
+- **Capturing Phase**: `document` → `#parent` → `#child` → `#button`
+- **Target Phase**: `#button`
+- **Bubbling Phase**: `#button` → `#child` → `#parent` → `document`
+
+---
+
+## Event Delegation
+
+Event delegation leverages the bubbling phase to attach a single event listener to a common parent element. This listener detects events originating from child elements, even if those elements are added dynamically.
+
+### Why Use Event Delegation?
+
+1. **Efficiency**: Reduces the number of event listeners in the DOM, improving performance.
+2. **Scalability**: Automatically handles dynamically added elements.
+3. **Maintainability**: Centralizes event handling logic.
+
+---
+
+## Example: To-Do List with Event Delegation
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Delegation Example</title>
+</head>
+<body>
+  <ul id="todo-list">
+    <li>Task 1 <button class="delete">Delete</button></li>
+    <li>Task 2 <button class="delete">Delete</button></li>
+  </ul>
+  <button id="add-task">Add Task</button>
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const todoList = document.getElementById('todo-list');
+const addTaskButton = document.getElementById('add-task');
+
+// Event delegation: Attach one listener to the parent
+todoList.addEventListener('click', (event) => {
+  if (event.target.classList.contains('delete')) {
+    event.target.parentElement.remove(); // Remove the task
+  }
+});
+
+// Adding a new task
+addTaskButton.addEventListener('click', () => {
+  const newTask = document.createElement('li');
+  newTask.innerHTML = 'New Task <button class="delete">Delete</button>';
+  todoList.appendChild(newTask);
+});`
+}} />
+
+**In this example:**
+- We attach a single event listener to the parent element (`todoList`) using event delegation.
+- When a `.delete` button is clicked, the corresponding task is removed.
+- This avoids adding individual event listeners to each task, which would be inefficient for dynamic lists.
+
+---
+
+## Common Scenarios for Event Delegation
+
+1. **Dynamic Forms**:
+   - Adding or removing form fields dynamically.
+   - Example: An "Add More Fields" button in a contact form.
+
+2. **Interactive Tables**:
+   - Handling click events for dynamically generated rows.
+
+3. **Navigation Menus**:
+   - Managing hover or click events for drop-downs in dynamic menus.
+
+---
+
+## Advanced Concepts in Event Handling
+
+### Stopping Event Propagation
+
+Sometimes you need to stop an event from propagating further up or down the DOM tree.
+
+- **`event.stopPropagation()`**: Prevents further propagation during the bubbling or capturing phase.
+- **Use Case**: Prevent parent handlers from being triggered by child events.
+
+### Preventing Default Behavior
+
+Use `event.preventDefault()` to stop the browser's default behavior for an event, such as:
+- Submitting a form.
+- Opening a link when clicked.
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prevent Default Example</title>
+</head>
+<body>
+  <form id="search-form">
+    <input type="text" placeholder="Search..." />
+    <button type="submit">Search</button>
+  </form>
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const form = document.getElementById('search-form');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent form submission
+  alert('Form submission prevented!');
+});`
+}} />
+
+**In this example:**
+- We use `event.preventDefault()` to prevent the default form submission behavior.
+- The alert message indicates that the form submission has been prevented.
+
+In industry, you might use this to prevent the browser from navigating to a specific URL when a link is clicked, or to handle form submissions without refreshing the page. There are many other use cases that you will encounter in practice.
+
+---
+## Activity: Build an Interactive FAQ Section with Event Delegation
+
+### Scenario
+
+You are working on a knowledge base for a client’s website and need to create an interactive FAQ section. Each FAQ entry consists of a question and a hidden answer that is revealed when the question is clicked. Instead of attaching individual event listeners to each FAQ question, you will use **event delegation** for scalability and efficiency.
+
+### Task
+1. Create an FAQ section where:
+   - Clicking on a question reveals or hides its associated answer.
+   - Clicking on a question while holding the **Shift** key toggles all answers in the FAQ section.
+   - A "Reset" button collapses all answers at once.
+
+2. Use **event delegation** to manage all interactions efficiently.
+
+### Requirements
+
+1. **HTML Structure**:
+   - Create a container for the FAQ section.
+   - Each FAQ entry should include:
+     - A `<div>` for the question, styled to look interactive (e.g., underline on hover).
+     - A `<div>` for the answer, initially hidden using CSS.
+   - Add a "Reset" button below the FAQ section.
+
+2. **CSS (optional)**:
+   - Style the FAQ entries to distinguish between questions and answers.
+   - Use transitions (e.g., `max-height`) to make answer toggling visually appealing.
+
+3. **JavaScript**:
+   - Use event delegation to attach a single event listener to the FAQ container for handling clicks on the questions.
+   - Implement logic for toggling all answers when the **Shift** key is held.
+   - Add functionality for the "Reset" button to collapse all answers.
+
+### Example Output
+
+**Initial State:**
+```text
+FAQ Section:
+- Question 1
+- Question 2
+- Question 3
+[Reset All]
+(Answers are hidden)
+```
+
+**After Clicking Question 1:**
+```text
+FAQ Section:
+- Question 1
+  Answer: This is the answer to Question 1.
+- Question 2
+- Question 3
+[Reset All]
+```
+
+**After Holding Shift and Clicking Question 1:**
+```text
+FAQ Section:
+- Question 1
+  Answer: This is the answer to Question 1.
+- Question 2
+  Answer: This is the answer to Question 2.
+- Question 3
+  Answer: This is the answer to Question 3.
+[Reset All]
+```
+
+**After Clicking Reset:**
+```text
+FAQ Section:
+- Question 1
+- Question 2
+- Question 3
+[Reset All]
+(Answers are hidden again)
+```
+
+### Step-by-Step Instructions
+
+1. **HTML Setup**:
+   - Create a `<div>` with an `id` of `faq-container`.
+   - Add three FAQ entries, each with a `question` `<div>` and an `answer` `<div>`.
+   - Add a `<button>` with the text "Reset All."
+
+   Example:
+   ```html
+   <div id="faq-container">
+     <div class="faq-item">
+       <div class="question">What is JavaScript?</div>
+       <div class="answer" style="display: none;">JavaScript is a programming language for the web.</div>
+     </div>
+     <div class="faq-item">
+       <div class="question">What is the DOM?</div>
+       <div class="answer" style="display: none;">The DOM is the Document Object Model.</div>
+     </div>
+     <div class="faq-item">
+       <div class="question">What is event delegation?</div>
+       <div class="answer" style="display: none;">Event delegation is a technique for handling events efficiently.</div>
+     </div>
+   </div>
+   <button id="reset-button">Reset All</button>
+   ```
+
+2. **JavaScript Implementation**:
+   - Attach a single event listener to the `faq-container` using `addEventListener`.
+   - Use `event.target` to determine which question was clicked.
+   - Toggle the display of the corresponding answer.
+   - Check if the **Shift** key is held during the click event and toggle all answers.
+   - Attach a separate event listener to the "Reset" button to collapse all answers.
+
+3. **Test Your Application**:
+   - Test toggling individual answers by clicking questions.
+   - Test toggling all answers by holding the **Shift** key.
+   - Test collapsing all answers using the "Reset All" button.
+
+### Reflection Questions
+
+1. How did event delegation simplify the implementation of the FAQ section?
+2. What challenges did you face when implementing the **Shift**-click functionality?
+3. How does the "Reset All" functionality improve the user experience?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which phase of event propagation is utilized in event delegation?"
+  options={[
+    { text: "Capturing", correct: false },
+    { text: "Bubbling", correct: true },
+    { text: "Target", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What does `event.preventDefault()` do?"
+  options={[
+    { text: "Stops the event from propagating.", correct: false },
+    { text: "Prevents the default action associated with the event.", correct: true },
+    { text: "Stops all event listeners for the event.", correct: false },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you explored **event propagation**, **event delegation**, and techniques for controlling event behavior. These skills are foundational for building scalable, interactive applications that perform efficiently and are easy to maintain.
+
+---
+
+## References
+
+- [MDN Web Docs: Event Propagation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_propagation)  
+- [MDN Web Docs: Event Delegation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_delegation)
+- [MDN Web Docs: `event.stopPropagation()`](https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation)  
+- [MDN Web Docs: `event.preventDefault()`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)
+- [JavaScript.info: Event Delegation](https://javascript.info/event-delegation)
+- [MDN Web Docs: Event Listeners](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+- [MDN Web Docs: Node Interface](https://developer.mozilla.org/en-US/docs/Web/API/Node)

@@ -1,3 +1,367 @@
 ---
 title: "Advanced DOM Manipulation Techniques"
 ---
+
+import MultipleChoiceQuestion from "@components/quiz-components/multiple-choice-question";
+import CodeEditor from "@components/code-components/code-editor";
+
+# Advanced DOM Manipulation Techniques
+
+## Workplace Context
+
+In professional web development, applications often require interfaces that can dynamically respond to user interactions, such as adding, updating, or removing elements. These interactions are crucial for features like **real-time dashboards**, **e-commerce product pages**, or **interactive forms**.
+
+Understanding advanced DOM manipulation prepares you to tackle such challenges. While modern frameworks like React and Angular handle many DOM operations automatically, knowing how to efficiently manipulate the DOM directly is essential for debugging, optimizing performance, or working with custom scripts.
+
+This lesson introduces advanced DOM manipulation techniques like cloning, replacing, and optimizing updates. You will also learn how to manage memory effectively and apply these concepts in industry-standard practices.
+
+---
+
+## Learning Objectives
+
+By the end of this lesson, you will be able to:
+- Clone and replace DOM elements dynamically and understand their use cases.
+- Remove DOM elements efficiently while managing memory.
+- Understand the difference between `NodeList` and `HTMLCollection` for DOM queries.
+- Optimize DOM updates using Document Fragments.
+
+---
+
+## Cloning Elements
+
+Cloning allows you to create exact duplicates of existing DOM elements. This is especially useful for building dynamic components like **cards in a product grid**, **templates for new sections**, or **custom UI components**.
+
+### Key Use Cases
+- **Reusable UI Templates**: Dynamically generate repeating sections such as user profiles, product cards, or comment sections.
+- **Prototyping**: Quickly duplicate elements during iterative UI testing.
+
+### Example: Cloning a Template
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloning Example</title>
+</head>
+<body>
+  <div id="template" class="card" style="display: none;">
+    <h3>Template Card</h3>
+    <p>This card was cloned.</p>
+  </div>
+  <button id="clone-card">Clone Card</button>
+  <div id="card-container"></div>
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const template = document.getElementById('template');
+const container = document.getElementById('card-container');
+const cloneButton = document.getElementById('clone-card');
+
+cloneButton.addEventListener('click', () => {
+  const clonedCard = template.cloneNode(true); // Deep clone
+  clonedCard.style.display = 'block';
+  container.appendChild(clonedCard);
+});`
+}} />
+
+---
+
+## Replacing Elements
+
+Replacing elements allows you to dynamically swap out outdated or unwanted elements with new ones, keeping your application content fresh and relevant.
+
+### Key Use Cases
+- **Real-Time Updates**: Replace outdated data or UI elements without reloading the page (e.g., live score updates).
+- **Dynamic Content Personalization**: Swap out content based on user preferences or interaction.
+
+## Example: Replacing Elements
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Replacing Example</title>
+</head>
+<body>
+  <div id="content">This is the old content.</div>
+  <button id="replace-btn">Replace Content</button>
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const content = document.getElementById('content');
+const replaceButton = document.getElementById('replace-btn');
+
+replaceButton.addEventListener('click', () => {
+  const newContent = document.createElement('div');
+  newContent.textContent = 'This is the new content!';
+  content.replaceWith(newContent);
+});`
+}} />
+
+---
+
+## Removing Elements
+
+Removing elements efficiently prevents memory leaks and ensures your application performs optimally. Residual elements with attached event listeners can degrade performance and even cause bugs.
+
+### Key Use Cases
+- **Dynamic Content Removal**: Allow users to delete tasks, comments, or items in a cart.
+- **Performance Optimization**: Free up memory by removing unused DOM elements and listeners.
+
+### Example: Removing Elements
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Removing Example</title>
+</head>
+<body>
+  <ul id="list">
+    <li>Item 1 <button class="remove">Remove</button></li>
+    <li>Item 2 <button class="remove">Remove</button></li>
+    <li>Item 3 <button class="remove">Remove</button></li>
+  </ul>
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const list = document.getElementById('list');
+
+list.addEventListener('click', (event) => {
+  if (event.target.classList.contains('remove')) {
+    const item = event.target.closest('li');
+    item.remove(); // Efficient removal
+  }
+});`
+}} />
+
+---
+
+## Using `NodeList` and `HTMLCollection`
+
+- **NodeList**: A static or live collection of DOM nodes, often returned by `querySelectorAll`.
+- **HTMLCollection**: A live collection of HTML elements, often returned by `getElementsByClassName`.
+
+Choosing the correct method for DOM queries impacts performance and behavior, especially in dynamic applications.
+
+### Key Use Cases
+- **Dynamic Forms**: Update multiple form fields simultaneously using efficient selectors.
+- **Batch Updates**: Modify groups of elements, such as adding styles or attributes to multiple items.
+
+### Example: NodeList vs. HTMLCollection
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NodeList vs. HTMLCollection</title>
+</head>
+<body>
+  <div class="item">Item 1</div>
+  <div class="item">Item 2</div>
+  <div class="item">Item 3</div>
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const nodeList = document.querySelectorAll('.item');
+const htmlCollection = document.getElementsByClassName('item');
+
+console.log('NodeList:', nodeList); // Static list
+console.log('HTMLCollection:', htmlCollection); // Live collection
+
+// Adding a new element
+const newItem = document.createElement('div');
+newItem.className = 'item';
+newItem.textContent = 'Item 4';
+document.body.appendChild(newItem);
+
+console.log('Updated NodeList:', nodeList); // Still 3 items
+console.log('Updated HTMLCollection:', htmlCollection); // Now 4 items`
+}} />
+
+---
+
+## Optimizing Updates with Document Fragments
+
+Document Fragments are a lightweight container that enables batch updates to the DOM, avoiding multiple reflows and improving performance.
+
+### Key Use Cases
+- **Large Data Rendering**: Efficiently render lists or tables with thousands of rows.
+- **Batch Updates**: Group multiple DOM updates into a single operation.
+
+### Example: Using Document Fragments
+
+<CodeEditor template="html" showPreview files={{
+  "index.html": `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Fragment</title>
+</head>
+<body>
+  <ul id="batch-list"></ul>
+  <button id="add-batch">Add Batch</button>
+  <script src="./script.js"></script>
+</body>
+</html>`,
+  "script.js": `const list = document.getElementById('batch-list');
+const button = document.getElementById('add-batch');
+
+button.addEventListener('click', () => {
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < 5; i++) {
+    const li = document.createElement('li');
+    li.textContent = 'Item ' + (list.children.length + i + 1);
+    fragment.appendChild(li);
+  }
+
+  list.appendChild(fragment); // Batch update
+});`
+}} />
+
+---
+
+## Activity: Build a Dynamic To-Do List with Advanced DOM Manipulation
+
+### Scenario
+Imagine you're building a productivity app for a workplace team. You need to create a dynamic to-do list that supports the following features:
+- Adding tasks with unique descriptions.
+- Marking tasks as completed by replacing the task content.
+- Removing tasks from the list.
+- Displaying the total number of tasks in the list using a live counter.
+
+### Instructions
+1. **Setup the HTML Structure:**
+   - You may use a previous to-do list project as a template.
+   - A text input field to enter the task description.
+   - An "Add Task" button to add new tasks.
+   - An unordered list (`<ul>`) to display tasks.
+   - A counter to display the total number of tasks.
+
+2. **JavaScript Implementation:**
+   - Use `createElement` to dynamically add new list items.
+   - Use `replaceWith` to update the task content when marked as completed.
+   - Use `remove` to delete a task from the list.
+   - Dynamically update the task counter using `textContent`.
+
+3. **Requirements:**
+   - Tasks should be added dynamically when the "Add Task" button is clicked.
+   - Clicking on a task should mark it as "Completed!" and update its content.
+   - A "Remove" button should be available for each task to delete it from the list.
+   - The counter should update in real-time as tasks are added or removed.
+
+### Example Output
+**Initial State:**
+```text
+[Input Field] [Add Task Button]
+(Task Counter: 0)
+```
+
+**After Adding Tasks:**
+```text
+- Task 1 [Remove]
+- Task 2 [Remove]
+(Task Counter: 2)
+```
+
+**After Marking Task 1 as Completed:**
+```text
+- Completed! [Remove]
+- Task 2 [Remove]
+(Task Counter: 2)
+```
+
+**After Removing Task 2:**
+```text
+- Completed! [Remove]
+(Task Counter: 1)
+```
+
+### Reflection Questions:
+- What DOM methods did you use to add, update, and remove tasks?
+- How did you ensure the task counter stayed accurate?
+- What challenges did you face when implementing the "completed" functionality?
+
+---
+
+## Knowledge Check
+
+<MultipleChoiceQuestion
+  question="Which method is used to create a new HTML element in JavaScript?"
+  options={[
+    { text: "appendChild()", correct: false },
+    { text: "createElement()", correct: true },
+    { text: "replaceWith()", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is a Document Fragment and why is it useful?"
+  options={[
+    { text: "A copy of the entire DOM tree used for backups", correct: false },
+    { text: "A lightweight container used to group and batch DOM updates", correct: true },
+    { text: "A temporary HTML element used for debugging purposes", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="How does `replaceWith()` differ from `remove()`?"
+  options={[
+    { text: "`replaceWith()` removes an element completely from the DOM.", correct: false },
+    { text: "`replaceWith()` swaps an element with another, while `remove()` deletes it.", correct: true },
+    { text: "`replaceWith()` only works on text content, not elements.", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="Why should you use `document.createDocumentFragment()` when updating large sections of the DOM?"
+  options={[
+    { text: "It reduces the number of reflows and improves performance.", correct: true },
+    { text: "It automatically clones and appends elements.", correct: false },
+    { text: "It converts all nodes into static NodeLists.", correct: false },
+  ]}
+/>
+
+<MultipleChoiceQuestion
+  question="What is the main difference between a NodeList and an HTMLCollection?"
+  options={[
+    { text: "NodeLists are always live, while HTMLCollections are static.", correct: false },
+    { text: "HTMLCollections are always live, while NodeLists can be static or live.", correct: true },
+    { text: "NodeLists only include text nodes, while HTMLCollections only include elements.", correct: false },
+  ]}
+/>
+
+---
+
+## Summary
+
+In this lesson, you explored advanced DOM manipulation techniques like cloning, replacing, removing, and optimizing updates using Document Fragments. These techniques are critical for building scalable and efficient web applications and serve as foundational skills for transitioning to modern frameworks.
+
+---
+
+## References
+- [MDN Web Docs: `document.createElement`](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement)
+- [MDN Web Docs: `replaceWith`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/replaceWith)
+- [MDN Web Docs: `remove`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
+- [MDN Web Docs: Document Fragments](https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment)
+- [MDN Web Docs: NodeLists](https://developer.mozilla.org/en-US/docs/Web/API/NodeList)
+- [MDN Web Docs: HTMLCollection](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection)
+- [MDN Web Docs: Event Listeners](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+
+---
+
+## Additional Resources
+- [DOM Reference – W3Schools](https://www.w3schools.com/js/js_htmldom_document.asp)
+- [JavaScript.info: Modifying the Document](https://javascript.info/modifying-document)
+- [Web Rendering Performance Optimization](https://developers.google.com/web/fundamentals/performance/rendering/)
+- [Patterns for Memory Efficient DOM Manipulation with Modern Vanilla JavaScript](https://frontendmasters.com/blog/patterns-for-memory-efficient-dom-manipulation/)

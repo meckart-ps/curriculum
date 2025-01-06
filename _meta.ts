@@ -7,6 +7,10 @@ export default {
       typesetting: "article",
     },
   },
+  "pre-exam": {
+    title: "Pre-Training Exams",
+    type: "page",
+  },
   302: {
     title: "Verison Control Primer",
     type: "page",
